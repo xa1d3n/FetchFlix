@@ -31,17 +31,13 @@ class FavoriteMoviesViewController: UIViewController {
     var posterInd : Int? = nil
     
     var movieIds = [Int?](count: 3, repeatedValue: nil)
-    
-    var poster : String? = nil
     var posterImage: String? = nil
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         TMDBClient.sharedInstance().getSimilarMovies(17169) { (result, error) -> Void in
-            print("DD")
             if let movies = result {
-                print("FF")
                 print(movies.count)
                 for movie in movies {
                     print(movie.title)
@@ -54,7 +50,7 @@ class FavoriteMoviesViewController: UIViewController {
         super.viewWillAppear(true)
         
         if let posterImage = posterImage {
-            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[4], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
+            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
                 //print(imageData)
                 //print(error)
                 if let image = UIImage(data: imageData!) {
@@ -78,11 +74,8 @@ class FavoriteMoviesViewController: UIViewController {
     }
     
     @IBAction func firstFav(sender: AnyObject) {
-       // performSegueWithIdentifier("showSearch", sender: self)
-        poster = "firstFav"
         posterInd = 0
         let controller = storyboard?.instantiateViewControllerWithIdentifier("MoviePickerViewController") as! MoviePickerViewController
-        controller.poster = poster
         controller.posters = posters
         controller.posterInd = posterInd
         controller.movieIds = movieIds
@@ -93,10 +86,8 @@ class FavoriteMoviesViewController: UIViewController {
     
     
     @IBAction func secondFav(sender: AnyObject) {
-        poster = "secondFav"
         posterInd = 1
         let controller = storyboard?.instantiateViewControllerWithIdentifier("MoviePickerViewController") as! MoviePickerViewController
-        controller.poster = poster
         controller.posters = posters
         controller.posterInd = posterInd
         controller.movieIds = movieIds
@@ -106,9 +97,7 @@ class FavoriteMoviesViewController: UIViewController {
     
     @IBAction func thirdFav(sender: AnyObject) {
         posterInd = 2
-        poster = "thirdFav"
         let controller = storyboard?.instantiateViewControllerWithIdentifier("MoviePickerViewController") as! MoviePickerViewController
-        controller.poster = poster
         controller.posters = posters
         controller.posterInd = posterInd
         controller.movieIds = movieIds

@@ -24,6 +24,10 @@
 		B37175AA1BCB0F9100E3FCD3 /* MoviePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A91BCB0F9100E3FCD3 /* MoviePickerViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B37175AC1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AB1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B37175AE1BCB727D00E3FCD3 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AD1BCB727D00E3FCD3 /* MovieDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B37175B01BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AF1BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B37175B21BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B11BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
+		B37175B41BCC6B8000E3FCD3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B37175B71BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -49,6 +53,10 @@
 		B37175A91BCB0F9100E3FCD3 /* MoviePickerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoviePickerViewController.swift; sourceTree = "<group>"; };
 		B37175AB1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavoriteMoviesViewController.swift; path = ../FavoriteMoviesViewController.swift; sourceTree = "<group>"; };
 		B37175AD1BCB727D00E3FCD3 /* MovieDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailViewController.swift; sourceTree = "<group>"; };
+		B37175AF1BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = FavoriteMoviesCollectionViewController.swift; path = ../FavoriteMoviesCollectionViewController.swift; sourceTree = "<group>"; };
+		B37175B11BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoviePosterCollectionViewCell.swift; path = ../MoviePosterCollectionViewCell.swift; sourceTree = "<group>"; };
+		B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
+		B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBAuthViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,12 +107,10 @@
 		81BA81471A49DA1800E65899 /* ParseStarterProject */ = {
 			isa = PBXGroup;
 			children = (
+				B37175B51BCC6B9400E3FCD3 /* Controller */,
 				B371759E1BCAF58700E3FCD3 /* Model */,
 				81BA814A1A49DA1800E65899 /* AppDelegate.swift */,
-				B37175AB1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift */,
-				B37175A91BCB0F9100E3FCD3 /* MoviePickerViewController.swift */,
 				814C3AC61B69877600E307BB /* Main.storyboard */,
-				B37175AD1BCB727D00E3FCD3 /* MovieDetailViewController.swift */,
 			);
 			path = ParseStarterProject;
 			sourceTree = "<group>";
@@ -156,8 +162,22 @@
 				B37175A31BCAF5D400E3FCD3 /* TMDBClient.swift */,
 				B37175A51BCAFD7800E3FCD3 /* TMDBConvenience.swift */,
 				B37175A71BCB0D1B00E3FCD3 /* TMDBMovie.swift */,
+				B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */,
 			);
 			name = TMDB;
+			sourceTree = "<group>";
+		};
+		B37175B51BCC6B9400E3FCD3 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				B37175B11BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift */,
+				B37175AF1BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift */,
+				B37175A91BCB0F9100E3FCD3 /* MoviePickerViewController.swift */,
+				B37175AD1BCB727D00E3FCD3 /* MovieDetailViewController.swift */,
+				B37175AB1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift */,
+				B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */,
+			);
+			name = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -252,11 +272,15 @@
 				B37175A61BCAFD7800E3FCD3 /* TMDBConvenience.swift in Sources */,
 				B37175AA1BCB0F9100E3FCD3 /* MoviePickerViewController.swift in Sources */,
 				B37175A21BCAF5B700E3FCD3 /* TMDBConstants.swift in Sources */,
+				B37175B71BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift in Sources */,
+				B37175B01BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift in Sources */,
+				B37175B21BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift in Sources */,
 				B37175A41BCAF5D400E3FCD3 /* TMDBClient.swift in Sources */,
 				B37175AE1BCB727D00E3FCD3 /* MovieDetailViewController.swift in Sources */,
 				B37175A81BCB0D1B00E3FCD3 /* TMDBMovie.swift in Sources */,
 				B37175AC1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
+				B37175B41BCC6B8000E3FCD3 /* LoginViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,7 +333,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -346,7 +370,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";

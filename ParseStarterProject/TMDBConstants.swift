@@ -17,15 +17,19 @@ extension TMDBClient {
         // MARK: URLs
         static let BaseURL : String = "http://api.themoviedb.org/3/"
         static let BaseURLSecure : String = "https://api.themoviedb.org/3/"
-        static let AuthorizationURL : String = "https://www.themoviedb.org/"
+        static let AuthorizationURL : String = "https://www.themoviedb.org/authenticate/"
         static let secureBaseImageURLString : String =  "https://image.tmdb.org/t/p/"
     }
     
     
     // MARK: Methods
     struct Methods {
+        static let Account = "account"
         static let SearchMovie = "search/movie"
         static let Similar = "similar"
+        // MARK: Authentication
+        static let AuthenticationTokenNew = "authentication/token/new"
+        static let AuthenticationSessionNew = "authentication/session/new"
     }
     
     // MARK: Parameter Keys

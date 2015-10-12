@@ -13,6 +13,10 @@ class TMDBClient: NSObject {
     /* Shared session */
     var session: NSURLSession
     
+    /* Authentication state */
+    var sessionID : String? = nil
+    var userID : Int? = nil
+    
     override init() {
         session = NSURLSession.sharedSession()
         super.init()
