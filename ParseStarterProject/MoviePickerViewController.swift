@@ -52,9 +52,11 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("FavoriteMoviesCollectionViewController") as! FavoriteMoviesCollectionViewController
         controller.posters = posters
         controller.posterImage = movies[indexPath.row].posterPath
-        controller.movieIds[posterInd!] = movies[indexPath.row].id
+        movieIds[posterInd!] = movies[indexPath.row].id
+        controller.movieIds = movieIds
         controller.posterInd = posterInd
-        controller.movieTitles[posterInd!] = movies[indexPath.row].title
+        movieTitles[posterInd!] = movies[indexPath.row].title
+        controller.movieTitles = movieTitles
         self.navigationController!.pushViewController(controller, animated: true)
         
     }

@@ -13,4 +13,5 @@ class MoviePosterCollectionViewCell: UICollectionViewCell {
     @IBOutlet weak var poster: UIImageView!
     @IBOutlet weak var title: UILabel!
     
+    
 }

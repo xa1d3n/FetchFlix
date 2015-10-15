@@ -38,6 +38,10 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     }
     
     override func viewWillAppear(animated: Bool) {
+        
+        for title in movieTitles {
+            print(title)
+        }
         if let posterImage = posterImage {
             TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
                 if let image = UIImage(data: imageData!) {
@@ -82,7 +86,17 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! MoviePosterCollectionViewCell
         
-        cell.poster.image = posters[indexPath.row]
+        if let poster = posters[indexPath.row] {
+            cell.poster.image = poster
+        }
+        else {
+            let image = UIImage(named: "Add")
+            cell.poster.image = image
+        }
+        
+        
+        
+        
         cell.title.text = movieTitles[indexPath.row]
         
         // Configure the cell
