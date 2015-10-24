@@ -46,33 +46,51 @@ class LoginViewController: UIViewController {
         TMDBClient.sharedInstance().authenticateWithViewController(self) { (success, errorString) -> Void in
             if success {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    var user:PFUser = PFUser()
-                    if let username = TMDBClient.sharedInstance().userID {
-                        user.username = "\(username)"
-                        user.password = ""
-                        user["favoriteMovies"].addUniqueObjectsFromArray(<#T##objects: [AnyObject]##[AnyObject]#>, forKey: <#T##String#>)
-                        user.signUpInBackgroundWithBlock {
-                            (succeeded: Bool, error: NSError?) -> Void in
-                            if let error = error {
-                                
-                                // Show the errorString somewhere and let the user try again.
-                            } else {
-                                // Hooray! Let them use the app now.
-                            }
-                        }
-                    }
-                   
+
+                    
+                    self.parseSignUp()
                     
                     
-                    let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MovieDetailViewController") as! MovieDetailViewController
-                    controller.movies = self.movies
-                    self.presentViewController(controller, animated: true, completion: nil)
+                    
+                   // let controller = self.storyboard?.instantiateViewControllerWithIdentifier("showFavPicker") as! FavoriteMoviesCollectionViewController
+                   // self.presentViewController(controller, animated: true, completion: nil)
                 })
                 
             }
             else {
                 print("auth error bitch")
             }
+        }
+    }
+    
+    func parseSignUp() {
+        var user = PFUser()
+        if let username = TMDBClient.sharedInstance().userID {
+            user.username = "\(username)"
+            user.password = ""
+            
+            user.signUpInBackgroundWithBlock {
+                (succeeded: Bool, error: NSError?) -> Void in
+                if let error = error {
+                    if error.code == 202 {
+                        
+                        PFUser.logInWithUsernameInBackground("\(username)", password:"") {
+                            (user: PFUser?, error: NSError?) -> Void in
+                            if user != nil {
+                                self.performSegueWithIdentifier("showFavPicker", sender: self)
+                            } else {
+                                // The login failed. Check error to see why.
+                            }
+                        }
+
+                    }
+                    
+                } else {
+                    self.performSegueWithIdentifier("showFavPicker", sender: self)
+                    // Hooray! Let them use the app now.
+                }
+            }
+
         }
     }
 

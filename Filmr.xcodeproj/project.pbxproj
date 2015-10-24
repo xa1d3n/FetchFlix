@@ -29,6 +29,8 @@
 		B37175B41BCC6B8000E3FCD3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B37175B71BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */; settings = {ASSET_TAGS = (); }; };
 		B3A28B6C1BCDFEB900E65873 /* LikedMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A28B6B1BCDFEB900E65873 /* LikedMoviesTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B3A28B6E1BD06EF000E65873 /* MovieRatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */; settings = {ASSET_TAGS = (); }; };
+		B3F4333A1BD9C6C500D846AB /* CosmosDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -59,6 +61,8 @@
 		B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBAuthViewController.swift; sourceTree = "<group>"; };
 		B3A28B6B1BCDFEB900E65873 /* LikedMoviesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikedMoviesTableViewController.swift; sourceTree = "<group>"; };
+		B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieRatingViewController.swift; sourceTree = "<group>"; };
+		B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CosmosDistrib.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -179,6 +183,8 @@
 				B37175AB1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift */,
 				B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */,
 				B3A28B6B1BCDFEB900E65873 /* LikedMoviesTableViewController.swift */,
+				B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */,
+				B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -281,8 +287,10 @@
 				B37175B21BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift in Sources */,
 				B37175A41BCAF5D400E3FCD3 /* TMDBClient.swift in Sources */,
 				B37175AE1BCB727D00E3FCD3 /* MovieDetailViewController.swift in Sources */,
+				B3F4333A1BD9C6C500D846AB /* CosmosDistrib.swift in Sources */,
 				B37175A81BCB0D1B00E3FCD3 /* TMDBMovie.swift in Sources */,
 				B3A28B6C1BCDFEB900E65873 /* LikedMoviesTableViewController.swift in Sources */,
+				B3A28B6E1BD06EF000E65873 /* MovieRatingViewController.swift in Sources */,
 				B37175AC1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
 				B37175B41BCC6B8000E3FCD3 /* LoginViewController.swift in Sources */,

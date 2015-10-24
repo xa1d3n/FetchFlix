@@ -7,17 +7,20 @@
 //
 
 import UIKit
+import Parse
 
 private let reuseIdentifier = "cell"
 
 class FavoriteMoviesCollectionViewController: UICollectionViewController {
     
-    var posters = [UIImage?](count: 3, repeatedValue: nil)
+    var posters = [UIImage?](count: 4, repeatedValue: nil)
     var posterInd : Int? = nil
-    var movieTitles = [String?](count: 3, repeatedValue: nil)
+    var movieTitles = [String?](count: 4, repeatedValue: nil)
     
-    var movieIds = [Int?](count: 3, repeatedValue: nil)
+    var movieIds = [Int?](count: 4, repeatedValue: nil)
     var posterImage: String? = nil
+    
+    var similarMovies = [TMDBMovie]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,15 +29,35 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
 
         // Do any additional setup after loading the view.
         
-        /*TMDBClient.sharedInstance().getSimilarMovies(17169) { (result, error) -> Void in
-            if let movies = result {
-                print(movies.count)
-                for movie in movies {
-                    print(movie.title)
-                }
-            }
-        } */
+
+        print(PFUser.currentUser()?.username)
         
+    }
+    
+    func getSimilarMovies(movieId: Int, count: Int) {
+
+        TMDBClient.sharedInstance().getSimilarMovies(movieId) { (result, error) -> Void in
+            if let movies = result {
+                if movies.count > 0 {
+                    self.similarMovies += movies
+                    if count == self.movieIds.count {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            
+                            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MovieDetailViewController") as! MovieDetailViewController
+                            controller.movies = self.similarMovies
+                            //controller.poster.image =
+                            self.navigationController?.pushViewController(controller, animated: true)
+                            
+                            
+                            
+                        })
+                    }
+                }
+
+            }
+
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -42,11 +65,14 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         for title in movieTitles {
             print(title)
         }
+        
         if let posterImage = posterImage {
             TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
                 if let image = UIImage(data: imageData!) {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.posters[self.posterInd!] = image
+                        
+
                         
                         var isNil = false
                         for pstr in self.posters {
@@ -56,8 +82,13 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
                         }
                         
                         if isNil == false {
-                            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("LoginViewController") as! LoginViewController
-                            self.navigationController?.pushViewController(controller, animated: true)
+                            var count = 1
+                            for movieId in self.movieIds {
+                                self.getSimilarMovies(movieId!, count: count)
+                                count++
+                            }
+                            
+                            
                         }
                         
                         self.collectionView?.reloadData()
@@ -65,6 +96,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
                 }
             })
         }
+        posterImage = nil
     }
 
     override func didReceiveMemoryWarning() {
@@ -80,7 +112,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
 
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of items
-        return 3
+        return 4
     }
 
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {

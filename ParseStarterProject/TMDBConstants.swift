@@ -30,6 +30,7 @@ extension TMDBClient {
         // MARK: Authentication
         static let AuthenticationTokenNew = "authentication/token/new"
         static let AuthenticationSessionNew = "authentication/session/new"
+        static let RateMovie = "movie/{id}/rating"
     }
     
     // MARK: Parameter Keys
@@ -41,6 +42,11 @@ extension TMDBClient {
         static let Page = "page"
         static let posterSizes = ["w92", "w154", "w185", "w342", "w500", "w780", "original"]
         static let profileSizes = ["w45", "w185", "h632", "original"]
+    }
+    
+    // MARK: URL Keys
+    struct URLKeys {
+        static let MovieId = "id"
     }
     
     // MARK: JSON Response Keys
@@ -66,6 +72,9 @@ extension TMDBClient {
         
         // MARK: Movies
         static let MovieID = "id"
+        static let Value =  "value"
+        static let Rating = "vote_average"
+        static let VoteCount = "vote_count"
         static let MovieTitle = "title"
         static let MoviePosterPath = "poster_path"
         static let MovieReleaseDate = "release_date"

@@ -184,4 +184,29 @@ extension TMDBClient {
             }
         }
     }
+    
+    // rate movie
+    func rateMovie(movieId: String, rating: Double, completionHandler: (result: Int?, error: NSError?) -> Void) {
+        let parameters = [TMDBClient.ParameterKeys.SessionID : TMDBClient.sharedInstance().sessionID!]
+        var mutableMethod : String = Methods.RateMovie
+        mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
+        let jsonBody : [String : AnyObject] = [
+            TMDBClient.JSONResponseKeys.Value: rating
+        ]
+        
+        taskForPOSTMethod(mutableMethod, parameters: parameters, jsonBody: jsonBody) { (JSONResult, error) -> Void in
+            if let error = error {
+                completionHandler(result: nil, error: error)
+            }
+            else {
+                if let results = JSONResult[TMDBClient.JSONResponseKeys.StatusCode] as? Int {
+                    completionHandler(result: results, error: nil)
+                }
+                else {
+                    completionHandler(result: nil, error: NSError(domain: "postToWatchlist parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postToWatchlist"]))
+                }
+            }
+        }
+        
+    }
 }

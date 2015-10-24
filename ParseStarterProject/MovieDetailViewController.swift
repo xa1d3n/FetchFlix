@@ -26,25 +26,13 @@ class MovieDetailViewController: UIViewController {
         
         movieIds = [17169, 54833, 43522]
         
-       /* for movieId in movieIds {
-            TMDBClient.sharedInstance().getSimilarMovies(movieId!, completionHandler: { (result, error) -> Void in
-                if let movies = result {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.movies += movies
-                        
-                    })
-                    
-                }
-                
-            })
-        } */
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            self.setMoviePoster(self.movieIndex)
+        }
         
         let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
         poster.addGestureRecognizer(gesture)
         poster.userInteractionEnabled = true
-        
-        
-        //setMoviePoster(movieIndex)
     }
     
     func wasDragged(gesture: UIPanGestureRecognizer) {
@@ -69,6 +57,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     func setMoviePoster(movInd: Int) {
+        print(movInd)
         TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[4], filePath: movies[movInd].posterPath!) { (imageData, error) -> Void in
             if let image = UIImage(data: imageData!) {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
@@ -82,9 +71,12 @@ class MovieDetailViewController: UIViewController {
     }
 
     @IBAction func showLiked(sender: AnyObject) {
-        let controller = storyboard?.instantiateViewControllerWithIdentifier("LikedMoviesTableViewController") as! LikedMoviesTableViewController
-        controller.movies = likedMovies
-        navigationController?.pushViewController(controller, animated: true)
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("LikedMoviesTableViewController") as! LikedMoviesTableViewController
+            controller.movies = self.likedMovies
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+        
     }
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
