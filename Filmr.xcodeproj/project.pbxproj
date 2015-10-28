@@ -16,21 +16,23 @@
 		81BA81791A49E0DB00E65899 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA81781A49E0DB00E65899 /* AudioToolbox.framework */; };
 		81BA817B1A49E0E500E65899 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817A1A49E0E500E65899 /* SystemConfiguration.framework */; };
 		81BA817F1A49E0F000E65899 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817E1A49E0F000E65899 /* libstdc++.6.dylib */; };
-		B371759D1BCAEDD000E3FCD3 /* icon 1.png in Resources */ = {isa = PBXBuildFile; fileRef = B371759C1BCAEDD000E3FCD3 /* icon 1.png */; settings = {ASSET_TAGS = (); }; };
-		B37175A21BCAF5B700E3FCD3 /* TMDBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A11BCAF5B700E3FCD3 /* TMDBConstants.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175A41BCAF5D400E3FCD3 /* TMDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A31BCAF5D400E3FCD3 /* TMDBClient.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175A61BCAFD7800E3FCD3 /* TMDBConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A51BCAFD7800E3FCD3 /* TMDBConvenience.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175A81BCB0D1B00E3FCD3 /* TMDBMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A71BCB0D1B00E3FCD3 /* TMDBMovie.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175AA1BCB0F9100E3FCD3 /* MoviePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A91BCB0F9100E3FCD3 /* MoviePickerViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175AC1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AB1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175AE1BCB727D00E3FCD3 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AD1BCB727D00E3FCD3 /* MovieDetailViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175B01BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AF1BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175B21BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B11BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175B41BCC6B8000E3FCD3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B37175B71BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B3A28B6C1BCDFEB900E65873 /* LikedMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A28B6B1BCDFEB900E65873 /* LikedMoviesTableViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B3A28B6E1BD06EF000E65873 /* MovieRatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */; settings = {ASSET_TAGS = (); }; };
-		B3F4333A1BD9C6C500D846AB /* CosmosDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */; settings = {ASSET_TAGS = (); }; };
+		B30256DA1BDC013400D48173 /* MovieDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30256D91BDC013400D48173 /* MovieDetailPageViewController.swift */; };
+		B34749111BDF23A00036B8F1 /* TMDBImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34749101BDF23A00036B8F1 /* TMDBImages.swift */; };
+		B371759D1BCAEDD000E3FCD3 /* icon 1.png in Resources */ = {isa = PBXBuildFile; fileRef = B371759C1BCAEDD000E3FCD3 /* icon 1.png */; };
+		B37175A21BCAF5B700E3FCD3 /* TMDBConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A11BCAF5B700E3FCD3 /* TMDBConstants.swift */; };
+		B37175A41BCAF5D400E3FCD3 /* TMDBClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A31BCAF5D400E3FCD3 /* TMDBClient.swift */; };
+		B37175A61BCAFD7800E3FCD3 /* TMDBConvenience.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A51BCAFD7800E3FCD3 /* TMDBConvenience.swift */; };
+		B37175A81BCB0D1B00E3FCD3 /* TMDBMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A71BCB0D1B00E3FCD3 /* TMDBMovie.swift */; };
+		B37175AA1BCB0F9100E3FCD3 /* MoviePickerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175A91BCB0F9100E3FCD3 /* MoviePickerViewController.swift */; };
+		B37175AC1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AB1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift */; };
+		B37175AE1BCB727D00E3FCD3 /* MovieDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AD1BCB727D00E3FCD3 /* MovieDetailViewController.swift */; };
+		B37175B01BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175AF1BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift */; };
+		B37175B21BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B11BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift */; };
+		B37175B41BCC6B8000E3FCD3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */; };
+		B37175B71BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */; };
+		B3A28B6C1BCDFEB900E65873 /* LikedMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A28B6B1BCDFEB900E65873 /* LikedMoviesTableViewController.swift */; };
+		B3A28B6E1BD06EF000E65873 /* MovieRatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */; };
+		B3F4333A1BD9C6C500D846AB /* CosmosDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +50,8 @@
 		81BA817A1A49E0E500E65899 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		81BA817E1A49E0F000E65899 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		81BA81801A49E10C00E65899 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
+		B30256D91BDC013400D48173 /* MovieDetailPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailPageViewController.swift; sourceTree = "<group>"; };
+		B34749101BDF23A00036B8F1 /* TMDBImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBImages.swift; sourceTree = "<group>"; };
 		B371759C1BCAEDD000E3FCD3 /* icon 1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "icon 1.png"; sourceTree = "<group>"; };
 		B37175A11BCAF5B700E3FCD3 /* TMDBConstants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBConstants.swift; sourceTree = "<group>"; };
 		B37175A31BCAF5D400E3FCD3 /* TMDBClient.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBClient.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 				B37175A51BCAFD7800E3FCD3 /* TMDBConvenience.swift */,
 				B37175A71BCB0D1B00E3FCD3 /* TMDBMovie.swift */,
 				B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */,
+				B34749101BDF23A00036B8F1 /* TMDBImages.swift */,
 			);
 			name = TMDB;
 			sourceTree = "<group>";
@@ -185,6 +190,7 @@
 				B3A28B6B1BCDFEB900E65873 /* LikedMoviesTableViewController.swift */,
 				B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */,
 				B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */,
+				B30256D91BDC013400D48173 /* MovieDetailPageViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -280,10 +286,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				B37175A61BCAFD7800E3FCD3 /* TMDBConvenience.swift in Sources */,
+				B34749111BDF23A00036B8F1 /* TMDBImages.swift in Sources */,
 				B37175AA1BCB0F9100E3FCD3 /* MoviePickerViewController.swift in Sources */,
 				B37175A21BCAF5B700E3FCD3 /* TMDBConstants.swift in Sources */,
 				B37175B71BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift in Sources */,
 				B37175B01BCC233800E3FCD3 /* FavoriteMoviesCollectionViewController.swift in Sources */,
+				B30256DA1BDC013400D48173 /* MovieDetailPageViewController.swift in Sources */,
 				B37175B21BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift in Sources */,
 				B37175A41BCAF5D400E3FCD3 /* TMDBClient.swift in Sources */,
 				B37175AE1BCB727D00E3FCD3 /* MovieDetailViewController.swift in Sources */,

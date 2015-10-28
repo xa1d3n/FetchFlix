@@ -53,6 +53,30 @@ extension TMDBClient {
         return task
     }
     
+    func getMovieImages(movieId: String, completionHandler: (result: [TMDBImages]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        var mutableMethod : String = Methods.MovieImages
+        mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
+        
+        let parameters = ["language": "en"]
+        
+        let task = taskForGETMethod(mutableMethod, parameters: parameters) { (result, error) -> Void in
+            if error != nil {
+                completionHandler(result: nil, error: error)
+            }
+            else {
+                if let results = result[TMDBClient.JSONResponseKeys.MoviePosters] as? [[String : AnyObject]] {
+                    let posters = TMDBImages.moviesFromResults(results)
+                    completionHandler(result: posters, error: nil)
+                }
+                else {
+                    completionHandler(result: nil, error: NSError(domain: "getMovieImages parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getMovieImages"]))
+                }
+            }
+        }
+        
+        return task
+    }
+    
     func authenticateWithViewController(hostViewController: UIViewController, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         /* Chain completion handlers for each request so that they run one after the other */
@@ -207,6 +231,5 @@ extension TMDBClient {
                 }
             }
         }
-        
     }
 }

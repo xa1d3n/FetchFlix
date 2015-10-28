@@ -8,6 +8,7 @@
 */
 
 import UIKit
+import Darwin
 
 import Parse
 
@@ -95,6 +96,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         //            let types: UIRemoteNotificationType = [.Alert, .Badge, .Sound]
         //            application.registerForRemoteNotificationTypes(types)
         //        }
+        
+        var pageController = UIPageControl.appearance()
+       // pageController.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+        pageController.pageIndicatorTintColor = UIColor.lightGrayColor()
+        pageController.currentPageIndicatorTintColor = UIColor.blackColor()
+        pageController.backgroundColor = UIColor.whiteColor()
 
         return true
     }

@@ -18,22 +18,49 @@ class MovieDetailViewController: UIViewController {
     
     var likedMovies = [TMDBMovie]()
     
+    @IBOutlet weak var pageControl: UIPageControl!
     var movieIndex = 0
 
     @IBOutlet weak var poster: UIImageView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+        
         movieIds = [17169, 54833, 43522]
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        /*dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.setMoviePoster(self.movieIndex)
+        } */
+        
+    //    let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
+   //     poster.addGestureRecognizer(gesture)
+  //      poster.userInteractionEnabled = true
+        
+
+        TMDBClient.sharedInstance().getMovieImages("550") { (result, error) -> Void in
+            if error != nil {
+                print(error)
+            }
+            else {
+                if let posters = result as? [TMDBImages]? {
+                    for poster in posters! {
+                        TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[2], filePath: poster.posterPath! , completionHandler: { (imageData, error) -> Void in
+                            if let image = UIImage(data: imageData!) {
+                                print(image)
+                            }
+                        })
+                    }
+                }
+                //print("D")
+              //  for res in result! as [AnyObject] {
+              //      print(res["file_path"])
+              //  }
+            }
         }
         
-        let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
-        poster.addGestureRecognizer(gesture)
-        poster.userInteractionEnabled = true
     }
+    
     
     func wasDragged(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translationInView(view)

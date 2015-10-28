@@ -31,6 +31,7 @@ extension TMDBClient {
         static let AuthenticationTokenNew = "authentication/token/new"
         static let AuthenticationSessionNew = "authentication/session/new"
         static let RateMovie = "movie/{id}/rating"
+        static let MovieImages = "movie/{id}/images"
     }
     
     // MARK: Parameter Keys
@@ -77,9 +78,12 @@ extension TMDBClient {
         static let VoteCount = "vote_count"
         static let MovieTitle = "title"
         static let MoviePosterPath = "poster_path"
+        static let ImageFilePath = "file_path"
         static let MovieReleaseDate = "release_date"
         static let MovieReleaseYear = "release_year"
         static let MovieResults = "results"
+        static let MovieBackdrops = "backdrops"
+        static let MoviePosters = "posters"
         
     }
     
