@@ -25,6 +25,7 @@ extension TMDBClient {
     // MARK: Methods
     struct Methods {
         static let Account = "account"
+        static let MovieDetails = "movie/{id}"
         static let SearchMovie = "search/movie"
         static let Similar = "similar"
         // MARK: Authentication
@@ -84,7 +85,8 @@ extension TMDBClient {
         static let MovieResults = "results"
         static let MovieBackdrops = "backdrops"
         static let MoviePosters = "posters"
-        
+        static let MovieOverview = "overview"
+        static let MovieRunTime = "runtime"
     }
     
 }

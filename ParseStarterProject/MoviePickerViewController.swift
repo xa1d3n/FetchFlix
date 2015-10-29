@@ -16,7 +16,7 @@ class MoviePickerViewController: UIViewController {
     var movieTitles = [String?](count: 3, repeatedValue: nil)
     var posters = [UIImage?](count: 3, repeatedValue: nil)
     
-    var posterInd : Int? = nil
+    var posterInd : Int?
     var movieIds = [Int?](count: 3, repeatedValue: nil)
     
     // movie data

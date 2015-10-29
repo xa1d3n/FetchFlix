@@ -14,6 +14,9 @@ struct TMDBMovie {
     var posterPath : String? = nil
     var rating = 0.0
     var voteCount = 0
+    var overview : String?
+    var runtime : Int?
+    var releaseDate : String?
     
     init(dictionary: [String: AnyObject]) {
         title = dictionary[TMDBClient.JSONResponseKeys.MovieTitle] as! String
@@ -21,7 +24,9 @@ struct TMDBMovie {
         posterPath = dictionary[TMDBClient.JSONResponseKeys.MoviePosterPath] as? String
         rating = dictionary[TMDBClient.JSONResponseKeys.Rating] as! Double
         voteCount = dictionary[TMDBClient.JSONResponseKeys.VoteCount] as! Int
-        
+        overview = dictionary[TMDBClient.JSONResponseKeys.MovieOverview] as? String
+        runtime = dictionary[TMDBClient.JSONResponseKeys.MovieRunTime] as? Int
+        releaseDate = dictionary[TMDBClient.JSONResponseKeys.MovieReleaseDate] as? String
     }
     
     // convert to array of TMDBMovie
@@ -33,5 +38,15 @@ struct TMDBMovie {
         }
         
         return movies
+    }
+    
+    static func movieFromResults(results: [String: AnyObject]) -> [TMDBMovie] {
+        var movie = [TMDBMovie]()
+        
+
+        movie.append(TMDBMovie(dictionary: results))
+
+        
+        return movie
     }
 }

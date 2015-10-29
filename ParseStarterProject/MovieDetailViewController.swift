@@ -16,6 +16,12 @@ class MovieDetailViewController: UIViewController {
     
     var currMovie : TMDBMovie?
     
+    @IBOutlet weak var summary: UITextView!
+    @IBOutlet weak var rating: CosmosView!
+    @IBOutlet weak var runtime: UILabel!
+    @IBOutlet weak var genre: UILabel!
+    @IBOutlet weak var releaseYear: UILabel!
+    @IBOutlet weak var movieTitle: UILabel!
     var likedMovies = [TMDBMovie]()
     
     @IBOutlet weak var pageControl: UIPageControl!
@@ -25,27 +31,27 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
+       // pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
         
         movieIds = [17169, 54833, 43522]
         
-        /*dispatch_async(dispatch_get_main_queue()) { () -> Void in
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.setMoviePoster(self.movieIndex)
-        } */
+        }
         
-    //    let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
-   //     poster.addGestureRecognizer(gesture)
-  //      poster.userInteractionEnabled = true
+        let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
+        poster.addGestureRecognizer(gesture)
+        poster.userInteractionEnabled = true
         
 
-        TMDBClient.sharedInstance().getMovieImages("550") { (result, error) -> Void in
+      /*  TMDBClient.sharedInstance().getMovieImages("550") { (result, error) -> Void in
             if error != nil {
                 print(error)
             }
             else {
                 if let posters = result as? [TMDBImages]? {
                     for poster in posters! {
-                        TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[2], filePath: poster.posterPath! , completionHandler: { (imageData, error) -> Void in
+                        TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[2f], filePath: poster.posterPath! , completionHandler: { (imageData, error) -> Void in
                             if let image = UIImage(data: imageData!) {
                                 print(image)
                             }
@@ -57,8 +63,33 @@ class MovieDetailViewController: UIViewController {
               //      print(res["file_path"])
               //  }
             }
+        } */
+       // getMovieDetails(550)
+        if let id = movies[movieIndex].id as? Int {
+            getMovieDetails(id)
         }
-        
+    }
+    
+    func getMovieDetails(movieId: Int) {
+        TMDBClient.sharedInstance().getMovieDetails("\(movieId)") { (result, error) -> Void in
+            if error != nil {
+                print(error)
+            }
+            else {
+                if let movies = result as? [TMDBMovie]? {
+                    if let movie = movies![0] as? TMDBMovie {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.movieTitle.text = movie.title
+                            self.releaseYear.text = movie.releaseDate
+                            self.runtime.text = "\(movie.runtime!)"
+                            self.summary.text = movie.overview
+                            self.rating.rating = movie.rating
+                        })
+                    }
+                    
+                }
+            }
+        }
     }
     
     
@@ -76,6 +107,10 @@ class MovieDetailViewController: UIViewController {
             else if poster.center.x > view.bounds.width - 100 {
                 likedMovies.append(currMovie!)
                 self.setMoviePoster(movieIndex)
+            }
+            
+            if let id = movies[movieIndex].id as? Int {
+                getMovieDetails(id)
             }
             
             poster.center = CGPoint(x: view.bounds.width / 2 , y: view.bounds.height / 2 )

@@ -47,6 +47,7 @@ class LikedMoviesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
 
         cell.textLabel!.text = movies[indexPath.row].title
+       // cell.textLabel!.text = "SFD"
 
         return cell
     }
