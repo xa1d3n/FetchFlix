@@ -153,6 +153,7 @@ class TMDBClient: NSObject {
         return task
     }
     
+    
     /* Helper: Given raw JSON, return a usable Foundation object */
     class func parseJSONWithCompletionHandler(data: NSData, completionHandler: (result: AnyObject!, error: NSError?) -> Void) {
         

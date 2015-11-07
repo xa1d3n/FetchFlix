@@ -14,20 +14,15 @@ class MovieDetailViewController: UIViewController {
     var moviePosters = [Int]()
     var movies = [TMDBMovie]()
     
+    @IBOutlet weak var ratings: CosmosView!
+    @IBOutlet weak var movieTitle: UILabel!
     var currMovie : TMDBMovie?
     
-    @IBOutlet weak var summary: UITextView!
-    @IBOutlet weak var rating: CosmosView!
-    @IBOutlet weak var runtime: UILabel!
-    @IBOutlet weak var genre: UILabel!
-    @IBOutlet weak var releaseYear: UILabel!
-    @IBOutlet weak var movieTitle: UILabel!
     var likedMovies = [TMDBMovie]()
     
-    @IBOutlet weak var pageControl: UIPageControl!
     var movieIndex = 0
 
-    @IBOutlet weak var poster: UIImageView!
+    @IBOutlet weak var poster: UIButton!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -37,6 +32,8 @@ class MovieDetailViewController: UIViewController {
         
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.setMoviePoster(self.movieIndex)
+            self.movieTitle.text = self.movies[self.movieIndex].title
+            self.ratings.rating = self.movies[self.movieIndex].rating!
         }
         
         let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
@@ -65,9 +62,9 @@ class MovieDetailViewController: UIViewController {
             }
         } */
        // getMovieDetails(550)
-        if let id = movies[movieIndex].id as? Int {
+       /* if let id = movies[movieIndex].id as? Int {
             getMovieDetails(id)
-        }
+        } */
     }
     
     func getMovieDetails(movieId: Int) {
@@ -79,11 +76,11 @@ class MovieDetailViewController: UIViewController {
                 if let movies = result as? [TMDBMovie]? {
                     if let movie = movies![0] as? TMDBMovie {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.movieTitle.text = movie.title
+                           /* self.movieTitle.text = movie.title
                             self.releaseYear.text = movie.releaseDate
                             self.runtime.text = "\(movie.runtime!)"
                             self.summary.text = movie.overview
-                            self.rating.rating = movie.rating
+                            self.rating.rating = movie.rating */
                         })
                     }
                     
@@ -109,9 +106,12 @@ class MovieDetailViewController: UIViewController {
                 self.setMoviePoster(movieIndex)
             }
             
-            if let id = movies[movieIndex].id as? Int {
+           /* if let id = movies[movieIndex].id as? Int {
                 getMovieDetails(id)
-            }
+            } */
+            
+            self.movieTitle.text = self.movies[self.movieIndex].title
+            self.ratings.rating = self.movies[self.movieIndex].rating!
             
             poster.center = CGPoint(x: view.bounds.width / 2 , y: view.bounds.height / 2 )
             
@@ -123,7 +123,7 @@ class MovieDetailViewController: UIViewController {
         TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[4], filePath: movies[movInd].posterPath!) { (imageData, error) -> Void in
             if let image = UIImage(data: imageData!) {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.poster.image = image
+                    self.poster.setImage(image, forState: .Normal)
                     self.currMovie = self.movies[movInd]
                     self.movieIndex += 1
                 })
@@ -145,4 +145,12 @@ class MovieDetailViewController: UIViewController {
         // Dispose of any resources that can be recreated.
     }
 
+    @IBAction func showMore(sender: AnyObject) {
+        //let informationPostingView : UINavigationController = viewContrl.storyboard?!.instantiateViewControllerWithIdentifier("InformationPostingView") as! UINavigationController
+       // viewContrl.presentViewController(informationPostingView, animated: true, completion: nil)
+        
+        let controller = storyboard?.instantiateViewControllerWithIdentifier("MoreInfoViewController") as! MoreInfoViewController
+        controller.movie = currMovie
+        self.presentViewController(controller, animated: true, completion: nil)
+    }
 }

@@ -21,6 +21,8 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     var posterImage: String? = nil
     
     var similarMovies = [TMDBMovie]()
+    
+    let moc = DataController().managedObjectContext
 
     override func viewDidLoad() {
         super.viewDidLoad()

@@ -77,6 +77,30 @@ extension TMDBClient {
         return task
     }
     
+    func getMovieVideos(movieId: String, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        var mutableMethod : String = Methods.MovieVideo
+        mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
+        
+        let parameters = ["language": "en"]
+        
+        let task = taskForGETMethod(mutableMethod, parameters: parameters) { (result, error) -> Void in
+            if error != nil {
+                completionHandler(result: nil, error: error)
+            }
+            else {
+                if let results = result[TMDBClient.JSONResponseKeys.MovieResults] as? [[String : AnyObject]] {
+                    let movie = TMDBMovie.moviesFromResults(results)
+                    completionHandler(result: movie, error: nil)
+                }
+                else {
+                    completionHandler(result: nil, error: NSError(domain: "getMovieVideos parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse getMovieVideos"]))
+                }
+            }
+        }
+        
+        return task
+    }
+    
     func getMovieDetails(movieId: String, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         var mutableMethod : String = Methods.MovieDetails
         mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!

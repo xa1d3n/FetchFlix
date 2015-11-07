@@ -9,24 +9,28 @@
 import Foundation
 
 struct TMDBMovie {
-    var title = ""
-    var id = 0
+    var title : String? = ""
+    var id : Int? = 0
     var posterPath : String? = nil
-    var rating = 0.0
-    var voteCount = 0
+    var rating : Double? = 0.0
+    var voteCount : Int? = 0
     var overview : String?
     var runtime : Int?
     var releaseDate : String?
+    var trailerSite : String?
+    var trailerKey : String?
     
     init(dictionary: [String: AnyObject]) {
-        title = dictionary[TMDBClient.JSONResponseKeys.MovieTitle] as! String
-        id = dictionary[TMDBClient.JSONResponseKeys.MovieID] as! Int
+        title = dictionary[TMDBClient.JSONResponseKeys.MovieTitle] as? String
+        id = dictionary[TMDBClient.JSONResponseKeys.MovieID] as? Int
         posterPath = dictionary[TMDBClient.JSONResponseKeys.MoviePosterPath] as? String
-        rating = dictionary[TMDBClient.JSONResponseKeys.Rating] as! Double
-        voteCount = dictionary[TMDBClient.JSONResponseKeys.VoteCount] as! Int
+        rating = dictionary[TMDBClient.JSONResponseKeys.Rating] as? Double
+        voteCount = dictionary[TMDBClient.JSONResponseKeys.VoteCount] as? Int
         overview = dictionary[TMDBClient.JSONResponseKeys.MovieOverview] as? String
         runtime = dictionary[TMDBClient.JSONResponseKeys.MovieRunTime] as? Int
         releaseDate = dictionary[TMDBClient.JSONResponseKeys.MovieReleaseDate] as? String
+        trailerSite = dictionary[TMDBClient.JSONResponseKeys.TrailerSite] as? String
+        trailerKey = dictionary[TMDBClient.JSONResponseKeys.TrailerKey] as? String
     }
     
     // convert to array of TMDBMovie

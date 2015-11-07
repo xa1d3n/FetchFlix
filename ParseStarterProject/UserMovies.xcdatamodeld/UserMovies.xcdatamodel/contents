@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
+    <entity name="FavoriteMovies" representedClassName="FavoriteMovies" syncable="YES">
+        <attribute name="posterPath" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="favoriteMovies" inverseEntity="User" syncable="YES"/>
+    </entity>
+    <entity name="LikedMovies" representedClassName="LikedMovies" syncable="YES">
+        <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
+    </entity>
+    <entity name="SimilarMovies" representedClassName="SimilarMovies" syncable="YES"/>
+    <entity name="User" representedClassName="User" syncable="YES">
+        <attribute name="sessionID" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
+        <attribute name="userName" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="favoriteMovies" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FavoriteMovies" inverseName="user" inverseEntity="FavoriteMovies" syncable="YES"/>
+    </entity>
+    <elements>
+        <element name="User" positionX="-36" positionY="9" width="128" height="105"/>
+        <element name="LikedMovies" positionX="36" positionY="90" width="128" height="60"/>
+        <element name="SimilarMovies" positionX="0" positionY="63" width="128" height="45"/>
+        <element name="FavoriteMovies" positionX="9" positionY="63" width="128" height="90"/>
+    </elements>
+</model>

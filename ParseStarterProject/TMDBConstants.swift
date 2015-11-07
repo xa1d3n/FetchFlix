@@ -33,6 +33,7 @@ extension TMDBClient {
         static let AuthenticationSessionNew = "authentication/session/new"
         static let RateMovie = "movie/{id}/rating"
         static let MovieImages = "movie/{id}/images"
+        static let MovieVideo = "movie/{id}/videos"
     }
     
     // MARK: Parameter Keys
@@ -87,6 +88,8 @@ extension TMDBClient {
         static let MoviePosters = "posters"
         static let MovieOverview = "overview"
         static let MovieRunTime = "runtime"
+        static let TrailerSite = "site"
+        static let TrailerKey = "key"
     }
     
 }
