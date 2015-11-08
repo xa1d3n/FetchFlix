@@ -23,6 +23,7 @@ class MovieDetailViewController: UIViewController {
     var movieIndex = 0
 
     @IBOutlet weak var poster: UIButton!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,11 +31,11 @@ class MovieDetailViewController: UIViewController {
         
         movieIds = [17169, 54833, 43522]
         
-        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+    /*    dispatch_async(dispatch_get_main_queue()) { () -> Void in
             self.setMoviePoster(self.movieIndex)
             self.movieTitle.text = self.movies[self.movieIndex].title
             self.ratings.rating = self.movies[self.movieIndex].rating!
-        }
+        } */
         
         let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
         poster.addGestureRecognizer(gesture)
@@ -65,7 +66,10 @@ class MovieDetailViewController: UIViewController {
        /* if let id = movies[movieIndex].id as? Int {
             getMovieDetails(id)
         } */
+        
+        
     }
+    
     
     func getMovieDetails(movieId: Int) {
         TMDBClient.sharedInstance().getMovieDetails("\(movieId)") { (result, error) -> Void in
@@ -140,15 +144,16 @@ class MovieDetailViewController: UIViewController {
         }
         
     }
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    
+    @IBAction func showFavorites(sender: AnyObject) {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FavoriteMoviesCollectionViewController") as! FavoriteMoviesCollectionViewController
+           // controller.movies = self.likedMovies
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
     }
 
     @IBAction func showMore(sender: AnyObject) {
-        //let informationPostingView : UINavigationController = viewContrl.storyboard?!.instantiateViewControllerWithIdentifier("InformationPostingView") as! UINavigationController
-       // viewContrl.presentViewController(informationPostingView, animated: true, completion: nil)
-        
         let controller = storyboard?.instantiateViewControllerWithIdentifier("MoreInfoViewController") as! MoreInfoViewController
         controller.movie = currMovie
         self.presentViewController(controller, animated: true, completion: nil)

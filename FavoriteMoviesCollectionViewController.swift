@@ -8,12 +8,14 @@
 
 import UIKit
 import Parse
+import CoreData
 
 private let reuseIdentifier = "cell"
 
 class FavoriteMoviesCollectionViewController: UICollectionViewController {
     
     var posters = [UIImage?](count: 4, repeatedValue: nil)
+    var posterPaths = [String?](count: 4, repeatedValue: nil)
     var posterInd : Int? = nil
     var movieTitles = [String?](count: 4, repeatedValue: nil)
     
@@ -23,6 +25,9 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     var similarMovies = [TMDBMovie]()
     
     let moc = DataController().managedObjectContext
+    var user : User?
+    
+    var pfUser = PFUser()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,9 +36,59 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
 
         // Do any additional setup after loading the view.
         
+        getUSerFromCoreData()
 
-        print(PFUser.currentUser()?.username)
+
+    }
+    
+    func getUSerFromCoreData() {
+        let userFetch = NSFetchRequest(entityName: "User")
         
+        do {
+            let fetchedUser = try moc.executeFetchRequest(userFetch) as! [User]
+            
+            //fetchedUser.first?.mutableSetValueForKey("favofaf").addObject(<#T##object: AnyObject##AnyObject#>)
+            if let user = fetchedUser.first {
+                self.user = user
+                getFavoriteMovieFromCoreData()
+            }
+            
+        } catch {
+            fatalError("could not retrive user data \(error)")
+        }
+    }
+    
+    func getFavoriteMovieFromCoreData() {
+        var ind = 0
+        let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
+        for movie in favMovies!{
+            movieTitles[ind] = movie.title
+            movieIds[ind] = Int(movie.id!)
+            posterPaths[ind] = movie.posterPath
+            getImageData(movie.posterPath!, ind: ind)
+            ind++
+        }
+        
+        
+        
+        self.collectionView?.reloadData()
+    }
+    
+    func getImageData(posterPath: String, ind: Int) {
+        
+        let fileManager = NSFileManager.defaultManager()
+        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let getImagePath = (paths as NSString).stringByAppendingPathComponent(posterPath)
+        
+        let image = UIImage(contentsOfFile: getImagePath)
+        
+        if image == nil {
+            
+            print("missing image at: (path)")
+        }
+        else {
+            posters[ind] = image
+        }
     }
     
     func getSimilarMovies(movieId: Int, count: Int) {
@@ -42,6 +97,8 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
             if let movies = result {
                 if movies.count > 0 {
                     self.similarMovies += movies
+                   // pfUser.addObjectsFromArray([self.similarMovies] , forKey: "SimilarMovies")
+                  //  pfUser["SimilarMovies"] = self.similarMovies
                     if count == self.movieIds.count {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             
@@ -65,7 +122,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     override func viewWillAppear(animated: Bool) {
         
         for title in movieTitles {
-            print(title)
+
         }
         
         if let posterImage = posterImage {
@@ -86,6 +143,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
                         if isNil == false {
                             var count = 1
                             for movieId in self.movieIds {
+                                self.addFavoritesToCoreData(count-1)
                                 self.getSimilarMovies(movieId!, count: count)
                                 count++
                             }
@@ -99,6 +157,41 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
             })
         }
         posterImage = nil
+    }
+    
+    func addFavoritesToCoreData(ind: Int) {
+        let favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc) as! FavoriteMovie
+        
+        favMovie.setValue(movieTitles[ind], forKey: "title")
+        favMovie.setValue("\(movieIds[ind])", forKey: "id")
+        favMovie.setValue(posterPaths[ind], forKey: "posterPath")
+        saveImageData(posters[ind]!, posterPath: posterPaths[ind]!)
+        if let currUser = user {
+            currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie)
+        }
+        
+        do {
+            try moc.save()
+        } catch {
+            fatalError("failure to save context: \(error)")
+        }
+
+    }
+    
+    func saveImageData(posterImg: UIImage, posterPath: String) {
+        let fileManager = NSFileManager.defaultManager()
+        
+        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        
+        var filePathToWrite = "\(paths)/\(posterPath)"
+        
+        let jpgImageData = UIImageJPEGRepresentation(posterImg, 1.0)
+        jpgImageData?.writeToFile(filePathToWrite, atomically: true)
+        
+        
+        /*let imageData: NSData = UIImageJPEGRepresentation(posterImg, 1.0)!
+        
+        fileManager.createFileAtPath(filePathToWrite, contents: imageData, attributes: nil) */
     }
 
     override func didReceiveMemoryWarning() {
@@ -145,6 +238,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         controller.posterInd = posterInd
         controller.movieIds = movieIds
         controller.movieTitles = movieTitles
+        controller.posterPaths = posterPaths
         self.navigationController!.pushViewController(controller, animated: true)
     }
 

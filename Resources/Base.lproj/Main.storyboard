@@ -87,14 +87,16 @@
                             <outlet property="delegate" destination="m7g-fE-XKM" id="11h-Pc-GKi"/>
                         </connections>
                     </collectionView>
-                    <navigationItem key="navigationItem" id="vJM-QT-ICR"/>
+                    <navigationItem key="navigationItem" id="vJM-QT-ICR">
+                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="KjV-5k-Owc"/>
+                    </navigationItem>
                     <connections>
                         <segue destination="WfO-nV-IeB" kind="show" identifier="showSearch" id="tcV-Vz-3uR"/>
                     </connections>
                 </collectionViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="luC-k6-DPA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1663" y="915"/>
+            <point key="canvasLocation" x="1715" y="680"/>
         </scene>
         <!--Login View Controller-->
         <scene sceneID="EDv-Da-E3q">
@@ -134,11 +136,12 @@
                     </view>
                     <connections>
                         <segue destination="tRh-Ei-wNV" kind="show" identifier="showFavPicker" id="2Eo-e4-paR"/>
+                        <segue destination="hSF-8D-RdT" kind="show" identifier="showSwiper" id="Rvb-bU-86m"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Vmu-zN-AW8" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="124" y="680"/>
+            <point key="canvasLocation" x="140" y="1176"/>
         </scene>
         <!--Auth View Controller-->
         <scene sceneID="Ba1-20-kT3">
@@ -173,7 +176,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uow-mE-BTm" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="124" y="1511"/>
+            <point key="canvasLocation" x="140" y="1883"/>
         </scene>
         <!--Movie Detail View Controller-->
         <scene sceneID="phl-P5-seW">
@@ -267,6 +270,11 @@
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" id="mtA-Yr-85a">
+                        <barButtonItem key="leftBarButtonItem" systemItem="edit" id="hiR-dc-bzg">
+                            <connections>
+                                <action selector="showFavorites:" destination="rXb-LB-DBZ" id="2vP-9H-Zaf"/>
+                            </connections>
+                        </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" systemItem="bookmarks" id="0by-PI-Ppd">
                             <connections>
                                 <action selector="showLiked:" destination="rXb-LB-DBZ" id="UgD-fD-msh"/>
@@ -282,7 +290,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="N92-h8-pUz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3965" y="925"/>
+            <point key="canvasLocation" x="2513" y="1517"/>
         </scene>
         <!--More Info View Controller-->
         <scene sceneID="aiq-eX-gYz">
@@ -397,7 +405,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d7O-Kz-oux" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="3965" y="1629"/>
+            <point key="canvasLocation" x="1253" y="2237"/>
         </scene>
         <!--Movie Trailer View Controller-->
         <scene sceneID="Iiv-m9-8QK">
@@ -449,7 +457,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="b0M-b1-lAh" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4608" y="1629"/>
+            <point key="canvasLocation" x="1981" y="2237"/>
         </scene>
         <!--Liked Movies Table View Controller-->
         <scene sceneID="KL1-Mm-Fy7">
@@ -480,7 +488,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="M8L-K0-JEG" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4671" y="891"/>
+            <point key="canvasLocation" x="3675" y="1517"/>
         </scene>
         <!--Movie Rating View Controller-->
         <scene sceneID="v6L-CI-mgf">
@@ -540,7 +548,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6PY-eJ-w50" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="5394" y="891"/>
+            <point key="canvasLocation" x="4574" y="1517"/>
         </scene>
         <!--Movie Picker View Controller-->
         <scene sceneID="kAi-eH-3z9">
@@ -627,6 +635,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="uF1-WH-zF5" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="836" y="670"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="sC8-v7-YJJ">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="hSF-8D-RdT" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="uHL-ys-TqO">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <animations/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="rXb-LB-DBZ" kind="relationship" relationship="rootViewController" id="3un-Ry-zan"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="rKe-jZ-Ytt" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="918" y="1373"/>
         </scene>
     </scenes>
     <resources>

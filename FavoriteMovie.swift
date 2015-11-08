@@ -1,5 +1,5 @@
 //
-//  FavoriteMovies.swift
+//  FavoriteMovie.swift
 //  Filmr
 //
 //  Created by Aldin Fajic on 11/7/15.
@@ -9,8 +9,8 @@
 import Foundation
 import CoreData
 
-@objc(FavoriteMovies)
-class FavoriteMovies: NSManagedObject {
+
+class FavoriteMovie: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 

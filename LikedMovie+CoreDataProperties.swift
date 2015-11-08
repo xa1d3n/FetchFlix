@@ -1,5 +1,5 @@
 //
-//  FavoriteMovies+CoreDataProperties.swift
+//  LikedMovie+CoreDataProperties.swift
 //  Filmr
 //
 //  Created by Aldin Fajic on 11/7/15.
@@ -12,10 +12,13 @@
 import Foundation
 import CoreData
 
-extension FavoriteMovies {
+extension LikedMovie {
 
-    @NSManaged var posterPath: String?
+    @NSManaged var id: String?
     @NSManaged var title: String?
+    @NSManaged var posterPath: String?
+    @NSManaged var rating: String?
+    @NSManaged var ratingCount: String?
     @NSManaged var user: User?
 
 }

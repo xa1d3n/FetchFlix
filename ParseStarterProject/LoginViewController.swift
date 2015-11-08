@@ -34,9 +34,14 @@ class LoginViewController: UIViewController {
                 
             })
         } */
-        getUserFromCoreData()
+        
 
         // Do any additional setup after loading the view.
+    }
+    
+    override func viewDidAppear(animated: Bool) {
+        super.viewDidAppear(true)
+        getUserFromCoreData()
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,22 +92,65 @@ class LoginViewController: UIViewController {
         do {
             let fetchedUser = try moc.executeFetchRequest(userFetch) as! [User]
             
-            fetchedUser.fi
+            //fetchedUser.first?.mutableSetValueForKey("favofaf").addObject(<#T##object: AnyObject##AnyObject#>)
             if let user = fetchedUser.first {
                 
                 if let userId = user.userID {
                     TMDBClient.sharedInstance().userID = userId as? Int
                     TMDBClient.sharedInstance().sessionID = user.sessionID
                     
+                    print(user.favoriteMovie!.count)
+                    if (user.favoriteMovie!.count >= 4) {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.performSegueWithIdentifier("showSwiper", sender: self)
+                        })
+                    }
+                    else {
                     
+                    parseLogin()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.performSegueWithIdentifier("showFavPicker", sender: self)
                     })
+                    }
                 }
             }
 
         } catch {
             fatalError("could not retrive user data \(error)")
+        }
+    }
+    
+    func parseLogin() {
+        var user = PFUser()
+        if let username = TMDBClient.sharedInstance().userID {
+            
+            // saveUserToCoreData(username)
+            
+            user.username = "\(username)"
+            user.password = ""
+            
+            
+            user.signUpInBackgroundWithBlock {
+                (succeeded: Bool, error: NSError?) -> Void in
+                if let error = error {
+                    if error.code == 202 {
+                        
+                        PFUser.logInWithUsernameInBackground("\(username)", password:"") {
+                            (user: PFUser?, error: NSError?) -> Void in
+                            if user != nil {
+
+                            } else {
+                                // The login failed. Check error to see why.
+                            }
+                        }
+                        
+                    }
+                    
+                } else {
+                    
+                }
+            }
+            
         }
     }
     
@@ -114,6 +162,7 @@ class LoginViewController: UIViewController {
             
             user.username = "\(username)"
             user.password = ""
+            
             
             user.signUpInBackgroundWithBlock {
                 (succeeded: Bool, error: NSError?) -> Void in

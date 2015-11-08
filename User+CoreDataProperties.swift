@@ -14,9 +14,9 @@ import CoreData
 
 extension User {
 
-    @NSManaged var userName: String?
     @NSManaged var userID: NSNumber?
     @NSManaged var sessionID: String?
-    @NSManaged var favoriteMovies: NSSet?
+    @NSManaged var favoriteMovie: NSSet?
+    @NSManaged var likedMovie: NSSet?
 
 }

@@ -13,11 +13,12 @@ class MoviePickerViewController: UIViewController {
     @IBOutlet weak var movieTableView: UITableView!
     @IBOutlet weak var movieSearchBar: UISearchBar!
     var searchTask : NSURLSessionDataTask?
-    var movieTitles = [String?](count: 3, repeatedValue: nil)
-    var posters = [UIImage?](count: 3, repeatedValue: nil)
+    var movieTitles = [String?](count: 4, repeatedValue: nil)
+    var posters = [UIImage?](count: 4, repeatedValue: nil)
+    var posterPaths = [String?](count: 4, repeatedValue: nil)
     
     var posterInd : Int?
-    var movieIds = [Int?](count: 3, repeatedValue: nil)
+    var movieIds = [Int?](count: 4, repeatedValue: nil)
     
     // movie data
     
@@ -57,6 +58,8 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         controller.posterInd = posterInd
         movieTitles[posterInd!] = movies[indexPath.row].title
         controller.movieTitles = movieTitles
+        posterPaths[posterInd!] = movies[indexPath.row].posterPath
+        controller.posterPaths = posterPaths
         self.navigationController!.pushViewController(controller, animated: true)
         
     }
