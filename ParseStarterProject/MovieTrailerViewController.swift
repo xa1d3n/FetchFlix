@@ -17,7 +17,7 @@ class MovieTrailerViewController: UIViewController {
         
         if let key = trailerKey {
             let url = "https://www.youtube.com/embed/\(key)"
-            var htmlUrl = "<html><head><body style=\"(margin:0)\"><embed id=\"yt\" src=\"\(url)\" type=\"application/x-shockwave-flash\"width=\"\(560)\" height=\"\(315)\"></embed> </body></html>"
+            var htmlUrl = "<html><head><body style=\"(margin:0 auto)\"><embed id=\"yt\" src=\"\(url)\" type=\"application/x-shockwave-flash\"width=\"\(560)\" height=\"\(315)\"></embed> </body></html>"
             player.loadHTMLString(htmlUrl, baseURL: nil)
         }
 

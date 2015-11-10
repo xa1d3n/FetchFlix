@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  Filmr
 //
-//  Created by Aldin Fajic on 11/7/15.
+//  Created by Aldin Fajic on 11/8/15.
 //  Copyright © 2015 Parse. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

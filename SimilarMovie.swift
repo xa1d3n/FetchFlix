@@ -1,5 +1,5 @@
 //
-//  LikedMovie.swift
+//  SimilarMovie.swift
 //  Filmr
 //
 //  Created by Aldin Fajic on 11/8/15.
@@ -10,7 +10,7 @@ import Foundation
 import CoreData
 
 
-class LikedMovie: NSManagedObject {
+class SimilarMovie: NSManagedObject {
 
 // Insert code here to add functionality to your managed object subclass
 

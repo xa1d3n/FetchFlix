@@ -13,6 +13,14 @@ class MoreInfoViewController: UIViewController {
     
     var movie : TMDBMovie?
     var trailerKey: String?
+    var id: String?
+    var filmTitle: String?
+    var releaseDate: String?
+    var summary: String?
+    var posterPath: String?
+    var movieRunTime : String?
+    var posterImage : UIImage?
+    
 
     @IBOutlet weak var movieSummary: UILabel!
     @IBOutlet weak var runTime: UILabel!
@@ -23,37 +31,51 @@ class MoreInfoViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(id)
+        self.title = "SFDFDFS"
+        self.navigationController?.title = "FDS"
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+       
+        
+        print(id)
+        print(movie?.id)
         
         // get movie trailer
-        if let movieId = movie!.id {
-            TMDBClient.sharedInstance().getMovieVideos("\(movieId)") { (result, error) -> Void in
+        if let movieId = id {
+            TMDBClient.sharedInstance().getMovieVideos(movieId) { (result, error) -> Void in
                 if let trailers = result {
                     self.trailerKey = trailers[0].trailerKey
                 }
             }
         }
-
-
+        
+        
         // Do any additional setup after loading the view.
         scrollView.contentSize.height = 1000
         
-        if let overview = movie?.overview {
+        if let overview = summary {
             movieSummary.text = overview
         }
         
-        if let title = movie?.title {
+        if let title = filmTitle {
             movieTitle.text = title
         }
         
-        if let runtime = movie?.runtime {
+        if let runtime = movieRunTime {
             runTime.text = "\(runtime)"
         }
         
-        if let release = movie?.releaseDate {
+        if let release = releaseDate {
             releaseYear.text = release
         }
         
-        
+        if let image = posterImage {
+            //poster.imageView?.image = image
+            self.poster.setImage(image, forState: .Normal)
+        }
     }
     
 

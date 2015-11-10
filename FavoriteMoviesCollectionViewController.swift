@@ -62,6 +62,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         var ind = 0
         let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
         for movie in favMovies!{
+            print(movie.similarMovie?.count)
             movieTitles[ind] = movie.title
             movieIds[ind] = Int(movie.id!)
             posterPaths[ind] = movie.posterPath
@@ -121,7 +122,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     
     override func viewWillAppear(animated: Bool) {
         
-        for title in movieTitles {
+       /* for title in movieTitles {
 
         }
         
@@ -143,7 +144,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
                         if isNil == false {
                             var count = 1
                             for movieId in self.movieIds {
-                                self.addFavoritesToCoreData(count-1)
+                           //     self.addFavoritesToCoreData(count-1)
                                 self.getSimilarMovies(movieId!, count: count)
                                 count++
                             }
@@ -156,7 +157,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
                 }
             })
         }
-        posterImage = nil
+        posterImage = nil */
     }
     
     func addFavoritesToCoreData(ind: Int) {
@@ -165,7 +166,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         favMovie.setValue(movieTitles[ind], forKey: "title")
         favMovie.setValue("\(movieIds[ind])", forKey: "id")
         favMovie.setValue(posterPaths[ind], forKey: "posterPath")
-        saveImageData(posters[ind]!, posterPath: posterPaths[ind]!)
+        //saveImageData(posters[ind]!, posterPath: posterPaths[ind]!)
         if let currUser = user {
             currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie)
         }
@@ -187,11 +188,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         
         let jpgImageData = UIImageJPEGRepresentation(posterImg, 1.0)
         jpgImageData?.writeToFile(filePathToWrite, atomically: true)
-        
-        
-        /*let imageData: NSData = UIImageJPEGRepresentation(posterImg, 1.0)!
-        
-        fileManager.createFileAtPath(filePathToWrite, contents: imageData, attributes: nil) */
     }
 
     override func didReceiveMemoryWarning() {
@@ -239,7 +235,15 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         controller.movieIds = movieIds
         controller.movieTitles = movieTitles
         controller.posterPaths = posterPaths
+        controller.user = user
+        controller.moc = moc
         self.navigationController!.pushViewController(controller, animated: true)
     }
 
+    @IBAction func showPicker(sender: AnyObject) {
+        dispatch_async(dispatch_get_main_queue()) { () -> Void in
+            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MovieDetailViewController") as! MovieDetailViewController
+            self.navigationController?.pushViewController(controller, animated: true)
+        }
+    }
 }

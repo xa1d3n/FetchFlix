@@ -10,7 +10,10 @@ import UIKit
 
 class LikedMoviesTableViewController: UITableViewController {
     
-    var movies = [TMDBMovie]()
+    var movies = [LikedMovie]()
+    
+    let moc = DataController().managedObjectContext
+    var user : User?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,7 +25,13 @@ class LikedMoviesTableViewController: UITableViewController {
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
         self.title = "Watchlist"
+        getLikedMoviesFromCoreData()
         
+    }
+    
+    func getLikedMoviesFromCoreData() {
+        movies = user?.likedMovie?.allObjects as! [LikedMovie]
+        self.tableView.reloadData()
     }
     
 

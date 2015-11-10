@@ -10,7 +10,7 @@ import UIKit
 
 class MovieRatingViewController: UIViewController {
 
-    var movie : TMDBMovie?
+    var movie : LikedMovie?
     @IBOutlet weak var poster: UIImageView!
     @IBOutlet weak var ratings: CosmosView!
     override func viewDidLoad() {
@@ -33,12 +33,12 @@ class MovieRatingViewController: UIViewController {
             }
         }
         
-        if let rating = movie?.rating {
+        if let rating = Double((movie?.rating)!) {
             ratings.rating = rating
         }
         
-        if let voteCount = movie?.voteCount {
-            ratings.text = "(\(voteCount))"
+        if let voteCount = movie?.ratingCount {
+            ratings.text = voteCount
         }
         
         if let title = movie?.title {
