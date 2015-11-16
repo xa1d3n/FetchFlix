@@ -34,6 +34,7 @@ extension TMDBClient {
         static let RateMovie = "movie/{id}/rating"
         static let MovieImages = "movie/{id}/images"
         static let MovieVideo = "movie/{id}/videos"
+        static let MovieCredits = "movie/{id}/credits"
     }
     
     // MARK: Parameter Keys
@@ -90,6 +91,8 @@ extension TMDBClient {
         static let MovieRunTime = "runtime"
         static let TrailerSite = "site"
         static let TrailerKey = "key"
+        static let MovieCast = "cast"
+        static let ActorName = "name"
     }
     
 }

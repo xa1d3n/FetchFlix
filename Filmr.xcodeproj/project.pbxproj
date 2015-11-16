@@ -17,6 +17,7 @@
 		81BA817B1A49E0E500E65899 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817A1A49E0E500E65899 /* SystemConfiguration.framework */; };
 		81BA817F1A49E0F000E65899 /* libstdc++.6.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 81BA817E1A49E0F000E65899 /* libstdc++.6.dylib */; };
 		B30256DA1BDC013400D48173 /* MovieDetailPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B30256D91BDC013400D48173 /* MovieDetailPageViewController.swift */; };
+		B330918D1BF92CD0004BDF22 /* SimilarMoviesCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B330918C1BF92CD0004BDF22 /* SimilarMoviesCollectionViewController.swift */; };
 		B34749111BDF23A00036B8F1 /* TMDBImages.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34749101BDF23A00036B8F1 /* TMDBImages.swift */; };
 		B34749131BEB0B040036B8F1 /* MoreInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34749121BEB0B040036B8F1 /* MoreInfoViewController.swift */; };
 		B34749151BEC2E360036B8F1 /* MovieTrailerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B34749141BEC2E360036B8F1 /* MovieTrailerViewController.swift */; };
@@ -42,6 +43,7 @@
 		B37175B21BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B11BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift */; };
 		B37175B41BCC6B8000E3FCD3 /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */; };
 		B37175B71BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */; };
+		B3930AC61BF932A00006C794 /* SimilarMoviePosterCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3930AC51BF932A00006C794 /* SimilarMoviePosterCollectionViewCell.swift */; };
 		B3A28B6C1BCDFEB900E65873 /* LikedMoviesTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A28B6B1BCDFEB900E65873 /* LikedMoviesTableViewController.swift */; };
 		B3A28B6E1BD06EF000E65873 /* MovieRatingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */; };
 		B3F4333A1BD9C6C500D846AB /* CosmosDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */; };
@@ -63,6 +65,7 @@
 		81BA817E1A49E0F000E65899 /* libstdc++.6.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.6.dylib"; path = "usr/lib/libstdc++.6.dylib"; sourceTree = SDKROOT; };
 		81BA81801A49E10C00E65899 /* ParseUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ParseUI.framework; sourceTree = "<group>"; };
 		B30256D91BDC013400D48173 /* MovieDetailPageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieDetailPageViewController.swift; sourceTree = "<group>"; };
+		B330918C1BF92CD0004BDF22 /* SimilarMoviesCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimilarMoviesCollectionViewController.swift; sourceTree = "<group>"; };
 		B34749101BDF23A00036B8F1 /* TMDBImages.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBImages.swift; sourceTree = "<group>"; };
 		B34749121BEB0B040036B8F1 /* MoreInfoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MoreInfoViewController.swift; sourceTree = "<group>"; };
 		B34749141BEC2E360036B8F1 /* MovieTrailerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieTrailerViewController.swift; sourceTree = "<group>"; };
@@ -89,6 +92,7 @@
 		B37175B11BCC244900E3FCD3 /* MoviePosterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = MoviePosterCollectionViewCell.swift; path = ../MoviePosterCollectionViewCell.swift; sourceTree = "<group>"; };
 		B37175B31BCC6B8000E3FCD3 /* LoginViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		B37175B61BCC6D5E00E3FCD3 /* TMDBAuthViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TMDBAuthViewController.swift; sourceTree = "<group>"; };
+		B3930AC51BF932A00006C794 /* SimilarMoviePosterCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SimilarMoviePosterCollectionViewCell.swift; sourceTree = "<group>"; };
 		B3A28B6B1BCDFEB900E65873 /* LikedMoviesTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikedMoviesTableViewController.swift; sourceTree = "<group>"; };
 		B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MovieRatingViewController.swift; sourceTree = "<group>"; };
 		B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CosmosDistrib.swift; sourceTree = "<group>"; };
@@ -237,6 +241,8 @@
 				B30256D91BDC013400D48173 /* MovieDetailPageViewController.swift */,
 				B34749121BEB0B040036B8F1 /* MoreInfoViewController.swift */,
 				B34749141BEC2E360036B8F1 /* MovieTrailerViewController.swift */,
+				B330918C1BF92CD0004BDF22 /* SimilarMoviesCollectionViewController.swift */,
+				B3930AC51BF932A00006C794 /* SimilarMoviePosterCollectionViewCell.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -355,7 +361,9 @@
 				B37175A81BCB0D1B00E3FCD3 /* TMDBMovie.swift in Sources */,
 				B3A28B6C1BCDFEB900E65873 /* LikedMoviesTableViewController.swift in Sources */,
 				B34749BD1BF0412A0036B8F1 /* LikedMovie+CoreDataProperties.swift in Sources */,
+				B3930AC61BF932A00006C794 /* SimilarMoviePosterCollectionViewCell.swift in Sources */,
 				B3A28B6E1BD06EF000E65873 /* MovieRatingViewController.swift in Sources */,
+				B330918D1BF92CD0004BDF22 /* SimilarMoviesCollectionViewController.swift in Sources */,
 				B37175AC1BCB128900E3FCD3 /* FavoriteMoviesViewController.swift in Sources */,
 				B34749131BEB0B040036B8F1 /* MoreInfoViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,

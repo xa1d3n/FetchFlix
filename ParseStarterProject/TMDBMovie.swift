@@ -19,6 +19,7 @@ struct TMDBMovie {
     var releaseDate : String?
     var trailerSite : String?
     var trailerKey : String?
+    var actorName :String?
     
     init(dictionary: [String: AnyObject]) {
         title = dictionary[TMDBClient.JSONResponseKeys.MovieTitle] as? String
@@ -31,6 +32,8 @@ struct TMDBMovie {
         releaseDate = dictionary[TMDBClient.JSONResponseKeys.MovieReleaseDate] as? String
         trailerSite = dictionary[TMDBClient.JSONResponseKeys.TrailerSite] as? String
         trailerKey = dictionary[TMDBClient.JSONResponseKeys.TrailerKey] as? String
+        actorName = dictionary[TMDBClient.JSONResponseKeys.ActorName] as? String
+        
     }
     
     // convert to array of TMDBMovie
@@ -46,7 +49,6 @@ struct TMDBMovie {
     
     static func movieFromResults(results: [String: AnyObject]) -> [TMDBMovie] {
         var movie = [TMDBMovie]()
-        
 
         movie.append(TMDBMovie(dictionary: results))
 
