@@ -33,7 +33,6 @@ struct TMDBMovie {
         trailerSite = dictionary[TMDBClient.JSONResponseKeys.TrailerSite] as? String
         trailerKey = dictionary[TMDBClient.JSONResponseKeys.TrailerKey] as? String
         actorName = dictionary[TMDBClient.JSONResponseKeys.ActorName] as? String
-        
     }
     
     // convert to array of TMDBMovie

@@ -17,6 +17,7 @@ class MovieDetailViewController: UIViewController {
     
     var selectedMovie : TMDBMovie?
     
+    @IBOutlet weak var posterContainer: UIView!
     @IBOutlet weak var ratings: CosmosView!
     @IBOutlet weak var movieTitle: UILabel!
     var currMovie : SimilarMovie?
@@ -48,8 +49,8 @@ class MovieDetailViewController: UIViewController {
         } */
         
         let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
-        poster.addGestureRecognizer(gesture)
-        poster.userInteractionEnabled = true
+        posterContainer.addGestureRecognizer(gesture)
+        posterContainer.userInteractionEnabled = true
         
 
       /*  TMDBClient.sharedInstance().getMovieImages("550") { (result, error) -> Void in
@@ -188,6 +189,7 @@ class MovieDetailViewController: UIViewController {
             let controller = self.storyboard?.instantiateViewControllerWithIdentifier("LikedMoviesTableViewController") as! LikedMoviesTableViewController
             controller.movies = self.likedMovies
             controller.user = self.user
+            controller.moc = self.moc
             self.navigationController?.pushViewController(controller, animated: true)
         }
         
@@ -201,10 +203,14 @@ class MovieDetailViewController: UIViewController {
     }
 
     @IBAction func showMore(sender: AnyObject) {
-        getMovieDetails((currMovie?.id)!)
+        if let id = currMovie?.id {
+            getMovieDetails(id)
+        }
+        
     }
     
     func getMovieDetails(movieId: String) {
+        let spinner : UIActivityIndicatorView = HelperFunctions.startSpinner(view)
         TMDBClient.sharedInstance().getMovieDetails(movieId) { (result, error) -> Void in
             if error != nil {
                 print(error)
@@ -224,7 +230,13 @@ class MovieDetailViewController: UIViewController {
                             self.selectedMovie?.voteCount = movie.voteCount
                             self.selectedMovie?.releaseDate = movie.releaseDate
                             self.selectedMovie?.posterPath = movie.posterPath
-                            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MoreInfoViewController") as! MoreInfoViewController
+                            
+                            let navController = self.storyboard?.instantiateViewControllerWithIdentifier("MoreDetailsNav") as! UINavigationController
+                            let controller = navController.topViewController as! MoreInfoViewController
+                            
+                            
+                            
+                            //let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MoreInfoViewController") as! MoreInfoViewController
                             print(movie.id)
                             controller.id = "\(movie.id!)"
                             controller.releaseDate = movie.releaseDate
@@ -233,8 +245,9 @@ class MovieDetailViewController: UIViewController {
                             controller.movieRunTime = "\(movie.runtime!)"
                             controller.posterImage = self.poster.imageView?.image
                             
+                            HelperFunctions.stopSpinner(spinner)
+                            self.presentViewController(navController, animated: true, completion: nil)
                             
-                            self.presentViewController(controller, animated: true, completion: nil)
                         })
                     }
                     

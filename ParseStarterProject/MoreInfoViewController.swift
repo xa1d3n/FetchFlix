@@ -100,7 +100,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         
         
         // Do any additional setup after loading the view.
-        scrollView.contentSize.height = 1000
+       // scrollView.contentSize.height = 1000
         
         if let overview = summary {
             movieSummary.text = overview
@@ -112,11 +112,11 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         }
         
         if let runtime = movieRunTime {
-            runTime.text = "\(runtime)"
+            runTime.text = "\(runtime)m"
         }
         
         if let release = releaseDate {
-            releaseYear.text = release
+            releaseYear.text = (release as NSString).substringToIndex(4)
         }
         
         if let image = posterImage {
@@ -159,7 +159,20 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
     }
     
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
-        let movie = similarMovies[indexPath.row]
+        
+        
+        let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MoreInfoViewController") as! MoreInfoViewController
+        
+        
+        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            var selectedMovie = self.similarMovies[indexPath.row]
+            controller.id = "\(selectedMovie.id!)"
+            controller.releaseDate = selectedMovie.releaseDate
+            controller.summary = selectedMovie.overview
+            controller.filmTitle = selectedMovie.title
+            controller.posterImage = self.posters[indexPath.row]
+            self.navigationController?.pushViewController(controller, animated: true)
+        })
     }
     
     func getSimilarMovies(movieId: Int) {
@@ -176,8 +189,8 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
                         
                         if let poster = movie.posterPath {
                             //self.posterPaths.append(poster)
-                            self.similarMovies.append(movie)
-                            self.downloadPoster(poster)
+                            //self.similarMovies.append(movie)
+                            self.downloadPoster(poster, movie: movie)
                         }
                         
                         count++
@@ -191,12 +204,13 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         }
     }
     
-    func downloadPoster(posterImage: String?) {
+    func downloadPoster(posterImage: String?, movie: TMDBMovie) {
         if let posterImage = posterImage {
             TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[1], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
                 if let image = UIImage(data: imageData!) {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.posters.append(image)
+                        self.similarMovies.append(movie)
                         self.similarToMovies.reloadData()
                     })
                     
@@ -204,5 +218,14 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
                 }
             })
         }
+    }
+    
+    @IBAction func share(sender: AnyObject) {
+        let text = "Check out \(filmTitle!) on TMDb https://www.themoviedb.org/movie/\(id!)"
+        let movieImage = posterImage
+        let controller = UIActivityViewController(activityItems: [text, movieImage!], applicationActivities: nil)
+        // present the controller
+        
+        self.presentViewController(controller, animated: true, completion: nil)
     }
 }

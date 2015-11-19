@@ -14,6 +14,7 @@ class LoginViewController: UIViewController {
     
     var movieIds = [Int?](count: 3, repeatedValue: nil)
     var movies = [TMDBMovie]()
+    var spinner : UIActivityIndicatorView?
 
     let moc = DataController().managedObjectContext
 
@@ -37,11 +38,13 @@ class LoginViewController: UIViewController {
         
 
         // Do any additional setup after loading the view.
+        spinner = HelperFunctions.startSpinner(view)
+        getUserFromCoreData()
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        getUserFromCoreData()
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -87,7 +90,9 @@ class LoginViewController: UIViewController {
     }
     
     func getUserFromCoreData() {
+        
         let userFetch = NSFetchRequest(entityName: "User")
+        
         
         do {
             let fetchedUser = try moc.executeFetchRequest(userFetch) as! [User]
@@ -102,17 +107,25 @@ class LoginViewController: UIViewController {
                     print(user.favoriteMovie!.count)
                     if (user.favoriteMovie!.count >= 4) {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
                             self.performSegueWithIdentifier("showSwiper", sender: self)
+                            HelperFunctions.stopSpinner(self.spinner!)
                         })
                     }
                     else {
                     
                     parseLogin()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        
                         self.performSegueWithIdentifier("showFavPicker", sender: self)
+                        HelperFunctions.stopSpinner(self.spinner!)
                     })
                     }
                 }
+            }
+            else {
+                HelperFunctions.stopSpinner(self.spinner!)
+                parseSignUp()
             }
 
         } catch {
