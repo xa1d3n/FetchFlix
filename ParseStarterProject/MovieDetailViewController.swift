@@ -38,47 +38,11 @@ class MovieDetailViewController: UIViewController {
         
         getFromCoreData()
         
-       // pageControl.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
-        
         movieIds = [17169, 54833, 43522]
-        
-    /*    dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            self.setMoviePoster(self.movieIndex)
-            self.movieTitle.text = self.movies[self.movieIndex].title
-            self.ratings.rating = self.movies[self.movieIndex].rating!
-        } */
         
         let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
         posterContainer.addGestureRecognizer(gesture)
         posterContainer.userInteractionEnabled = true
-        
-
-      /*  TMDBClient.sharedInstance().getMovieImages("550") { (result, error) -> Void in
-            if error != nil {
-                print(error)
-            }
-            else {
-                if let posters = result as? [TMDBImages]? {
-                    for poster in posters! {
-                        TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[2f], filePath: poster.posterPath! , completionHandler: { (imageData, error) -> Void in
-                            if let image = UIImage(data: imageData!) {
-                                print(image)
-                            }
-                        })
-                    }
-                }
-                //print("D")
-              //  for res in result! as [AnyObject] {
-              //      print(res["file_path"])
-              //  }
-            }
-        } */
-       // getMovieDetails(550)
-       /* if let id = movies[movieIndex].id as? Int {
-            getMovieDetails(id)
-        } */
-        
-        
     }
     
     func getFromCoreData() {
@@ -119,32 +83,19 @@ class MovieDetailViewController: UIViewController {
         
         if gesture.state == UIGestureRecognizerState.Ended {
             if poster.center.x < 100 {
+                removeMovie()
                 self.setMoviePoster(movieIndex)
             }
             else if poster.center.x > view.bounds.width - 100 {
                 //likedMovies.append(currMovie!)
+                removeMovie()
                 addLikedMovieToCoreData(currMovie!)
                 self.setMoviePoster(movieIndex)
             }
             
-           /* if let id = movies[movieIndex].id as? Int {
-                getMovieDetails(id)
-            } */
-            
             self.movieTitle.text = self.similarMovies[self.movieIndex].title
             var rating = self.similarMovies[self.movieIndex].rating!
             self.ratings.rating = Double(rating)!
-            
-           /*( if let unwrappedNum = Double(rating) {
-                print(unwrappedNum)
-            } else {
-                print("Error converting to Double")
-            } */
-           // var doubleValue = (rating as NSString).doubleValue
-          //  print(doubleValue)
-         /*   var floatrating = Float(rating)!
-            print(floatrating)
-            self.ratings.rating = Double(floatrating) */
             
             poster.center = CGPoint(x: view.bounds.width / 2 , y: view.bounds.height / 2 )
             
@@ -257,19 +208,33 @@ class MovieDetailViewController: UIViewController {
     }
     
     @IBAction func dislike(sender: AnyObject) {
+        removeMovie()
         setMovieData()
     }
     
     @IBAction func like(sender: AnyObject) {
+        removeMovie()
         setMovieData()
         addLikedMovieToCoreData(currMovie!)
-        
     }
     
     func setMovieData() {
         self.setMoviePoster(movieIndex)
         self.movieTitle.text = self.similarMovies[self.movieIndex].title
-        var rating = self.similarMovies[self.movieIndex].rating!
+        let rating = self.similarMovies[self.movieIndex].rating!
         self.ratings.rating = Double(rating)!
+    }
+    
+    func removeMovie() {
+        let favMovies = user?.favoriteMovie?.allObjects as! [FavoriteMovie]
+        
+        for movie in favMovies {
+            movie.mutableSetValueForKey("similarMovie").removeObject(currMovie!)
+            do {
+                try moc.save()
+            } catch {
+                fatalError("failure to save context: \(error)")
+            }
+        }
     }
 }

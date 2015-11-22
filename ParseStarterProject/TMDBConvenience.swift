@@ -32,8 +32,8 @@ extension TMDBClient {
         return task
     }
     
-    func getSimilarMovies(movieId: Int, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
-        let parameters = [TMDBClient.ParameterKeys.Page: 1]
+    func getSimilarMovies(movieId: Int, page: Int, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
+        let parameters = [TMDBClient.ParameterKeys.Page: page]
         let method = "movie/\(movieId)/similar"
         
         let task = taskForGETMethod(method, parameters: parameters) { (result, error) -> Void in

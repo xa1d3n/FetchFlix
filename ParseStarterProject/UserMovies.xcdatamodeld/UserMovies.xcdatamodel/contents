@@ -2,6 +2,7 @@
 <model userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="9057" systemVersion="15B42" minimumToolsVersion="Xcode 7.0">
     <entity name="FavoriteMovie" representedClassName=".FavoriteMovie" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="page" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="posterPath" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="title" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="similarMovie" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="SimilarMovie" inverseName="favoriteMovie" inverseEntity="SimilarMovie" syncable="YES"/>
@@ -34,9 +35,9 @@
         <relationship name="likedMovie" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LikedMovie" inverseName="user" inverseEntity="LikedMovie" syncable="YES"/>
     </entity>
     <elements>
-        <element name="User" positionX="-27" positionY="18" width="128" height="105"/>
-        <element name="FavoriteMovie" positionX="18" positionY="63" width="128" height="120"/>
+        <element name="FavoriteMovie" positionX="18" positionY="63" width="128" height="135"/>
         <element name="LikedMovie" positionX="54" positionY="135" width="128" height="165"/>
         <element name="SimilarMovie" positionX="18" positionY="126" width="128" height="165"/>
+        <element name="User" positionX="-27" positionY="18" width="128" height="105"/>
     </elements>
 </model>

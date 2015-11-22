@@ -98,6 +98,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         favMovie!.setValue(title, forKey: "title")
         favMovie!.setValue("\(newId)", forKey: "id")
         favMovie!.setValue(posterPath, forKey: "posterPath")
+        favMovie!.setValue(1, forKey: "page")
         downloadPoster(posterPath)
         //saveImageData(posters[ind]!, posterPath: posterPaths[ind]!)
         if let currUser = user {
@@ -113,7 +114,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
     
     func getSimilarMovies(movieId: Int) {
         
-        TMDBClient.sharedInstance().getSimilarMovies(movieId) { (result, error) -> Void in
+        TMDBClient.sharedInstance().getSimilarMovies(movieId, page: 1) { (result, error) -> Void in
             if let movies = result {
                 if movies.count > 0 {
                     self.addSimilarMoviesToCoreData(movies)

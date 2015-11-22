@@ -25,4 +25,17 @@ struct HelperFunctions {
         spinner.stopAnimating()
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
+    
+    static func getSimilarMovies(favMovie: FavoriteMovie) {
+        TMDBClient.sharedInstance().getSimilarMovies(Int(favMovie.id!)!, page: 1) { (result, error) -> Void in
+            if let movies = result {
+                if movies.count > 0 {
+                    self.addSimilarMoviesToCoreData(movies)
+                    
+                }
+                
+            }
+            
+        }
+    }
 }
