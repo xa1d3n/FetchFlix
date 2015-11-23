@@ -98,7 +98,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         favMovie!.setValue(title, forKey: "title")
         favMovie!.setValue("\(newId)", forKey: "id")
         favMovie!.setValue(posterPath, forKey: "posterPath")
-        favMovie!.setValue(1, forKey: "page")
+        favMovie!.setValue("1", forKey: "page")
         downloadPoster(posterPath)
         //saveImageData(posters[ind]!, posterPath: posterPaths[ind]!)
         if let currUser = user {

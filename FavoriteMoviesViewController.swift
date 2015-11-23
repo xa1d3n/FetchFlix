@@ -35,15 +35,6 @@ class FavoriteMoviesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        TMDBClient.sharedInstance().getSimilarMovies(17169) { (result, error) -> Void in
-            if let movies = result {
-                print(movies.count)
-                for movie in movies {
-                    print(movie.title)
-                }
-            }
-        }
     }
     
     override func viewWillAppear(animated: Bool) {

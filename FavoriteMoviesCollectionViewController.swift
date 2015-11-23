@@ -37,8 +37,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         // Do any additional setup after loading the view.
         
         getUSerFromCoreData()
-
-
     }
     
     func getUSerFromCoreData() {
@@ -60,6 +58,9 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     
     func getFavoriteMovieFromCoreData() {
         var ind = 0
+        
+        getLikedMovies()
+        
         let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
         for movie in favMovies!{
             print(movie.similarMovie?.count)
@@ -70,15 +71,58 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
             ind++
         }
         
-        
-        
         self.collectionView?.reloadData()
+    }
+    
+    func getLikedMovies() {
+       let likedMovies = user?.likedMovie?.allObjects as? [LikedMovie]
+        
+        if likedMovies?.count < 1 {
+            TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
+                if success {
+                    if let movies = movies {
+                        for movie in movies {
+                            let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: self.moc) as! LikedMovie
+                            
+                            if let title = movie.title {
+                                likedMovie.title = title
+                            }
+                            
+                            if let id = movie.id {
+                                likedMovie.id = "\(id)"
+                            }
+                            if let rating = movie.rating {
+                                likedMovie.rating = "\(rating)"
+                            }
+                            
+                            if let voteCount = movie.voteCount {
+                               likedMovie.ratingCount = "\(voteCount)"
+                            }
+                            
+                            if let posterPath = movie.posterPath {
+                                likedMovie.posterPath = posterPath
+                            }
+                            
+                            
+                            self.user!.mutableSetValueForKey("likedMovie").addObject(likedMovie)
+                            
+                            do {
+                                try self.moc.save()
+                            } catch {
+                                fatalError("failure to save context: \(error)")
+                            }
+
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func getImageData(posterPath: String, ind: Int) {
         
         let fileManager = NSFileManager.defaultManager()
-        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         let getImagePath = (paths as NSString).stringByAppendingPathComponent(posterPath)
         
         let image = UIImage(contentsOfFile: getImagePath)
@@ -92,72 +136,8 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         }
     }
     
-    func getSimilarMovies(movieId: Int, count: Int) {
-
-        TMDBClient.sharedInstance().getSimilarMovies(movieId) { (result, error) -> Void in
-            if let movies = result {
-                if movies.count > 0 {
-                    self.similarMovies += movies
-                   // pfUser.addObjectsFromArray([self.similarMovies] , forKey: "SimilarMovies")
-                  //  pfUser["SimilarMovies"] = self.similarMovies
-                    if count == self.movieIds.count {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            
-                            
-                            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MovieDetailViewController") as! MovieDetailViewController
-                            controller.movies = self.similarMovies
-                            //controller.poster.image =
-                            self.navigationController?.pushViewController(controller, animated: true)
-                            
-                            
-                            
-                        })
-                    }
-                }
-
-            }
-
-        }
-    }
-    
     override func viewWillAppear(animated: Bool) {
         
-       /* for title in movieTitles {
-
-        }
-        
-        if let posterImage = posterImage {
-            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
-                if let image = UIImage(data: imageData!) {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.posters[self.posterInd!] = image
-                        
-
-                        
-                        var isNil = false
-                        for pstr in self.posters {
-                            if pstr == nil {
-                                isNil = true
-                            }
-                        }
-                        
-                        if isNil == false {
-                            var count = 1
-                            for movieId in self.movieIds {
-                           //     self.addFavoritesToCoreData(count-1)
-                                self.getSimilarMovies(movieId!, count: count)
-                                count++
-                            }
-                            
-                            
-                        }
-                        
-                        self.collectionView?.reloadData()
-                    })
-                }
-            })
-        }
-        posterImage = nil */
     }
     
     func addFavoritesToCoreData(ind: Int) {
@@ -182,9 +162,9 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     func saveImageData(posterImg: UIImage, posterPath: String) {
         let fileManager = NSFileManager.defaultManager()
         
-        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         
-        var filePathToWrite = "\(paths)/\(posterPath)"
+        let filePathToWrite = "\(paths)/\(posterPath)"
         
         let jpgImageData = UIImageJPEGRepresentation(posterImg, 1.0)
         jpgImageData?.writeToFile(filePathToWrite, atomically: true)

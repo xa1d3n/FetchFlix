@@ -176,7 +176,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
     }
     
     func getSimilarMovies(movieId: Int) {
-        TMDBClient.sharedInstance().getSimilarMovies(movieId) { (result, error) -> Void in
+        TMDBClient.sharedInstance().getSimilarMovies(movieId, page: 1) { (result, error) -> Void in
             if let movies = result {
                   //  self.similarMovies.reloadData()
                     var count = 0

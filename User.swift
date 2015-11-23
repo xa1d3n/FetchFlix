@@ -2,7 +2,7 @@
 //  User.swift
 //  Filmr
 //
-//  Created by Aldin Fajic on 11/8/15.
+//  Created by Aldin Fajic on 11/23/15.
 //  Copyright © 2015 Parse. All rights reserved.
 //
 

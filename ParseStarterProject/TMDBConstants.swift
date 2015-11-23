@@ -35,6 +35,9 @@ extension TMDBClient {
         static let MovieImages = "movie/{id}/images"
         static let MovieVideo = "movie/{id}/videos"
         static let MovieCredits = "movie/{id}/credits"
+        static let MovieWatchlist = "account/{id}/watchlist/movies"
+        static let AccountIDWatchlist = "account/{id}/watchlist"
+        static let MovieStates = "movie/{id}/account_states"
     }
     
     // MARK: Parameter Keys
@@ -53,12 +56,23 @@ extension TMDBClient {
         static let MovieId = "id"
     }
     
+    // MARK: JSON Body Keys
+    struct JSONBodyKeys {
+        
+        static let MediaType = "media_type"
+        static let MediaID = "media_id"
+        static let Favorite = "favorite"
+        static let Watchlist = "watchlist"
+        
+    }
+    
     // MARK: JSON Response Keys
     struct JSONResponseKeys {
         
         // MARK: General
         static let StatusMessage = "status_message"
         static let StatusCode = "status_code"
+        static let WatchList = "watchlist"
         
         // MARK: Authorization
         static let RequestToken = "request_token"
@@ -93,6 +107,7 @@ extension TMDBClient {
         static let TrailerKey = "key"
         static let MovieCast = "cast"
         static let ActorName = "name"
+        
     }
     
 }

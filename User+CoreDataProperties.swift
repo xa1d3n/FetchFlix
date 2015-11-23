@@ -2,7 +2,7 @@
 //  User+CoreDataProperties.swift
 //  Filmr
 //
-//  Created by Aldin Fajic on 11/8/15.
+//  Created by Aldin Fajic on 11/23/15.
 //  Copyright © 2015 Parse. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,8 +14,8 @@ import CoreData
 
 extension User {
 
-    @NSManaged var userID: NSNumber?
     @NSManaged var sessionID: String?
+    @NSManaged var userID: NSNumber?
     @NSManaged var favoriteMovie: NSSet?
     @NSManaged var likedMovie: NSSet?
 

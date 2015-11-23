@@ -20,6 +20,7 @@ struct TMDBMovie {
     var trailerSite : String?
     var trailerKey : String?
     var actorName :String?
+    var watchlist : Bool?
     
     init(dictionary: [String: AnyObject]) {
         title = dictionary[TMDBClient.JSONResponseKeys.MovieTitle] as? String
@@ -33,6 +34,7 @@ struct TMDBMovie {
         trailerSite = dictionary[TMDBClient.JSONResponseKeys.TrailerSite] as? String
         trailerKey = dictionary[TMDBClient.JSONResponseKeys.TrailerKey] as? String
         actorName = dictionary[TMDBClient.JSONResponseKeys.ActorName] as? String
+        watchlist = dictionary[TMDBClient.JSONResponseKeys.WatchList] as? Bool
     }
     
     // convert to array of TMDBMovie

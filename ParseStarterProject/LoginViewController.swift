@@ -20,24 +20,9 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-       /* movieIds = [17169, 54833, 43522]
-        
-        for movieId in movieIds {
-            TMDBClient.sharedInstance().getSimilarMovies(movieId!, completionHandler: { (result, error) -> Void in
-                if let movies = result {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.movies += movies
-                        
-                    })
-                    
-                }
-                
-            })
-        } */
-        
 
         // Do any additional setup after loading the view.
+        
         spinner = HelperFunctions.startSpinner(view)
         getUserFromCoreData()
     }
@@ -62,11 +47,6 @@ class LoginViewController: UIViewController {
                         self.saveUserToCoreData(username)
                     }
                     self.parseSignUp()
-                    
-                    
-                    
-                   // let controller = self.storyboard?.instantiateViewControllerWithIdentifier("showFavPicker") as! FavoriteMoviesCollectionViewController
-                   // self.presentViewController(controller, animated: true, completion: nil)
                 })
                 
             }

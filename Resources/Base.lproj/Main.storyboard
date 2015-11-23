@@ -282,20 +282,46 @@
                                     <action selector="like:" destination="rXb-LB-DBZ" eventType="touchUpInside" id="NR9-Ty-4UA"/>
                                 </connections>
                             </button>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IIq-m5-kA8">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="534"/>
+                                <subviews>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="No similar movies found :( Change your favorite movies or add new ones." textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="3" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ug3-KR-v3V">
+                                        <rect key="frame" x="161" y="215" width="279" height="103"/>
+                                        <animations/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="103" id="6X7-xI-5VI"/>
+                                            <constraint firstAttribute="width" constant="279" id="dzd-7p-zvY"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <animations/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstItem="ug3-KR-v3V" firstAttribute="centerX" secondItem="IIq-m5-kA8" secondAttribute="centerX" id="81X-oj-Loc"/>
+                                    <constraint firstItem="ug3-KR-v3V" firstAttribute="centerY" secondItem="IIq-m5-kA8" secondAttribute="centerY" id="pJp-LG-tCS"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <animations/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="2To-Jc-1At" firstAttribute="top" secondItem="IIq-m5-kA8" secondAttribute="bottom" constant="2" id="4x7-hQ-91Z"/>
                             <constraint firstItem="Zhi-B3-gv7" firstAttribute="top" secondItem="cyz-aK-oq5" secondAttribute="bottom" constant="28" id="8wG-tg-V5d"/>
                             <constraint firstItem="cyz-aK-oq5" firstAttribute="top" secondItem="2dz-bW-Qj3" secondAttribute="bottom" constant="8" id="AvC-EO-d44"/>
                             <constraint firstItem="2To-Jc-1At" firstAttribute="top" secondItem="200-pO-y6q" secondAttribute="bottom" constant="26" id="DFd-zr-ett"/>
                             <constraint firstItem="cyz-aK-oq5" firstAttribute="trailing" secondItem="OZB-5f-I33" secondAttribute="trailingMargin" id="Emg-Ud-SLZ"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="IIq-m5-kA8" secondAttribute="trailing" constant="-20" id="EoF-1J-nbZ"/>
+                            <constraint firstItem="IIq-m5-kA8" firstAttribute="top" secondItem="2dz-bW-Qj3" secondAttribute="bottom" id="Gka-1h-lgG"/>
                             <constraint firstItem="Zhi-B3-gv7" firstAttribute="trailing" secondItem="OZB-5f-I33" secondAttribute="trailingMargin" id="OxK-xW-M0L"/>
                             <constraint firstItem="200-pO-y6q" firstAttribute="width" secondItem="Zhi-B3-gv7" secondAttribute="width" id="Rsv-i3-KAh"/>
                             <constraint firstItem="2To-Jc-1At" firstAttribute="top" secondItem="Zhi-B3-gv7" secondAttribute="bottom" constant="26" id="hzZ-ls-qec"/>
                             <constraint firstItem="200-pO-y6q" firstAttribute="top" secondItem="cyz-aK-oq5" secondAttribute="bottom" constant="28" id="lGR-xd-H74"/>
                             <constraint firstItem="200-pO-y6q" firstAttribute="leading" secondItem="OZB-5f-I33" secondAttribute="leadingMargin" id="oIt-gV-0D9"/>
                             <constraint firstItem="Zhi-B3-gv7" firstAttribute="height" secondItem="200-pO-y6q" secondAttribute="height" id="pbI-Um-Z5A"/>
+                            <constraint firstItem="IIq-m5-kA8" firstAttribute="leading" secondItem="OZB-5f-I33" secondAttribute="leadingMargin" constant="-20" id="uah-ka-ue5"/>
                             <constraint firstItem="Zhi-B3-gv7" firstAttribute="leading" secondItem="200-pO-y6q" secondAttribute="trailing" constant="20" id="xCr-oP-hqp"/>
                             <constraint firstItem="cyz-aK-oq5" firstAttribute="leading" secondItem="OZB-5f-I33" secondAttribute="leadingMargin" id="ySf-O7-Pdv"/>
                         </constraints>
@@ -315,6 +341,7 @@
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
                         <outlet property="movieTitle" destination="YEo-qx-Twy" id="51T-Uu-cK6"/>
+                        <outlet property="noMovies" destination="IIq-m5-kA8" id="VnP-Ik-DTm"/>
                         <outlet property="poster" destination="bo4-6E-Xjw" id="vWy-s9-Foq"/>
                         <outlet property="posterContainer" destination="cyz-aK-oq5" id="gm0-2a-05c"/>
                         <outlet property="ratings" destination="efS-JH-kLZ" id="CBr-su-Bb3"/>
@@ -693,6 +720,9 @@
                                     </userDefinedRuntimeAttribute>
                                     <userDefinedRuntimeAttribute type="number" keyPath="fillMode">
                                         <integer key="value" value="1"/>
+                                    </userDefinedRuntimeAttribute>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="colorFilled">
+                                        <color key="value" red="0.93333333330000001" green="0.24313725489999999" blue="0.019607843140000001" alpha="1" colorSpace="calibratedRGB"/>
                                     </userDefinedRuntimeAttribute>
                                 </userDefinedRuntimeAttributes>
                             </view>

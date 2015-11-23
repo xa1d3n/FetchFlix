@@ -13,6 +13,8 @@ class LikedMoviesTableViewController: UITableViewController {
     
     var movies = [LikedMovie]()
     
+    var watchListMovies = [TMDBMovie]()
+    
     var moc : NSManagedObjectContext?
     var user : User?
 
@@ -25,9 +27,19 @@ class LikedMoviesTableViewController: UITableViewController {
         // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
         // self.navigationItem.rightBarButtonItem = self.editButtonItem()
         
+       // getWatchListMovies()
+        
         self.title = "Watchlist"
         getLikedMoviesFromCoreData()
         
+    }
+    
+    func getWatchListMovies() {
+        TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
+            if success {
+                self.watchListMovies = movies!
+            }
+        }
     }
     
     func getLikedMoviesFromCoreData() {
@@ -57,7 +69,6 @@ class LikedMoviesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
 
         cell.textLabel!.text = movies[indexPath.row].title
-       // cell.textLabel!.text = "SFD"
 
         return cell
     }
@@ -65,6 +76,8 @@ class LikedMoviesTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let controller = storyboard?.instantiateViewControllerWithIdentifier("MovieRatingViewController") as! MovieRatingViewController
         controller.movie = movies[indexPath.row]
+        controller.moc = moc
+        controller.user = user
         navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -76,6 +89,7 @@ class LikedMoviesTableViewController: UITableViewController {
     }
     
     func removeFromCoreData(movieToDelete: LikedMovie) {
+        HelperFunctions.modifyMovieDBWatchlist(movieToDelete.id, watchlist: false)
         let likedMovies = user?.likedMovie?.allObjects as? [LikedMovie]
         for movie in likedMovies! {
             if movie.id! == movieToDelete.id {
@@ -87,7 +101,6 @@ class LikedMoviesTableViewController: UITableViewController {
                 }
             }
         }
-
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

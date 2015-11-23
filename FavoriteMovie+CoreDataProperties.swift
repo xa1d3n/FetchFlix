@@ -2,7 +2,7 @@
 //  FavoriteMovie+CoreDataProperties.swift
 //  Filmr
 //
-//  Created by Aldin Fajic on 11/8/15.
+//  Created by Aldin Fajic on 11/23/15.
 //  Copyright © 2015 Parse. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu
@@ -14,10 +14,11 @@ import CoreData
 
 extension FavoriteMovie {
 
-    @NSManaged var title: String?
-    @NSManaged var posterPath: String?
     @NSManaged var id: String?
-    @NSManaged var user: User?
+    @NSManaged var page: String?
+    @NSManaged var posterPath: String?
+    @NSManaged var title: String?
     @NSManaged var similarMovie: NSSet?
+    @NSManaged var user: User?
 
 }
