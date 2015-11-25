@@ -2,7 +2,7 @@
 //  LikedMovie+CoreDataProperties.swift
 //  Filmr
 //
-//  Created by Aldin Fajic on 11/23/15.
+//  Created by Aldin Fajic on 11/24/15.
 //  Copyright © 2015 Parse. All rights reserved.
 //
 //  Choose "Create NSManagedObject Subclass…" from the Core Data editor menu

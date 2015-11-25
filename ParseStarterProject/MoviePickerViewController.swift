@@ -29,15 +29,9 @@ class MoviePickerViewController: UIViewController {
     // movie data
     
     var movies = [TMDBMovie]()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
 }
@@ -56,6 +50,10 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+        print(movieIds[posterInd!])
+        print(movies[indexPath.row].id!)
+        print(movies[indexPath.row].title!)
+        print(movies[indexPath.row].posterPath!)
         saveToCoreData(movieIds[posterInd!], newId: movies[indexPath.row].id!, title: movies[indexPath.row].title!, posterPath: movies[indexPath.row].posterPath!)
         
         let controller = self.storyboard!.instantiateViewControllerWithIdentifier("FavoriteMoviesCollectionViewController") as! FavoriteMoviesCollectionViewController
@@ -77,9 +75,6 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         if (oldId != newId && oldId != nil) {
             let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
             for movie in favMovies! {
-                print(movie.id!)
-                print("\(oldId!)")
-                print(movie.id! == "\(oldId!)")
                 if movie.id! == "\(oldId!)" {
                     user?.mutableSetValueForKey("favoriteMovie").removeObject(movie)
                     do {
@@ -90,26 +85,31 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
                 }
             }
         }
-        
-        getSimilarMovies(newId)
-        
-        favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc!) as! FavoriteMovie
-        
-        favMovie!.setValue(title, forKey: "title")
-        favMovie!.setValue("\(newId)", forKey: "id")
-        favMovie!.setValue(posterPath, forKey: "posterPath")
-        favMovie!.setValue("1", forKey: "page")
-        downloadPoster(posterPath)
-        //saveImageData(posters[ind]!, posterPath: posterPaths[ind]!)
-        if let currUser = user {
-            currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie!)
+        if (oldId != newId) {
+            favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc!) as? FavoriteMovie
+            
+            favMovie!.setValue(title, forKey: "title")
+            favMovie!.setValue("\(newId)", forKey: "id")
+            favMovie!.setValue(posterPath, forKey: "posterPath")
+            favMovie!.setValue("1", forKey: "page")
+            downloadPoster(posterPath)
+            if let currUser = user {
+                currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie!)
+                HelperFunctions.getSimilarMovies(favMovie!, user: currUser, moc: moc!, completion: { (result) -> Void in
+                    
+                })
+                do {
+                    try moc!.save()
+                } catch {
+                    fatalError("failure to save context: \(error)")
+                }
+            }
+            
         }
         
-        do {
-            try moc!.save()
-        } catch {
-            fatalError("failure to save context: \(error)")
-        }
+
+        
+        
     }
     
     func getSimilarMovies(movieId: Int) {
@@ -159,12 +159,22 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         }
     }
     
+    func removeImageData(posterPath: String) {
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let filePath = "\(paths)/\(posterPath)"
+        
+        let filemgr = NSFileManager.defaultManager()
+        
+        do {
+            try filemgr.removeItemAtPath(filePath)
+        } catch {
+            print("could not remove file")
+        }
+    }
+    
     func saveImageData(posterImg: UIImage, posterPath: String) {
-        let fileManager = NSFileManager.defaultManager()
-        
-        var paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
-        
-        var filePathToWrite = "\(paths)/\(posterPath)"
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let filePathToWrite = "\(paths)/\(posterPath)"
         
         let jpgImageData = UIImageJPEGRepresentation(posterImg, 1.0)
         jpgImageData?.writeToFile(filePathToWrite, atomically: true)

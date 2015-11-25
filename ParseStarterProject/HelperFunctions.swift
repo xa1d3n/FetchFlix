@@ -11,6 +11,10 @@ import UIKit
 import CoreData
 
 struct HelperFunctions {
+    static var watchList = Set<String>()
+    static var passedList = Set<String>()
+    static var user = User()
+    
     static func startSpinner(view: UIView) -> UIActivityIndicatorView {
         let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         activityIndicator.center = view.center
@@ -27,16 +31,35 @@ struct HelperFunctions {
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
     
-    static func getSimilarMovies(favMovie: FavoriteMovie, moc: NSManagedObjectContext, completion: (result: [TMDBMovie]) -> Void) {
+    static func getSimilarMovies(favMovie: FavoriteMovie, user: User, moc: NSManagedObjectContext, completion: (result: [TMDBMovie]?, error: String?) -> Void) {
+        let watchlistMovies = user.likedMovie?.allObjects as! [LikedMovie]
+        let passedMovies = user.passedMovie?.allObjects as! [PassedMovie]
+        
+        for movie in watchlistMovies {
+            if let id = movie.id {
+                watchList.insert(id)
+            }
+        }
+        
+        for movie in passedMovies {
+            if let id = movie.id {
+                passedList.insert(id)
+            }
+        }
+        
         if var page = Int(favMovie.page!) {
             TMDBClient.sharedInstance().getSimilarMovies(Int(favMovie.id!)!, page: page) { (result, error) -> Void in
                 if let movies = result {
+                    
                     page++
                     if movies.count > 0 {
                         
                         favMovie.setValue("\(page)", forKey: "page")
                         self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
-                        completion(result: movies)
+                        completion(result: movies, error: nil)
+                    }
+                    else {
+                        completion(result: nil, error: "Out of similar movies")
                     }
                     
                 }
@@ -48,32 +71,43 @@ struct HelperFunctions {
     
     static func addSimilarMoviesToCoreData(movies: [TMDBMovie], moc: NSManagedObjectContext, favMovie: FavoriteMovie) {
         for movie in movies {
-            let similarMovie = NSEntityDescription.insertNewObjectForEntityForName("SimilarMovie", inManagedObjectContext: moc) as! SimilarMovie
-            if let title = movie.title {
-                similarMovie.setValue(title, forKey: "title")
+            print(movie.title)
+            print(watchList.count)
+            let movieId = "\(movie.id!)"
+            print(watchList.contains(movieId))
+            if (!watchList.contains(movieId) && !passedList.contains(movieId)) {
+                let similarMovie = NSEntityDescription.insertNewObjectForEntityForName("SimilarMovie", inManagedObjectContext: moc) as! SimilarMovie
+                if let title = movie.title {
+                    similarMovie.setValue(title, forKey: "title")
+                }
+                
+                if let id = movie.id {
+                    similarMovie.setValue("\(id)", forKey: "id")
+                }
+                
+                if let posterPath = movie.posterPath {
+                    similarMovie.setValue(posterPath, forKey: "posterPath")
+                }
+                if let rating = movie.rating {
+                    similarMovie.setValue("\(rating)", forKey: "rating")
+                }
+                
+                if let voteCount = movie.voteCount {
+                    similarMovie.setValue("\(voteCount)", forKey: "ratingCount")
+                }
+                
+                favMovie.mutableSetValueForKey("similarMovie").addObject(similarMovie)
             }
-            
-            if let id = movie.id {
-                similarMovie.setValue("\(id)", forKey: "id")
-            }
-            
-            if let posterPath = movie.posterPath {
-                similarMovie.setValue(posterPath, forKey: "posterPath")
-            }
-            if let rating = movie.rating {
-                similarMovie.setValue("\(rating)", forKey: "rating")
-            }
-            
-            if let voteCount = movie.voteCount {
-                similarMovie.setValue("\(voteCount)", forKey: "ratingCount")
-            }
-            
-            favMovie.mutableSetValueForKey("similarMovie").addObject(similarMovie)
         }
         do {
             try moc.save()
         } catch {
             fatalError("failure to save context: \(error)")
+        }
+        
+        if favMovie.similarMovie?.allObjects.count < 1 {
+            self.getSimilarMovies(favMovie, user: user, moc: moc, completion: { (result) -> Void in
+            })
         }
         
     }

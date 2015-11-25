@@ -23,6 +23,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     var posterImage: String? = nil
     
     var similarMovies = [TMDBMovie]()
+    var likedMovies = [LikedMovie]()
     
     let moc = DataController().managedObjectContext
     var user : User?
@@ -63,7 +64,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         
         let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
         for movie in favMovies!{
-            print(movie.similarMovie?.count)
             movieTitles[ind] = movie.title
             movieIds[ind] = Int(movie.id!)
             posterPaths[ind] = movie.posterPath
@@ -75,9 +75,9 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     }
     
     func getLikedMovies() {
-       let likedMovies = user?.likedMovie?.allObjects as? [LikedMovie]
+        likedMovies = (user?.likedMovie?.allObjects as? [LikedMovie])!
         
-        if likedMovies?.count < 1 {
+        if likedMovies.count < 1 {
             TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
                 if success {
                     if let movies = movies {

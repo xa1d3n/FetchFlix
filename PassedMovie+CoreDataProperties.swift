@@ -1,5 +1,5 @@
 //
-//  User+CoreDataProperties.swift
+//  PassedMovie+CoreDataProperties.swift
 //  Filmr
 //
 //  Created by Aldin Fajic on 11/24/15.
@@ -12,12 +12,9 @@
 import Foundation
 import CoreData
 
-extension User {
+extension PassedMovie {
 
-    @NSManaged var sessionID: String?
-    @NSManaged var userID: NSNumber?
-    @NSManaged var favoriteMovie: NSSet?
-    @NSManaged var likedMovie: NSSet?
-    @NSManaged var passedMovie: NSSet?
+    @NSManaged var id: String?
+    @NSManaged var user: User?
 
 }

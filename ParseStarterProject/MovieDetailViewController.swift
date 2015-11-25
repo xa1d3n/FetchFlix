@@ -51,8 +51,7 @@ class MovieDetailViewController: UIViewController {
         
         do {
             let fetchedUser = try moc.executeFetchRequest(userFetch) as! [User]
-            
-            //fetchedUser.first?.mutableSetValueForKey("favofaf").addObject(<#T##object: AnyObject##AnyObject#>)
+
             if let user = fetchedUser.first {
                 self.user = user
                 getMoviesFromCoreData()
@@ -70,8 +69,14 @@ class MovieDetailViewController: UIViewController {
             similarMovies += movies
         }
         
-        self.movieIndex = self.similarMovies.count-1
-        checkMovieState(similarMovies[movieIndex].id)
+        if similarMovies.count > 0 {
+            self.movieIndex = self.similarMovies.count-1
+            setMovieData()
+            self.movieIndex--
+        }
+        else {
+            getMoreSimilarMovies()
+        }
     }
     
     func checkMovieState(id: String?) {
@@ -107,6 +112,7 @@ class MovieDetailViewController: UIViewController {
         
         if gesture.state == UIGestureRecognizerState.Ended {
             if poster.center.x < 100 {
+                
             }
             else if poster.center.x > view.bounds.width - 100 {
                 addLikedMovieToCoreData(currMovie!)
@@ -137,6 +143,21 @@ class MovieDetailViewController: UIViewController {
             fatalError("failure to save context: \(error)")
         }
     
+    }
+    
+    func addPassedMovieToCoreData(movie: SimilarMovie?) {
+        if let movie = movie {
+            let passedMovie = NSEntityDescription.insertNewObjectForEntityForName("PassedMovie", inManagedObjectContext: moc) as! PassedMovie
+            passedMovie.id = movie.id
+            
+            user?.mutableSetValueForKey("passedMovie").addObject(passedMovie)
+            
+            do {
+                try moc.save()
+            } catch {
+                fatalError("failure to save context: \(error)")
+            }
+        }
     }
 
     func setMoviePoster(movInd: Int) {
@@ -218,7 +239,10 @@ class MovieDetailViewController: UIViewController {
         removeMovie()
         if similarMovies.count > 0 {
             setMovieData()
-            print(similarMovies.count)
+            addPassedMovieToCoreData(currMovie)
+        }
+        else {
+            getMoreSimilarMovies()
         }
     }
     
@@ -227,6 +251,9 @@ class MovieDetailViewController: UIViewController {
         if similarMovies.count > 0 {
             setMovieData()
             addLikedMovieToCoreData(currMovie!)
+        }
+        else {
+            getMoreSimilarMovies()
         }
     }
     
@@ -240,34 +267,47 @@ class MovieDetailViewController: UIViewController {
     func removeMovie() {
         similarMovies.popLast()
         movieIndex = similarMovies.count - 1
-        let favMovies = user?.favoriteMovie?.allObjects as! [FavoriteMovie]
         
         if similarMovies.count < 1 {
             
-            movieIndex = 0
-            let spinner = HelperFunctions.startSpinner(self.view)
             
-            for movie in favMovies {
-                print(movie.similarMovie?.count)
-                movie.mutableSetValueForKey("similarMovie").removeAllObjects()
-                do {
-                    try moc.save()
-                } catch {
-                    fatalError("failure to save context: \(error)")
-                }
-                print(movie.similarMovie?.count)
-            }
-            
-            
-            for movie in favMovies {
-                HelperFunctions.getSimilarMovies(movie, moc: moc) { (result) -> Void in
-                    print(result.count)
-                    self.getMoviesFromCoreData()
-                    self.setMovieData()
-                }
-            }
-            
-            HelperFunctions.stopSpinner(spinner)
         }
+    }
+    
+    func getMoreSimilarMovies() {
+        movieIndex = 0
+        let spinner = HelperFunctions.startSpinner(self.view)
+        let favMovies = user?.favoriteMovie?.allObjects as! [FavoriteMovie]
+        
+        if (favMovies.count < 1) {
+            self.noMovies.hidden = false
+        }
+        
+        for movie in favMovies {
+            movie.mutableSetValueForKey("similarMovie").removeAllObjects()
+            do {
+                try moc.save()
+            } catch {
+                fatalError("failure to save context: \(error)")
+            }
+            print(movie.similarMovie?.count)
+        }
+        
+        
+        for movie in favMovies {
+            HelperFunctions.getSimilarMovies(movie, user: user!, moc: moc) { (result, error) -> Void in
+                if error != nil {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.noMovies.hidden = false
+                    })
+                }
+                else {
+                    self.getMoviesFromCoreData()
+
+                }
+            }
+        }
+        
+        HelperFunctions.stopSpinner(spinner)
     }
 }

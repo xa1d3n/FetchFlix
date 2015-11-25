@@ -19,6 +19,10 @@
         <attribute name="yourRating" optional="YES" attributeType="String" syncable="YES"/>
         <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="likedMovie" inverseEntity="User" syncable="YES"/>
     </entity>
+    <entity name="PassedMovie" representedClassName=".PassedMovie" syncable="YES">
+        <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
+        <relationship name="user" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="User" inverseName="passedMovie" inverseEntity="User" syncable="YES"/>
+    </entity>
     <entity name="SimilarMovie" representedClassName=".SimilarMovie" syncable="YES">
         <attribute name="id" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="overview" optional="YES" attributeType="String" syncable="YES"/>
@@ -34,11 +38,13 @@
         <attribute name="userID" optional="YES" attributeType="Integer 64" defaultValueString="0" syncable="YES"/>
         <relationship name="favoriteMovie" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="FavoriteMovie" inverseName="user" inverseEntity="FavoriteMovie" syncable="YES"/>
         <relationship name="likedMovie" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="LikedMovie" inverseName="user" inverseEntity="LikedMovie" syncable="YES"/>
+        <relationship name="passedMovie" optional="YES" toMany="YES" deletionRule="Cascade" destinationEntity="PassedMovie" inverseName="user" inverseEntity="PassedMovie" syncable="YES"/>
     </entity>
     <elements>
         <element name="FavoriteMovie" positionX="18" positionY="63" width="128" height="135"/>
         <element name="LikedMovie" positionX="54" positionY="135" width="128" height="180"/>
         <element name="SimilarMovie" positionX="18" positionY="126" width="128" height="165"/>
-        <element name="User" positionX="-27" positionY="18" width="128" height="105"/>
+        <element name="User" positionX="-27" positionY="18" width="128" height="120"/>
+        <element name="PassedMovie" positionX="18" positionY="144" width="128" height="75"/>
     </elements>
 </model>
