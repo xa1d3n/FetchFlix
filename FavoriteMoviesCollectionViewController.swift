@@ -37,6 +37,12 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
 
         // Do any additional setup after loading the view.
         
+        /*TMDBClient.sharedInstance().getFavoriteMovies { (success, movies, errorString) -> Void in
+            print(movies)
+        } */
+        
+        //HelperFunctions.modifyMovieDBFavorite("87101", favorite: false)
+        
         getUSerFromCoreData()
     }
     

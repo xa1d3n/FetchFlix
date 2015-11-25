@@ -76,6 +76,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
             for movie in favMovies! {
                 if movie.id! == "\(oldId!)" {
+                    HelperFunctions.modifyMovieDBFavorite("\(oldId)", favorite: false)
                     user?.mutableSetValueForKey("favoriteMovie").removeObject(movie)
                     do {
                         try moc!.save()
@@ -86,6 +87,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             }
         }
         if (oldId != newId) {
+            HelperFunctions.modifyMovieDBFavorite("\(newId)", favorite: true)
             favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc!) as? FavoriteMovie
             
             favMovie!.setValue(title, forKey: "title")
@@ -107,12 +109,9 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             
         }
         
-
-        
-        
     }
     
-    func getSimilarMovies(movieId: Int) {
+    /*func getSimilarMovies(movieId: Int) {
         
         TMDBClient.sharedInstance().getSimilarMovies(movieId, page: 1) { (result, error) -> Void in
             if let movies = result {
@@ -144,7 +143,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             fatalError("failure to save context: \(error)")
         }
         
-    }
+    } */
     
     func downloadPoster(posterImage: String?) {
         if let posterImage = posterImage {

@@ -13,7 +13,6 @@ import CoreData
 class LoginViewController: UIViewController {
     
     var movieIds = [Int?](count: 3, repeatedValue: nil)
-    var movies = [TMDBMovie]()
     var spinner : UIActivityIndicatorView?
 
     let moc = DataController().managedObjectContext
@@ -46,7 +45,6 @@ class LoginViewController: UIViewController {
                     if let username = TMDBClient.sharedInstance().userID {
                         self.saveUserToCoreData(username)
                     }
-                    self.parseSignUp()
                 })
                 
             }
@@ -57,13 +55,29 @@ class LoginViewController: UIViewController {
     }
     
     func saveUserToCoreData(username: Int) {
-        let entity = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: moc) as! User
+        let user = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: moc) as! User
         
-        entity.setValue(username, forKey: "userID")
-        entity.setValue(TMDBClient.sharedInstance().sessionID, forKey: "sessionID")
+        user.setValue(username, forKey: "userID")
+        user.setValue(TMDBClient.sharedInstance().sessionID, forKey: "sessionID")
+        
+        
+        TMDBClient.sharedInstance().getFavoriteMovies({ (success, movies, errorString) -> Void in
+            if (success == true) {
+                var count = 0
+                for movie in movies! {
+                    self.addToCoreData(movie, user: user)
+                    count++
+                    if (count >= 4) {
+                        break
+                    }
+                }
+            }
+        })
+        
         
         do {
             try moc.save()
+           // self.parseSignUp()
         } catch {
             fatalError("failure to save context: \(error)")
         }
@@ -72,7 +86,6 @@ class LoginViewController: UIViewController {
     func getUserFromCoreData() {
         
         let userFetch = NSFetchRequest(entityName: "User")
-        
         
         do {
             let fetchedUser = try moc.executeFetchRequest(userFetch) as! [User]
@@ -84,7 +97,6 @@ class LoginViewController: UIViewController {
                     TMDBClient.sharedInstance().userID = userId as? Int
                     TMDBClient.sharedInstance().sessionID = user.sessionID
                     
-                    print(user.favoriteMovie!.count)
                     if (user.favoriteMovie!.count >= 4) {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             
@@ -93,13 +105,12 @@ class LoginViewController: UIViewController {
                         })
                     }
                     else {
-                    
-                    parseLogin()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        
-                        self.performSegueWithIdentifier("showFavPicker", sender: self)
-                        HelperFunctions.stopSpinner(self.spinner!)
-                    })
+                        parseLogin()
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            
+                            self.performSegueWithIdentifier("showFavPicker", sender: self)
+                            HelperFunctions.stopSpinner(self.spinner!)
+                        })
                     }
                 }
             }
@@ -111,6 +122,40 @@ class LoginViewController: UIViewController {
         } catch {
             fatalError("could not retrive user data \(error)")
         }
+    }
+    
+    func addToCoreData(movie: TMDBMovie, user: User?) {
+        let favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc) as? FavoriteMovie
+        
+        if let title = movie.title {
+            favMovie!.setValue(title, forKey: "title")
+        }
+        if let id = movie.id {
+            favMovie!.setValue("\(id)", forKey: "id")
+        }
+        if let posterPath = movie.posterPath {
+            favMovie!.setValue(posterPath, forKey: "posterPath")
+        }
+        
+        favMovie!.setValue("1", forKey: "page")
+        HelperFunctions.downloadPoster(movie.posterPath)
+        print(movie.id)
+        if let currUser = user {
+            currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie!)
+            HelperFunctions.getSimilarMovies(favMovie!, user: currUser, moc: moc, completion: { (result) -> Void in
+                self.performSegueWithIdentifier("showSwiper", sender: self)
+                HelperFunctions.stopSpinner(self.spinner!)
+            })
+            do {
+                try moc.save()
+            } catch {
+                fatalError("failure to save context: \(error)")
+            }
+        }
+        
+
+        
+
     }
     
     func parseLogin() {

@@ -93,7 +93,9 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         if let movieId = id {
             TMDBClient.sharedInstance().getMovieVideos(movieId) { (result, error) -> Void in
                 if let trailers = result {
-                    self.trailerKey = trailers[0].trailerKey
+                    if let trailerKey = trailers[0].trailerKey {
+                        self.trailerKey = trailerKey
+                    }
                 }
             }
         }

@@ -36,7 +36,9 @@ extension TMDBClient {
         static let MovieVideo = "movie/{id}/videos"
         static let MovieCredits = "movie/{id}/credits"
         static let MovieWatchlist = "account/{id}/watchlist/movies"
+        static let MovieFavorites = "account/{id}/favorite/movies"
         static let AccountIDWatchlist = "account/{id}/watchlist"
+        static let AccountIDFavorites = "account/{id}/favorite"
         static let MovieStates = "movie/{id}/account_states"
     }
     

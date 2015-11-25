@@ -328,6 +328,29 @@ extension TMDBClient {
         }
     }
     
+    func getFavoriteMovies(completionHandler: (success: Bool, movies: [TMDBMovie]?, errorString: String?) -> Void) {
+        
+        var mutableMethod : String = Methods.MovieFavorites
+        mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: String(TMDBClient.sharedInstance().userID!))!
+        
+        let parameters = [TMDBClient.ParameterKeys.SessionID: TMDBClient.sharedInstance().sessionID!]
+        
+        taskForGETMethod(mutableMethod, parameters: parameters) { JSONResult, error in
+            
+            if let error = error {
+                print(error)
+                completionHandler(success: false, movies: nil, errorString: "error retriving favorite movies")
+            }
+            else {
+                // print(JSONResult)
+                if let results = JSONResult[TMDBClient.JSONResponseKeys.MovieResults] as? [[String : AnyObject]] {
+                    let movie = TMDBMovie.moviesFromResults(results)
+                    completionHandler(success: true, movies: movie, errorString: nil)
+                }
+            }
+        }
+    }
+    
     
     // rate movie
     func rateMovie(movieId: String, rating: Double, completionHandler: (result: Int?, error: NSError?) -> Void) {
@@ -377,4 +400,31 @@ extension TMDBClient {
             }
         }
     }
+    
+    func postToFavorites(movieId: String, favorite: Bool, completionHandler: (result: Int?, error: NSError?) -> Void) {
+        let parameters = [TMDBClient.ParameterKeys.SessionID: TMDBClient.sharedInstance().sessionID!]
+        var mutableMethod : String = Methods.AccountIDFavorites
+        mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: String(TMDBClient.sharedInstance().userID!))!
+        let jsonBody : [String:AnyObject] = [
+            TMDBClient.JSONBodyKeys.MediaType: "movie",
+            TMDBClient.JSONBodyKeys.MediaID: Int(movieId)!,
+            TMDBClient.JSONBodyKeys.Favorite: favorite as Bool
+        ]
+        
+        taskForPOSTMethod(mutableMethod, parameters: parameters, jsonBody: jsonBody) { (JSONResult, error) -> Void in
+            if let error = error {
+                completionHandler(result: nil, error: error)
+            }
+            else {
+                if let results = JSONResult[TMDBClient.JSONResponseKeys.StatusCode] as? Int {
+                    completionHandler(result: results, error: nil)
+                }
+                else {
+                    completionHandler(result: nil, error: NSError(domain: "postToFavorites parsing", code: 0, userInfo: [NSLocalizedDescriptionKey: "Could not parse postToFavorites"]))
+                }
+            }
+        }
+    }
+    
+    
 }

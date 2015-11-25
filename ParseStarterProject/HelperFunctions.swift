@@ -124,4 +124,52 @@ struct HelperFunctions {
             })
         }
     }
+    
+    static func modifyMovieDBFavorite(id: String?, favorite: Bool) {
+        if let id = id {
+            TMDBClient.sharedInstance().postToFavorites(id, favorite: favorite, completionHandler: { (result, error) -> Void in
+                if error != nil {
+                    print(error)
+                }
+                else {
+                    print(result)
+                }
+            })
+        }
+    }
+    
+    static func downloadPoster(posterImage: String?) {
+        if let posterImage = posterImage {
+            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
+                if let image = UIImage(data: imageData!) {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.saveImageData(image, posterPath: posterImage)
+                    })
+                }
+            })
+        }
+    }
+    
+    static func removeImageData(posterPath: String) {
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let filePath = "\(paths)/\(posterPath)"
+        
+        let filemgr = NSFileManager.defaultManager()
+        
+        do {
+            try filemgr.removeItemAtPath(filePath)
+        } catch {
+            print("could not remove file")
+        }
+    }
+    
+    static func saveImageData(posterImg: UIImage, posterPath: String) {
+        let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
+        let filePathToWrite = "\(paths)/\(posterPath)"
+        
+        let jpgImageData = UIImageJPEGRepresentation(posterImg, 1.0)
+        jpgImageData?.writeToFile(filePathToWrite, atomically: true)
+    }
+    
+    
 }
