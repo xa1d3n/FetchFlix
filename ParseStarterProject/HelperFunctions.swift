@@ -171,5 +171,46 @@ struct HelperFunctions {
         jpgImageData?.writeToFile(filePathToWrite, atomically: true)
     }
     
+    static func getWatchListMovies(moc: NSManagedObjectContext, user: User) {
+        TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
+            if success {
+                if let movies = movies {
+                    for movie in movies {
+                        let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: moc) as! LikedMovie
+                        
+                        if let title = movie.title {
+                            likedMovie.title = title
+                        }
+                        
+                        if let id = movie.id {
+                            likedMovie.id = "\(id)"
+                        }
+                        if let rating = movie.rating {
+                            likedMovie.rating = "\(rating)"
+                        }
+                        
+                        if let voteCount = movie.voteCount {
+                            likedMovie.ratingCount = "\(voteCount)"
+                        }
+                        
+                        if let posterPath = movie.posterPath {
+                            likedMovie.posterPath = posterPath
+                        }
+                        
+                        
+                        user.mutableSetValueForKey("likedMovie").addObject(likedMovie)
+                        
+                        do {
+                            try moc.save()
+                        } catch {
+                            fatalError("failure to save context: \(error)")
+                        }
+                        
+                    }
+                }
+            }
+        }
+    }
+    
     
 }

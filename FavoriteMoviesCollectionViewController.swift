@@ -84,7 +84,10 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         likedMovies = (user?.likedMovie?.allObjects as? [LikedMovie])!
         
         if likedMovies.count < 1 {
-            TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
+            if let user = user {
+                HelperFunctions.getWatchListMovies(moc, user: user)
+            }
+            /*TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
                 if success {
                     if let movies = movies {
                         for movie in movies {
@@ -121,7 +124,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
                         }
                     }
                 }
-            }
+            } */
         }
     }
     

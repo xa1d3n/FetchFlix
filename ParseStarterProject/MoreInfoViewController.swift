@@ -93,16 +93,14 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         if let movieId = id {
             TMDBClient.sharedInstance().getMovieVideos(movieId) { (result, error) -> Void in
                 if let trailers = result {
-                    if let trailerKey = trailers[0].trailerKey {
-                        self.trailerKey = trailerKey
+                    if trailers.count > 0 {
+                        if let trailerKey = trailers[0].trailerKey {
+                            self.trailerKey = trailerKey
+                        }
                     }
                 }
             }
         }
-        
-        
-        // Do any additional setup after loading the view.
-       // scrollView.contentSize.height = 1000
         
         if let overview = summary {
             movieSummary.text = overview

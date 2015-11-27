@@ -31,12 +31,6 @@ class LoginViewController: UIViewController {
         
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-    
-
     @IBAction func authenticate(sender: UIButton) {
         TMDBClient.sharedInstance().authenticateWithViewController(self) { (success, errorString) -> Void in
             if success {
@@ -60,20 +54,28 @@ class LoginViewController: UIViewController {
         user.setValue(username, forKey: "userID")
         user.setValue(TMDBClient.sharedInstance().sessionID, forKey: "sessionID")
         
+        do {
+            try moc.save()
+            // self.parseSignUp()
+        } catch {
+            fatalError("failure to save context: \(error)")
+        }
+        
+        HelperFunctions.getWatchListMovies(moc, user: user)
         
         TMDBClient.sharedInstance().getFavoriteMovies({ (success, movies, errorString) -> Void in
             if (success == true) {
-                var count = 0
+                var i = 0
+                let count = movies?.count //2
                 for movie in movies! {
-                    self.addToCoreData(movie, user: user)
-                    count++
-                    if (count >= 4) {
+                    self.addToCoreData(movie, user: user, count: count!, iterator: i)
+                    i++
+                    if (i >= 4) {
                         break
                     }
                 }
             }
         })
-        
         
         do {
             try moc.save()
@@ -90,7 +92,6 @@ class LoginViewController: UIViewController {
         do {
             let fetchedUser = try moc.executeFetchRequest(userFetch) as! [User]
             
-            //fetchedUser.first?.mutableSetValueForKey("favofaf").addObject(<#T##object: AnyObject##AnyObject#>)
             if let user = fetchedUser.first {
                 
                 if let userId = user.userID {
@@ -124,7 +125,7 @@ class LoginViewController: UIViewController {
         }
     }
     
-    func addToCoreData(movie: TMDBMovie, user: User?) {
+    func addToCoreData(movie: TMDBMovie, user: User?, count: Int, iterator: Int) {
         let favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc) as? FavoriteMovie
         
         if let title = movie.title {
@@ -143,8 +144,21 @@ class LoginViewController: UIViewController {
         if let currUser = user {
             currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie!)
             HelperFunctions.getSimilarMovies(favMovie!, user: currUser, moc: moc, completion: { (result) -> Void in
-                self.performSegueWithIdentifier("showSwiper", sender: self)
-                HelperFunctions.stopSpinner(self.spinner!)
+                if (count >= 4 && iterator >= 3) {
+                    self.parseLogin()
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.performSegueWithIdentifier("showSwiper", sender: self)
+                        HelperFunctions.stopSpinner(self.spinner!)
+                    })
+                }
+                else if (count < 4 && iterator+1 == count) {
+                    self.parseLogin()
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.performSegueWithIdentifier("showFavPicker", sender: self)
+                        HelperFunctions.stopSpinner(self.spinner!)
+                    })
+                }
+                
             })
             do {
                 try moc.save()
