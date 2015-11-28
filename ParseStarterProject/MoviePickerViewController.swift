@@ -29,6 +29,7 @@ class MoviePickerViewController: UIViewController {
     // movie data
     
     var movies = [TMDBMovie]()
+    var controller = FavoriteMoviesCollectionViewController()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -50,13 +51,9 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        print(movieIds[posterInd!])
-        print(movies[indexPath.row].id!)
-        print(movies[indexPath.row].title!)
-        print(movies[indexPath.row].posterPath!)
         saveToCoreData(movieIds[posterInd!], newId: movies[indexPath.row].id!, title: movies[indexPath.row].title!, posterPath: movies[indexPath.row].posterPath!)
         
-        let controller = self.storyboard!.instantiateViewControllerWithIdentifier("FavoriteMoviesCollectionViewController") as! FavoriteMoviesCollectionViewController
+        controller = self.storyboard!.instantiateViewControllerWithIdentifier("FavoriteMoviesCollectionViewController") as! FavoriteMoviesCollectionViewController
         controller.posters = posters
         controller.posterImage = movies[indexPath.row].posterPath
         movieIds[posterInd!] = movies[indexPath.row].id
@@ -66,8 +63,21 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         controller.movieTitles = movieTitles
         posterPaths[posterInd!] = movies[indexPath.row].posterPath
         controller.posterPaths = posterPaths
-        self.navigationController!.pushViewController(controller, animated: true)
         
+    }
+    
+    func downloadPoster(posterImage: String?) {
+        if let posterImage = posterImage {
+            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
+                if let image = UIImage(data: imageData!) {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.posters[self.posterInd!] = image
+                        self.saveImageData(image, posterPath: posterImage)
+                        self.navigationController!.pushViewController(self.controller, animated: true)
+                    })
+                }
+            })
+        }
     }
     
     func saveToCoreData(oldId: Int?=nil, newId: Int, title: String, posterPath: String) {
@@ -76,7 +86,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
             for movie in favMovies! {
                 if movie.id! == "\(oldId!)" {
-                    HelperFunctions.modifyMovieDBFavorite("\(oldId)", favorite: false)
+                    HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: false)
                     user?.mutableSetValueForKey("favoriteMovie").removeObject(movie)
                     do {
                         try moc!.save()
@@ -109,53 +119,6 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             
         }
         
-    }
-    
-    /*func getSimilarMovies(movieId: Int) {
-        
-        TMDBClient.sharedInstance().getSimilarMovies(movieId, page: 1) { (result, error) -> Void in
-            if let movies = result {
-                if movies.count > 0 {
-                    self.addSimilarMoviesToCoreData(movies)
-
-                }
-                
-            }
-            
-        }
-    }
-    
-    func addSimilarMoviesToCoreData(movies: [TMDBMovie]) {
-
-        
-        for movie in movies {
-            let similarMovie = NSEntityDescription.insertNewObjectForEntityForName("SimilarMovie", inManagedObjectContext: moc!) as! SimilarMovie
-            similarMovie.setValue(movie.title!, forKey: "title")
-            similarMovie.setValue("\(movie.id!)", forKey: "id")
-            similarMovie.setValue(movie.posterPath!, forKey: "posterPath")
-            similarMovie.setValue("\(movie.rating!)", forKey: "rating")
-            similarMovie.setValue("\(movie.voteCount!)", forKey: "ratingCount")
-            favMovie?.mutableSetValueForKey("similarMovie").addObject(similarMovie)
-        }
-        do {
-            try moc!.save()
-        } catch {
-            fatalError("failure to save context: \(error)")
-        }
-        
-    } */
-    
-    func downloadPoster(posterImage: String?) {
-        if let posterImage = posterImage {
-            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
-                if let image = UIImage(data: imageData!) {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.posters[self.posterInd!] = image
-                        self.saveImageData(image, posterPath: posterImage)
-                    })
-                }
-            })
-        }
     }
     
     func removeImageData(posterPath: String) {

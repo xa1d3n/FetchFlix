@@ -18,6 +18,9 @@ class MovieRatingViewController: UIViewController {
     var moc : NSManagedObjectContext?
     var user : User?
     
+    var favoriteButton : UIBarButtonItem!
+    var infoButton : UIBarButtonItem!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -25,6 +28,12 @@ class MovieRatingViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         self.title = "Watchlist"
+        
+        favoriteButton = UIBarButtonItem(image: UIImage(named: "favorite"), style: UIBarButtonItemStyle.Plain, target: self, action: "addFavorite")
+        infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: UIBarButtonItemStyle.Plain, target: self, action: "info")
+        
+        
+        self.navigationItem.rightBarButtonItems = [infoButton, favoriteButton]
         
         ratings.didTouchCosmos = touchedTheStar
         
@@ -56,6 +65,11 @@ class MovieRatingViewController: UIViewController {
             }
         }
         
+    }
+    
+    func addFavorite() {
+        favoriteButton = UIBarButtonItem(image: UIImage(named: "favFilled"), style: UIBarButtonItemStyle.Plain, target: self, action: "addFavorite")
+        self.navigationItem.rightBarButtonItems = [infoButton, favoriteButton]
     }
     
     func touchedTheStar(rating: Double) {

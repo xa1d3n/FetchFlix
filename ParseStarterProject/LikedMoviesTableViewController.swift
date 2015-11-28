@@ -20,14 +20,6 @@ class LikedMoviesTableViewController: UITableViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Uncomment the following line to preserve selection between presentations
-        // self.clearsSelectionOnViewWillAppear = false
-
-        // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-        // self.navigationItem.rightBarButtonItem = self.editButtonItem()
-        
-       // getWatchListMovies()
         
         self.title = "Watchlist"
         getLikedMoviesFromCoreData()
@@ -69,6 +61,19 @@ class LikedMoviesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
 
         cell.textLabel!.text = movies[indexPath.row].title
+        cell.imageView?.image = nil
+        print(movies[indexPath.row].)
+        
+        if let poster = movies[indexPath.row].posterPath {
+            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[0], filePath: poster, completionHandler: { (imageData, error) -> Void in
+                if let image = UIImage(data: imageData!) {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        cell.imageView?.image = image
+                        cell.setNeedsLayout()
+                    })
+                }
+            })
+        }
 
         return cell
     }

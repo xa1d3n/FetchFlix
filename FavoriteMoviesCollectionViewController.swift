@@ -32,16 +32,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Register cell classes
-
-        // Do any additional setup after loading the view.
-        
-        /*TMDBClient.sharedInstance().getFavoriteMovies { (success, movies, errorString) -> Void in
-            print(movies)
-        } */
-        
-        //HelperFunctions.modifyMovieDBFavorite("87101", favorite: false)
         
         getUSerFromCoreData()
     }
@@ -51,8 +41,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         
         do {
             let fetchedUser = try moc.executeFetchRequest(userFetch) as! [User]
-            
-            //fetchedUser.first?.mutableSetValueForKey("favofaf").addObject(<#T##object: AnyObject##AnyObject#>)
             if let user = fetchedUser.first {
                 self.user = user
                 getFavoriteMovieFromCoreData()
@@ -87,44 +75,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
             if let user = user {
                 HelperFunctions.getWatchListMovies(moc, user: user)
             }
-            /*TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
-                if success {
-                    if let movies = movies {
-                        for movie in movies {
-                            let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: self.moc) as! LikedMovie
-                            
-                            if let title = movie.title {
-                                likedMovie.title = title
-                            }
-                            
-                            if let id = movie.id {
-                                likedMovie.id = "\(id)"
-                            }
-                            if let rating = movie.rating {
-                                likedMovie.rating = "\(rating)"
-                            }
-                            
-                            if let voteCount = movie.voteCount {
-                               likedMovie.ratingCount = "\(voteCount)"
-                            }
-                            
-                            if let posterPath = movie.posterPath {
-                                likedMovie.posterPath = posterPath
-                            }
-                            
-                            
-                            self.user!.mutableSetValueForKey("likedMovie").addObject(likedMovie)
-                            
-                            do {
-                                try self.moc.save()
-                            } catch {
-                                fatalError("failure to save context: \(error)")
-                            }
-
-                        }
-                    }
-                }
-            } */
         }
     }
     
@@ -145,17 +95,12 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         }
     }
     
-    override func viewWillAppear(animated: Bool) {
-        
-    }
-    
     func addFavoritesToCoreData(ind: Int) {
         let favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc) as! FavoriteMovie
         
         favMovie.setValue(movieTitles[ind], forKey: "title")
         favMovie.setValue("\(movieIds[ind])", forKey: "id")
         favMovie.setValue(posterPaths[ind], forKey: "posterPath")
-        //saveImageData(posters[ind]!, posterPath: posterPaths[ind]!)
         if let currUser = user {
             currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie)
         }
@@ -179,11 +124,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         jpgImageData?.writeToFile(filePathToWrite, atomically: true)
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
     override func numberOfSectionsInCollectionView(collectionView: UICollectionView) -> Int {
         // #warning Incomplete implementation, return the number of sections
         return 1
@@ -204,14 +144,8 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         else {
             let image = UIImage(named: "Add")
             cell.poster.image = image
-        }
-        
-        
-        
-        
+        }        
         cell.title.text = movieTitles[indexPath.row]
-        
-        // Configure the cell
     
         return cell
     }
