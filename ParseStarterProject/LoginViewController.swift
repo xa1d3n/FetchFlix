@@ -140,7 +140,6 @@ class LoginViewController: UIViewController {
         
         favMovie!.setValue("1", forKey: "page")
         HelperFunctions.downloadPoster(movie.posterPath)
-        print(movie.id)
         if let currUser = user {
             currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie!)
             HelperFunctions.getSimilarMovies(favMovie!, user: currUser, moc: moc, completion: { (result) -> Void in
@@ -175,8 +174,6 @@ class LoginViewController: UIViewController {
     func parseLogin() {
         var user = PFUser()
         if let username = TMDBClient.sharedInstance().userID {
-            
-            // saveUserToCoreData(username)
             
             user.username = "\(username)"
             user.password = ""
