@@ -236,6 +236,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     @IBAction func dislike(sender: AnyObject) {
+        SessionM.sharedInstance().logAction("swipe_left")
         removeMovie()
         if similarMovies.count > 0 {
             setMovieData()
@@ -247,6 +248,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     @IBAction func like(sender: AnyObject) {
+        SessionM.sharedInstance().logAction("swipe_right")
         removeMovie()
         if similarMovies.count > 0 {
             setMovieData()

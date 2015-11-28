@@ -62,7 +62,7 @@ class LikedMoviesTableViewController: UITableViewController {
 
         cell.textLabel!.text = movies[indexPath.row].title
         cell.imageView?.image = nil
-        print(movies[indexPath.row].)
+        //print(movies[indexPath.row].)
         
         if let poster = movies[indexPath.row].posterPath {
             TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[0], filePath: poster, completionHandler: { (imageData, error) -> Void in

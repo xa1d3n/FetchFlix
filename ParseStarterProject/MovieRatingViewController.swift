@@ -74,6 +74,7 @@ class MovieRatingViewController: UIViewController {
     
     func touchedTheStar(rating: Double) {
         ratings.colorFilled = UIColor.yellowColor()
+        SessionM.sharedInstance().logAction("rate_action")
         saveRating(rating)
         if let id = movie?.id {
             TMDBClient.sharedInstance().rateMovie("\(id)", rating: rating) { (result, error) -> Void in

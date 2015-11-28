@@ -49,6 +49,21 @@
 		B3BC04B71C051611007E88BB /* PassedMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC04AD1C051611007E88BB /* PassedMovie.swift */; };
 		B3BC04B81C051611007E88BB /* LikedMovie+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC04AE1C051611007E88BB /* LikedMovie+CoreDataProperties.swift */; };
 		B3BC04B91C051611007E88BB /* LikedMovie.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3BC04AF1C051611007E88BB /* LikedMovie.swift */; };
+		B3BC04D11C0929DA007E88BB /* btnSessionM.png in Resources */ = {isa = PBXBuildFile; fileRef = B3BC04CB1C0929DA007E88BB /* btnSessionM.png */; };
+		B3BC04D21C0929DA007E88BB /* btnSessionM_lg.png in Resources */ = {isa = PBXBuildFile; fileRef = B3BC04CC1C0929DA007E88BB /* btnSessionM_lg.png */; };
+		B3BC04D31C0929DA007E88BB /* GiftBox_20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = B3BC04CD1C0929DA007E88BB /* GiftBox_20x20.png */; };
+		B3BC04D41C0929DA007E88BB /* M_Logo_20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = B3BC04CE1C0929DA007E88BB /* M_Logo_20x20.png */; };
+		B3BC04D51C0929DA007E88BB /* Trophy_20x20.png in Resources */ = {isa = PBXBuildFile; fileRef = B3BC04CF1C0929DA007E88BB /* Trophy_20x20.png */; };
+		B3BC04D61C0929DA007E88BB /* libSessionMLocation.1.15.4.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04D01C0929DA007E88BB /* libSessionMLocation.1.15.4.a */; };
+		B3BC04D81C092A18007E88BB /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04D71C092A18007E88BB /* AVFoundation.framework */; };
+		B3BC04DA1C092A35007E88BB /* EventKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04D91C092A35007E88BB /* EventKit.framework */; };
+		B3BC04DC1C092A3F007E88BB /* EventKitUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04DB1C092A3F007E88BB /* EventKitUI.framework */; };
+		B3BC04DE1C092A52007E88BB /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04DD1C092A52007E88BB /* CoreData.framework */; };
+		B3BC04E01C092A5C007E88BB /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04DF1C092A5C007E88BB /* CoreMedia.framework */; };
+		B3BC04E21C092A64007E88BB /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04E11C092A64007E88BB /* MediaPlayer.framework */; };
+		B3BC04E41C092A6C007E88BB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04E31C092A6C007E88BB /* AdSupport.framework */; };
+		B3BC04E61C092A74007E88BB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04E51C092A74007E88BB /* StoreKit.framework */; };
+		B3BC04E81C092A7C007E88BB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04E71C092A7C007E88BB /* ImageIO.framework */; };
 		B3F4333A1BD9C6C500D846AB /* CosmosDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +116,36 @@
 		B3BC04AD1C051611007E88BB /* PassedMovie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = PassedMovie.swift; path = ../PassedMovie.swift; sourceTree = "<group>"; };
 		B3BC04AE1C051611007E88BB /* LikedMovie+CoreDataProperties.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = "LikedMovie+CoreDataProperties.swift"; path = "../LikedMovie+CoreDataProperties.swift"; sourceTree = "<group>"; };
 		B3BC04AF1C051611007E88BB /* LikedMovie.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = LikedMovie.swift; path = ../LikedMovie.swift; sourceTree = "<group>"; };
+		B3BC04BC1C0929DA007E88BB /* SessionM.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SessionM.h; sourceTree = "<group>"; };
+		B3BC04BD1C0929DA007E88BB /* SMAchievementData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMAchievementData.h; sourceTree = "<group>"; };
+		B3BC04BE1C0929DA007E88BB /* SMActivityFeedViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMActivityFeedViewCell.h; sourceTree = "<group>"; };
+		B3BC04BF1C0929DA007E88BB /* SMActivityFeedViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMActivityFeedViewController.h; sourceTree = "<group>"; };
+		B3BC04C01C0929DA007E88BB /* SMActivityViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMActivityViewController.h; sourceTree = "<group>"; };
+		B3BC04C11C0929DA007E88BB /* SMDefaultMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMDefaultMessageView.h; sourceTree = "<group>"; };
+		B3BC04C21C0929DA007E88BB /* SMFeedMessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMFeedMessageData.h; sourceTree = "<group>"; };
+		B3BC04C31C0929DA007E88BB /* SMLoaderController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLoaderController.h; sourceTree = "<group>"; };
+		B3BC04C41C0929DA007E88BB /* SMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMLocationManager.h; sourceTree = "<group>"; };
+		B3BC04C51C0929DA007E88BB /* SMMessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMMessageData.h; sourceTree = "<group>"; };
+		B3BC04C61C0929DA007E88BB /* SMMessageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMMessageView.h; sourceTree = "<group>"; };
+		B3BC04C71C0929DA007E88BB /* SMNotificationMessageData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMNotificationMessageData.h; sourceTree = "<group>"; };
+		B3BC04C81C0929DA007E88BB /* SMPortalBarButtonItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPortalBarButtonItem.h; sourceTree = "<group>"; };
+		B3BC04C91C0929DA007E88BB /* SMPortalButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SMPortalButton.h; sourceTree = "<group>"; };
+		B3BC04CB1C0929DA007E88BB /* btnSessionM.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btnSessionM.png; sourceTree = "<group>"; };
+		B3BC04CC1C0929DA007E88BB /* btnSessionM_lg.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = btnSessionM_lg.png; sourceTree = "<group>"; };
+		B3BC04CD1C0929DA007E88BB /* GiftBox_20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = GiftBox_20x20.png; sourceTree = "<group>"; };
+		B3BC04CE1C0929DA007E88BB /* M_Logo_20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = M_Logo_20x20.png; sourceTree = "<group>"; };
+		B3BC04CF1C0929DA007E88BB /* Trophy_20x20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Trophy_20x20.png; sourceTree = "<group>"; };
+		B3BC04D01C0929DA007E88BB /* libSessionMLocation.1.15.4.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libSessionMLocation.1.15.4.a; sourceTree = "<group>"; };
+		B3BC04D71C092A18007E88BB /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
+		B3BC04D91C092A35007E88BB /* EventKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKit.framework; path = System/Library/Frameworks/EventKit.framework; sourceTree = SDKROOT; };
+		B3BC04DB1C092A3F007E88BB /* EventKitUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = EventKitUI.framework; path = System/Library/Frameworks/EventKitUI.framework; sourceTree = SDKROOT; };
+		B3BC04DD1C092A52007E88BB /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		B3BC04DF1C092A5C007E88BB /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		B3BC04E11C092A64007E88BB /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		B3BC04E31C092A6C007E88BB /* AdSupport.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AdSupport.framework; path = System/Library/Frameworks/AdSupport.framework; sourceTree = SDKROOT; };
+		B3BC04E51C092A74007E88BB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		B3BC04E71C092A7C007E88BB /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		B3BC04ED1C0932AA007E88BB /* Filmr-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Filmr-Bridging-Header.h"; sourceTree = "<group>"; };
 		B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CosmosDistrib.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -109,12 +154,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				81BA817F1A49E0F000E65899 /* libstdc++.6.dylib in Frameworks */,
+				B3BC04E81C092A7C007E88BB /* ImageIO.framework in Frameworks */,
+				B3BC04E61C092A74007E88BB /* StoreKit.framework in Frameworks */,
+				B3BC04E41C092A6C007E88BB /* AdSupport.framework in Frameworks */,
+				B3BC04E21C092A64007E88BB /* MediaPlayer.framework in Frameworks */,
+				B3BC04E01C092A5C007E88BB /* CoreMedia.framework in Frameworks */,
+				B3BC04DE1C092A52007E88BB /* CoreData.framework in Frameworks */,
+				B3BC04DC1C092A3F007E88BB /* EventKitUI.framework in Frameworks */,
+				B3BC04DA1C092A35007E88BB /* EventKit.framework in Frameworks */,
+				B3BC04D81C092A18007E88BB /* AVFoundation.framework in Frameworks */,
 				81BA817B1A49E0E500E65899 /* SystemConfiguration.framework in Frameworks */,
+				81BA817F1A49E0F000E65899 /* libstdc++.6.dylib in Frameworks */,
 				81BA81791A49E0DB00E65899 /* AudioToolbox.framework in Frameworks */,
 				81BA81771A49E0D500E65899 /* libsqlite3.dylib in Frameworks */,
 				81BA81711A49DB6800E65899 /* Parse.framework in Frameworks */,
 				81BA81701A49DB6800E65899 /* Bolts.framework in Frameworks */,
+				B3BC04D61C0929DA007E88BB /* libSessionMLocation.1.15.4.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,6 +213,7 @@
 				B371759E1BCAF58700E3FCD3 /* Model */,
 				81BA814A1A49DA1800E65899 /* AppDelegate.swift */,
 				814C3AC61B69877600E307BB /* Main.storyboard */,
+				B3BC04ED1C0932AA007E88BB /* Filmr-Bridging-Header.h */,
 			);
 			path = ParseStarterProject;
 			sourceTree = "<group>";
@@ -165,6 +221,16 @@
 		81BA816A1A49DB5600E65899 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				B3BC04E71C092A7C007E88BB /* ImageIO.framework */,
+				B3BC04E51C092A74007E88BB /* StoreKit.framework */,
+				B3BC04E31C092A6C007E88BB /* AdSupport.framework */,
+				B3BC04E11C092A64007E88BB /* MediaPlayer.framework */,
+				B3BC04DF1C092A5C007E88BB /* CoreMedia.framework */,
+				B3BC04DD1C092A52007E88BB /* CoreData.framework */,
+				B3BC04DB1C092A3F007E88BB /* EventKitUI.framework */,
+				B3BC04D91C092A35007E88BB /* EventKit.framework */,
+				B3BC04D71C092A18007E88BB /* AVFoundation.framework */,
+				B3BC04BA1C0929DA007E88BB /* SessionMLocation-SDK */,
 				81BA816B1A49DB6800E65899 /* Bolts.framework */,
 				81BA816C1A49DB6800E65899 /* Parse.framework */,
 				81BA816D1A49DB6800E65899 /* ParseCrashReporting.framework */,
@@ -256,6 +322,49 @@
 			name = Controller;
 			sourceTree = "<group>";
 		};
+		B3BC04BA1C0929DA007E88BB /* SessionMLocation-SDK */ = {
+			isa = PBXGroup;
+			children = (
+				B3BC04BB1C0929DA007E88BB /* API */,
+				B3BC04CA1C0929DA007E88BB /* Assets */,
+				B3BC04D01C0929DA007E88BB /* libSessionMLocation.1.15.4.a */,
+			);
+			path = "SessionMLocation-SDK";
+			sourceTree = "<group>";
+		};
+		B3BC04BB1C0929DA007E88BB /* API */ = {
+			isa = PBXGroup;
+			children = (
+				B3BC04BC1C0929DA007E88BB /* SessionM.h */,
+				B3BC04BD1C0929DA007E88BB /* SMAchievementData.h */,
+				B3BC04BE1C0929DA007E88BB /* SMActivityFeedViewCell.h */,
+				B3BC04BF1C0929DA007E88BB /* SMActivityFeedViewController.h */,
+				B3BC04C01C0929DA007E88BB /* SMActivityViewController.h */,
+				B3BC04C11C0929DA007E88BB /* SMDefaultMessageView.h */,
+				B3BC04C21C0929DA007E88BB /* SMFeedMessageData.h */,
+				B3BC04C31C0929DA007E88BB /* SMLoaderController.h */,
+				B3BC04C41C0929DA007E88BB /* SMLocationManager.h */,
+				B3BC04C51C0929DA007E88BB /* SMMessageData.h */,
+				B3BC04C61C0929DA007E88BB /* SMMessageView.h */,
+				B3BC04C71C0929DA007E88BB /* SMNotificationMessageData.h */,
+				B3BC04C81C0929DA007E88BB /* SMPortalBarButtonItem.h */,
+				B3BC04C91C0929DA007E88BB /* SMPortalButton.h */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
+		B3BC04CA1C0929DA007E88BB /* Assets */ = {
+			isa = PBXGroup;
+			children = (
+				B3BC04CB1C0929DA007E88BB /* btnSessionM.png */,
+				B3BC04CC1C0929DA007E88BB /* btnSessionM_lg.png */,
+				B3BC04CD1C0929DA007E88BB /* GiftBox_20x20.png */,
+				B3BC04CE1C0929DA007E88BB /* M_Logo_20x20.png */,
+				B3BC04CF1C0929DA007E88BB /* Trophy_20x20.png */,
+			);
+			path = Assets;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -316,9 +425,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B3BC04D31C0929DA007E88BB /* GiftBox_20x20.png in Resources */,
 				814C3ACA1B69877600E307BB /* Main.storyboard in Resources */,
 				B371759D1BCAEDD000E3FCD3 /* icon 1.png in Resources */,
+				B3BC04D21C0929DA007E88BB /* btnSessionM_lg.png in Resources */,
+				B3BC04D51C0929DA007E88BB /* Trophy_20x20.png in Resources */,
+				B3BC04D41C0929DA007E88BB /* M_Logo_20x20.png in Resources */,
 				814C3ACB1B69877600E307BB /* Images.xcassets in Resources */,
+				B3BC04D11C0929DA007E88BB /* btnSessionM.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -491,9 +605,13 @@
 				);
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SessionMLocation-SDK",
+				);
 				PRODUCT_NAME = Filmr;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Filmr-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "ParseStarterProject/Filmr-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -512,9 +630,13 @@
 				);
 				INFOPLIST_FILE = Resources/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/SessionMLocation-SDK",
+				);
 				PRODUCT_NAME = Filmr;
 				PROVISIONING_PROFILE = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "Filmr-Bridging-Header.h";
+				SWIFT_OBJC_BRIDGING_HEADER = "ParseStarterProject/Filmr-Bridging-Header.h";
 			};
 			name = Release;
 		};

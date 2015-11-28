@@ -19,7 +19,7 @@ import Parse
 // import ParseCrashReporting
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, SessionMDelegate {
 
     var window: UIWindow?
 
@@ -102,7 +102,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         pageController.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageController.currentPageIndicatorTintColor = UIColor.blackColor()
         pageController.backgroundColor = UIColor.whiteColor()
-
+        
+        SessionM.sharedInstance().delegate = self
+        SessionM.sharedInstance().startSessionWithAppID("13fb3e36ad2abde8fc8907aeb2cfe9f7b7f875d3")
+        
+        
+        
         return true
     }
 
