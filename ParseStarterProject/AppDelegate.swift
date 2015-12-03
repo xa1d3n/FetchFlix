@@ -28,6 +28,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SessionMDelegate {
     //--------------------------------------
 
     func application(application: UIApplication, didFinishLaunchingWithOptions launchOptions: [NSObject: AnyObject]?) -> Bool {
+        
+        let navigationBar = UINavigationBar.appearance()
+        navigationBar.tintColor = UIColor.whiteColor()
+        navigationBar.barTintColor = UIColor(red:0.35, green:0.73, blue:0.71, alpha:1.0)
+        navigationBar.barStyle = .Black
+        
         // Enable storing and querying data from Local Datastore.
         // Remove this line if you don't want to use Local Datastore features or want to use cachePolicy.
         Parse.enableLocalDatastore()
@@ -97,7 +103,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SessionMDelegate {
         //            application.registerForRemoteNotificationTypes(types)
         //        }
         
-        var pageController = UIPageControl.appearance()
+        let pageController = UIPageControl.appearance()
        // pageController.transform = CGAffineTransformMakeRotation(CGFloat(M_PI_2))
         pageController.pageIndicatorTintColor = UIColor.lightGrayColor()
         pageController.currentPageIndicatorTintColor = UIColor.blackColor()

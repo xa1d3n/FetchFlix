@@ -165,7 +165,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            var selectedMovie = self.similarMovies[indexPath.row]
+            let selectedMovie = self.similarMovies[indexPath.row]
             controller.id = "\(selectedMovie.id!)"
             controller.releaseDate = selectedMovie.releaseDate
             controller.summary = selectedMovie.overview

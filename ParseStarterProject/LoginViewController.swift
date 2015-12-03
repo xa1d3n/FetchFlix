@@ -172,7 +172,7 @@ class LoginViewController: UIViewController {
     }
     
     func parseLogin() {
-        var user = PFUser()
+        let user = PFUser()
         if let username = TMDBClient.sharedInstance().userID {
             
             user.username = "\(username)"
@@ -204,7 +204,7 @@ class LoginViewController: UIViewController {
     }
     
     func parseSignUp() {
-        var user = PFUser()
+        let user = PFUser()
         if let username = TMDBClient.sharedInstance().userID {
             
            // saveUserToCoreData(username)

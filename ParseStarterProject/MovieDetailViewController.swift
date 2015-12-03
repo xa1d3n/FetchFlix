@@ -31,6 +31,9 @@ class MovieDetailViewController: UIViewController {
     
     let moc = DataController().managedObjectContext
     var user : User?
+    
+    var favoritesButton : UIBarButtonItem!
+    var rewardsButton : UIBarButtonItem!
 
     @IBOutlet weak var poster: UIButton!
     
@@ -41,9 +44,22 @@ class MovieDetailViewController: UIViewController {
         
         movieIds = [17169, 54833, 43522]
         
+        favoritesButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "showFavorites")
+        
+        rewardsButton = UIBarButtonItem(image: UIImage(named: "greenPrize"), style: UIBarButtonItemStyle.Plain, target: self, action: "showRewards")
+        
+        self.navigationItem.leftBarButtonItems = [favoritesButton, rewardsButton]
+        
         let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
         posterContainer.addGestureRecognizer(gesture)
         posterContainer.userInteractionEnabled = true
+    }
+    
+    func showRewards() {
+
+     /*   //SessionM.sharedInstance().presentActivity(SMActivityType., withURL: <#T##String!#>)
+        SessionM.sharedInstance().presentActivity(true)
+        SessionM. */
     }
     
     func getFromCoreData() {
@@ -79,7 +95,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    func checkMovieState(id: String?) {
+   /* func checkMovieState(id: String?) {
         if let id = id {
             TMDBClient.sharedInstance().getMovieStates(similarMovies[movieIndex].id!) { (result, error) -> Void in
                 if (result != nil) {
@@ -101,7 +117,7 @@ class MovieDetailViewController: UIViewController {
                 }
             }
         }
-    }
+    } */
     
     func wasDragged(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translationInView(view)
@@ -184,7 +200,7 @@ class MovieDetailViewController: UIViewController {
         
     }
     
-    @IBAction func showFavorites(sender: AnyObject) {
+    func showFavorites() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FavoriteMoviesCollectionViewController") as! FavoriteMoviesCollectionViewController
             self.navigationController?.pushViewController(controller, animated: true)
@@ -206,28 +222,30 @@ class MovieDetailViewController: UIViewController {
             }
             else {
                 if let movies = result{
-                    if let movie = movies[0] as? TMDBMovie {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.selectedMovie?.id = movie.id
-                            self.selectedMovie?.title = movie.title
-                            self.selectedMovie?.rating = movie.rating
-                            self.selectedMovie?.voteCount = movie.voteCount
-                            self.selectedMovie?.releaseDate = movie.releaseDate
-                            self.selectedMovie?.posterPath = movie.posterPath
-                            
-                            let navController = self.storyboard?.instantiateViewControllerWithIdentifier("MoreDetailsNav") as! UINavigationController
-                            let controller = navController.topViewController as! MoreInfoViewController
-                            controller.id = "\(movie.id!)"
-                            controller.releaseDate = movie.releaseDate
-                            controller.summary = movie.overview
-                            controller.filmTitle = movie.title
-                            controller.movieRunTime = "\(movie.runtime!)"
-                            controller.posterImage = self.poster.imageView?.image
-                            
-                            HelperFunctions.stopSpinner(spinner)
-                            self.presentViewController(navController, animated: true, completion: nil)
-                            
-                        })
+                    if (movies.count > 0) {
+                        if let movie = movies[0] as? TMDBMovie {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                self.selectedMovie?.id = movie.id
+                                self.selectedMovie?.title = movie.title
+                                self.selectedMovie?.rating = movie.rating
+                                self.selectedMovie?.voteCount = movie.voteCount
+                                self.selectedMovie?.releaseDate = movie.releaseDate
+                                self.selectedMovie?.posterPath = movie.posterPath
+                                
+                                let navController = self.storyboard?.instantiateViewControllerWithIdentifier("MoreDetailsNav") as! UINavigationController
+                                let controller = navController.topViewController as! MoreInfoViewController
+                                controller.id = "\(movie.id!)"
+                                controller.releaseDate = movie.releaseDate
+                                controller.summary = movie.overview
+                                controller.filmTitle = movie.title
+                                controller.movieRunTime = "\(movie.runtime!)"
+                                controller.posterImage = self.poster.imageView?.image
+                                
+                                HelperFunctions.stopSpinner(spinner)
+                                self.presentViewController(navController, animated: true, completion: nil)
+                                
+                            })
+                        }
                     }
                     
                 }

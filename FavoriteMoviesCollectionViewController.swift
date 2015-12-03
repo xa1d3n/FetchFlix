@@ -79,8 +79,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     }
     
     func getImageData(posterPath: String, ind: Int) {
-        
-        let fileManager = NSFileManager.defaultManager()
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         let getImagePath = (paths as NSString).stringByAppendingPathComponent(posterPath)
         
@@ -114,8 +112,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     }
     
     func saveImageData(posterImg: UIImage, posterPath: String) {
-        let fileManager = NSFileManager.defaultManager()
-        
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         
         let filePathToWrite = "\(paths)/\(posterPath)"

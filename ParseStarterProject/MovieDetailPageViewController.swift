@@ -45,9 +45,9 @@ class MovieDetailPageViewController: UIPageViewController, UIPageViewControllerD
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerAfterViewController viewController: UIViewController) -> UIViewController? {
         
-        let vc = viewController as! UIViewController
-        var identifier = vc.restorationIdentifier
-        var ind = self.identifiers.indexOf(identifier!)
+        let vc = viewController
+        let identifier = vc.restorationIdentifier
+        let ind = self.identifiers.indexOf(identifier!)
         
         if (ind == NSNotFound)
         {
@@ -68,7 +68,7 @@ class MovieDetailPageViewController: UIPageViewController, UIPageViewControllerD
     
     func pageViewController(pageViewController: UIPageViewController, viewControllerBeforeViewController viewController: UIViewController) -> UIViewController? {
         let identifier = viewController.restorationIdentifier
-        var ind = self.identifiers.indexOf(identifier!)
+        let ind = self.identifiers.indexOf(identifier!)
         
         if (ind == NSNotFound || ind <= 0)
         {

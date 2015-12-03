@@ -90,7 +90,7 @@ class MovieRatingViewController: UIViewController {
     }
     
     func saveRating(rating: Double) {
-        var likedMovies = user?.likedMovie?.allObjects as! [LikedMovie]
+        let likedMovies = user?.likedMovie?.allObjects as! [LikedMovie]
         
         for likedMovie in likedMovies{
             if let id = movie!.id {

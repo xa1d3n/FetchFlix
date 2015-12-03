@@ -25,5 +25,6 @@
 #import "SystemConfiguration/SystemConfiguration.h"
 #import "Foundation/Foundation.h"
 #import "AVFoundation/AVFoundation.h"
+#import "SWRevealViewController.h"
 
 #endif /* Filmr_Bridging_Header_h */
