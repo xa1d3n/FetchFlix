@@ -171,6 +171,12 @@ struct HelperFunctions {
         jpgImageData?.writeToFile(filePathToWrite, atomically: true)
     }
     
+    static func styleButton(button: UIButton) {
+        button.layer.cornerRadius = 5
+        button.layer.borderWidth = 1
+        button.layer.borderColor = UIColor(red:0.35, green:0.73, blue:0.71, alpha:1.0).CGColor
+    }
+    
     static func getWatchListMovies(moc: NSManagedObjectContext, user: User) {
         TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
             if success {

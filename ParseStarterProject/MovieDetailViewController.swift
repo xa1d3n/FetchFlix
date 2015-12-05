@@ -15,9 +15,13 @@ class MovieDetailViewController: UIViewController {
     var moviePosters = [Int]()
     var movies = [TMDBMovie]()
     
+    @IBOutlet weak var noBtn: UIButton!
+    @IBOutlet weak var yesBtn: UIButton!
+    @IBOutlet weak var menuButton: UIBarButtonItem!
     @IBOutlet weak var noMovies: UIView!
     var selectedMovie : TMDBMovie?
     
+    @IBOutlet weak var editFavoritesBtn: UIButton!
     @IBOutlet weak var posterContainer: UIView!
     @IBOutlet weak var ratings: CosmosView!
     @IBOutlet weak var movieTitle: UILabel!
@@ -40,6 +44,18 @@ class MovieDetailViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        HelperFunctions.styleButton(editFavoritesBtn)
+        HelperFunctions.styleButton(noBtn)
+        HelperFunctions.styleButton(yesBtn)
+        
+        if (self.revealViewController() != nil) {
+            menuButton.target = self.revealViewController()
+            menuButton.action = "revealToggle:"
+            self.view.addGestureRecognizer(self.revealViewController().panGestureRecognizer())
+        }
+        menuButton.target = self.revealViewController()
+        menuButton.action = Selector("revealToggle:")
+        
         getFromCoreData()
         
         movieIds = [17169, 54833, 43522]
@@ -48,7 +64,7 @@ class MovieDetailViewController: UIViewController {
         
         rewardsButton = UIBarButtonItem(image: UIImage(named: "greenPrize"), style: UIBarButtonItemStyle.Plain, target: self, action: "showRewards")
         
-        self.navigationItem.leftBarButtonItems = [favoritesButton, rewardsButton]
+        //self.navigationItem.leftBarButtonItems = [favoritesButton, rewardsButton]
         
         let gesture = UIPanGestureRecognizer(target: self, action: Selector("wasDragged:"))
         posterContainer.addGestureRecognizer(gesture)
@@ -127,15 +143,17 @@ class MovieDetailViewController: UIViewController {
         poster.center = CGPoint(x: view.bounds.width / 2 + translation.x, y: view.bounds.height / 2 + translation.y)
         
         if gesture.state == UIGestureRecognizerState.Ended {
-            if poster.center.x < 100 {
-                
+            if poster.center.x < 50 {
+                removeMovie()
+                setMovieData()
             }
-            else if poster.center.x > view.bounds.width - 100 {
+            else if poster.center.x > view.bounds.width - 50 {
+                removeMovie()
+                setMovieData()
                 addLikedMovieToCoreData(currMovie!)
             }
             
-            removeMovie()
-            setMovieData()
+            
             
             poster.center = CGPoint(x: view.bounds.width / 2 , y: view.bounds.height / 2 )
             
@@ -177,15 +195,30 @@ class MovieDetailViewController: UIViewController {
     }
 
     func setMoviePoster(movInd: Int) {
-        TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[4], filePath: similarMovies[movInd].posterPath!) { (imageData, error) -> Void in
-            if let image = UIImage(data: imageData!) {
-                dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.poster.setImage(image, forState: .Normal)
-                    //self.currMovie = self.movies[movInd]
-                    self.currMovie = self.similarMovies[movInd]
-                })
-                
+        if movInd < self.similarMovies.count {
+            print(movInd)
+            print("movi count \(self.similarMovies.count)")
+            if let poster = similarMovies[movInd].posterPath {
+                TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[4], filePath: poster) { (imageData, error) -> Void in
+                    if let image = UIImage(data: imageData!) {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.poster.setImage(image, forState: .Normal)
+                        })
+                            //self.currMovie = self.movies[movInd]
+                        if movInd < self.similarMovies.count {
+                            self.currMovie = self.similarMovies[movInd]
+                        }
+                        
+                        
+                    }
+                }
             }
+            else {
+                self.getMoreSimilarMovies()
+            }
+        }
+        else {
+            self.getMoreSimilarMovies()
         }
     }
 
@@ -301,6 +334,9 @@ class MovieDetailViewController: UIViewController {
         
         if (favMovies.count < 1) {
             self.noMovies.hidden = false
+        }
+        else {
+            self.noMovies.hidden = true
         }
         
         for movie in favMovies {

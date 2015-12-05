@@ -15,12 +15,16 @@ class LoginViewController: UIViewController {
     var movieIds = [Int?](count: 3, repeatedValue: nil)
     var spinner : UIActivityIndicatorView?
 
+  //  @IBOutlet weak var Open: UIBarButtonItem!
     let moc = DataController().managedObjectContext
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
+        
+       // Open.target = self.revealViewController()
+       // Open.action = Selector("revealToggle:")
         
         spinner = HelperFunctions.startSpinner(view)
         getUserFromCoreData()
@@ -67,6 +71,12 @@ class LoginViewController: UIViewController {
             if (success == true) {
                 var i = 0
                 let count = movies?.count //2
+                
+                if count < 1 {
+                    self.performSegueWithIdentifier("showSlider", sender: self)
+                    HelperFunctions.stopSpinner(self.spinner!)
+                }
+                
                 for movie in movies! {
                     self.addToCoreData(movie, user: user, count: count!, iterator: i)
                     i++
@@ -96,22 +106,28 @@ class LoginViewController: UIViewController {
                 
                 if let userId = user.userID {
                     TMDBClient.sharedInstance().userID = userId as? Int
-                    TMDBClient.sharedInstance().sessionID = user.sessionID
                     
-                    if (user.favoriteMovie!.count >= 4) {
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            
-                            self.performSegueWithIdentifier("showSwiper", sender: self)
-                            HelperFunctions.stopSpinner(self.spinner!)
-                        })
+                    if (user.sessionID == nil || user.sessionID == "") {
+                        HelperFunctions.stopSpinner(self.spinner!)
+                        parseSignUp()
                     }
                     else {
-                        parseLogin()
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            
-                            self.performSegueWithIdentifier("showFavPicker", sender: self)
-                            HelperFunctions.stopSpinner(self.spinner!)
-                        })
+                        TMDBClient.sharedInstance().sessionID = user.sessionID
+                        if (user.favoriteMovie!.count >= 4) {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                
+                                self.performSegueWithIdentifier("showSlider", sender: self)
+                                HelperFunctions.stopSpinner(self.spinner!)
+                            })
+                        }
+                        else {
+                            parseLogin()
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                
+                                self.performSegueWithIdentifier("showSlider", sender: self)
+                                HelperFunctions.stopSpinner(self.spinner!)
+                            })
+                        }
                     }
                 }
             }
@@ -146,14 +162,14 @@ class LoginViewController: UIViewController {
                 if (count >= 4 && iterator >= 3) {
                     self.parseLogin()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.performSegueWithIdentifier("showSwiper", sender: self)
+                        self.performSegueWithIdentifier("showSlider", sender: self)
                         HelperFunctions.stopSpinner(self.spinner!)
                     })
                 }
                 else if (count < 4 && iterator+1 == count) {
                     self.parseLogin()
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.performSegueWithIdentifier("showFavPicker", sender: self)
+                        self.performSegueWithIdentifier("showSlider", sender: self)
                         HelperFunctions.stopSpinner(self.spinner!)
                     })
                 }
@@ -221,7 +237,7 @@ class LoginViewController: UIViewController {
                         PFUser.logInWithUsernameInBackground("\(username)", password:"") {
                             (user: PFUser?, error: NSError?) -> Void in
                             if user != nil {
-                                self.performSegueWithIdentifier("showFavPicker", sender: self)
+                                self.performSegueWithIdentifier("showSlider", sender: self)
                             } else {
                                 // The login failed. Check error to see why.
                             }
@@ -230,7 +246,7 @@ class LoginViewController: UIViewController {
                     }
                     
                 } else {
-                    self.performSegueWithIdentifier("showFavPicker", sender: self)
+                    self.performSegueWithIdentifier("showSlider", sender: self)
                     // Hooray! Let them use the app now.
                 }
             }

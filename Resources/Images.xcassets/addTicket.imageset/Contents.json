@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Add Ticket 3.png",
+      "filename" : "Add Ticket Filled-25.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Add Ticket 4.png",
+      "filename" : "Add Ticket Filled-50.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Add Ticket 5.png",
+      "filename" : "Add Ticket Filled-100.png",
       "scale" : "3x"
     }
   ],
