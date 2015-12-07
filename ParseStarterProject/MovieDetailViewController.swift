@@ -273,6 +273,7 @@ class MovieDetailViewController: UIViewController {
                                 controller.filmTitle = movie.title
                                 controller.movieRunTime = "\(movie.runtime!)"
                                 controller.posterImage = self.poster.imageView?.image
+                                controller.genre = movie.genre
                                 
                                 HelperFunctions.stopSpinner(spinner)
                                 self.presentViewController(navController, animated: true, completion: nil)
@@ -346,7 +347,6 @@ class MovieDetailViewController: UIViewController {
             } catch {
                 fatalError("failure to save context: \(error)")
             }
-            print(movie.similarMovie?.count)
         }
         
         

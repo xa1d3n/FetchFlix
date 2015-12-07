@@ -20,13 +20,17 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
     var posterPath: String?
     var movieRunTime : String?
     var posterImage : UIImage?
+    var genre: String?
     
+    @IBOutlet weak var watchlistBtn: UIButton!
+    @IBOutlet weak var trailerBtn: UIButton!
     var similarMovies = [TMDBMovie]()
     var posters = [UIImage?]()
     var posterPaths = [String?]()
     
     @IBOutlet weak var actors: UILabel!
 
+    @IBOutlet weak var genreIcon: UIImageView!
     @IBOutlet weak var similarToMovies: UICollectionView!
     @IBOutlet weak var movieSummary: UITextView!
 
@@ -39,6 +43,9 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        HelperFunctions.styleButton(trailerBtn)
+        HelperFunctions.styleButton(watchlistBtn)
         
         if let id = id {
             getSimilarMovies(Int(id)!)
@@ -123,6 +130,32 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
             //poster.imageView?.image = image
             self.poster.setImage(image, forState: .Normal)
         }
+        print(genre)
+        if let genre = genre {
+            
+            switch genre {
+            case Genre.Action.rawValue:
+                genreIcon.image = UIImage(named: Genre.Action.rawValue)
+            case Genre.Adventure.rawValue:
+                genreIcon.image = UIImage(named: Genre.Adventure.rawValue)
+            case Genre.Animation.rawValue:
+                genreIcon.image = UIImage(named: Genre.Animation.rawValue)
+            case Genre.Comedy.rawValue:
+                genreIcon.image = UIImage(named: Genre.Comedy.rawValue)
+            case Genre.Crime.rawValue:
+                genreIcon.image = UIImage(named: Genre.Crime.rawValue)
+            case Genre.Documentary.rawValue:
+                genreIcon.image = UIImage(named: Genre.Documentary.rawValue)
+            case Genre.Drama.rawValue:
+                genreIcon.image = UIImage(named: Genre.Drama.rawValue)
+            case Genre.Family.rawValue:
+                genreIcon.image = UIImage(named: Genre.Family.rawValue)
+            default:
+                print("DFS")
+            }
+        }
+        
+        
     }
     
 

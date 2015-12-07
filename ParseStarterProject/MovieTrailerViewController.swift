@@ -12,6 +12,7 @@ class MovieTrailerViewController: UIViewController {
     @IBOutlet weak var player: UIWebView!
     var trailerKey : String?
 
+    @IBOutlet weak var noTrailer: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -22,6 +23,9 @@ class MovieTrailerViewController: UIViewController {
             let url = "https://www.youtube.com/embed/\(key)"
             let htmlUrl = "<html><head><body style=\"(margin:0 auto)\"><embed id=\"yt\" src=\"\(url)\" type=\"application/x-shockwave-flash\"width=\"\(560)\" height=\"\(315)\"></embed> </body></html>"
             player.loadHTMLString(htmlUrl, baseURL: nil)
+        }
+        else {
+            noTrailer.hidden = false
         }
 
         // Do any additional setup after loading the view.

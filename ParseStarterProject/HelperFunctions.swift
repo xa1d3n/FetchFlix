@@ -55,8 +55,14 @@ struct HelperFunctions {
                     if movies.count > 0 {
                         
                         favMovie.setValue("\(page)", forKey: "page")
-                        self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
-                        completion(result: movies, error: nil)
+                        //self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
+                        self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie, completion: { (success) -> Void in
+                            if success {
+                                
+                                completion(result: movies, error: nil)
+                            }
+                        })
+                        
                     }
                     else {
                         completion(result: nil, error: "Out of similar movies")
@@ -69,7 +75,7 @@ struct HelperFunctions {
 
     }
     
-    static func addSimilarMoviesToCoreData(movies: [TMDBMovie], moc: NSManagedObjectContext, favMovie: FavoriteMovie) {
+    static func addSimilarMoviesToCoreData(movies: [TMDBMovie], moc: NSManagedObjectContext, favMovie: FavoriteMovie, completion: (success: Bool) -> Void) {
         for movie in movies {
             print(movie.title)
             print(watchList.count)
@@ -101,14 +107,21 @@ struct HelperFunctions {
         }
         do {
             try moc.save()
+            
+            if favMovie.similarMovie?.allObjects.count < 1 {
+                self.getSimilarMovies(favMovie, user: user, moc: moc, completion: { (result) -> Void in
+                    completion(success: false)
+                })
+            }
+            else {
+                completion(success: true)
+            }
         } catch {
+            completion(success: false)
             fatalError("failure to save context: \(error)")
         }
         
-        if favMovie.similarMovie?.allObjects.count < 1 {
-            self.getSimilarMovies(favMovie, user: user, moc: moc, completion: { (result) -> Void in
-            })
-        }
+        
         
     }
     
