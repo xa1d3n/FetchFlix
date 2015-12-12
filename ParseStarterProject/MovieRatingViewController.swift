@@ -67,6 +67,44 @@ class MovieRatingViewController: UIViewController {
         
     }
     
+    func favorite() {
+        
+    }
+    
+    func info() {
+        let spinner : UIActivityIndicatorView = HelperFunctions.startSpinner(view)
+        TMDBClient.sharedInstance().getMovieDetails((movie?.id)!) { (result, error) -> Void in
+            if error != nil {
+                print(error)
+            }
+            else {
+                if let movies = result{
+                    if (movies.count > 0) {
+                        if let movie = movies[0] as? TMDBMovie {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                let navController = self.storyboard?.instantiateViewControllerWithIdentifier("MoreDetailsNav") as! UINavigationController
+                                let controller = navController.topViewController as! MoreInfoViewController
+                                controller.id = "\(movie.id!)"
+                                controller.releaseDate = movie.releaseDate
+                                controller.summary = movie.overview
+                                controller.filmTitle = movie.title
+                                controller.movieRunTime = "\(movie.runtime!)"
+                                controller.posterImage = self.poster.image
+                                controller.genre = movie.genre
+                                
+                                HelperFunctions.stopSpinner(spinner)
+                                self.presentViewController(navController, animated: true, completion: nil)
+                                
+                            })
+                        }
+                    }
+                    
+                }
+            }
+        }
+
+    }
+    
     func addFavorite() {
         favoriteButton = UIBarButtonItem(image: UIImage(named: "favFilled"), style: UIBarButtonItemStyle.Plain, target: self, action: "addFavorite")
         self.navigationItem.rightBarButtonItems = [infoButton, favoriteButton]

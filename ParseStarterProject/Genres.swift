@@ -18,5 +18,16 @@ enum Genre:String {
     case Documentary = "Documentary"
     case Drama = "Drama"
     case Family = "Family"
-    
+    case Fantasy = "Fantasy"
+    case Foreign = "Foreign"
+    case History = "History"
+    case Horror = "Horror"
+    case Music = "Music"
+    case Mystery = "Mystery"
+    case Romance = "Romance"
+    case ScienceFiction = "Science Fiction"
+    case TVMovie = "TV Movie"
+    case Thriller = "Thriller"
+    case War = "War"
+    case Western = "Western"
 }

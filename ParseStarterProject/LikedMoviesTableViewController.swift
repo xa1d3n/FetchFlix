@@ -61,6 +61,7 @@ class LikedMoviesTableViewController: UITableViewController {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
 
         cell.textLabel!.text = movies[indexPath.row].title
+        //cell.detailTextLabel?.text = movies[indexPath.row].released
         cell.imageView?.image = nil
         //print(movies[indexPath.row].)
         
@@ -94,7 +95,15 @@ class LikedMoviesTableViewController: UITableViewController {
     }
     
     func removeFromCoreData(movieToDelete: LikedMovie) {
-        HelperFunctions.modifyMovieDBWatchlist(movieToDelete.id, watchlist: false)
+        HelperFunctions.removeMovieFromWatchlist(movieToDelete.id, user: user, moc: moc) { (success) -> Void in
+            if success {
+                print("deleted from watchlist")
+            }
+            else {
+                print("coudl not remove from watchilst")
+            }
+        }
+       /* HelperFunctions.modifyMovieDBWatchlist(movieToDelete.id, watchlist: false)
         let likedMovies = user?.likedMovie?.allObjects as? [LikedMovie]
         for movie in likedMovies! {
             if movie.id! == movieToDelete.id {
@@ -105,7 +114,7 @@ class LikedMoviesTableViewController: UITableViewController {
                     fatalError("failure to save context: \(error)")
                 }
             }
-        }
+        } */
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {

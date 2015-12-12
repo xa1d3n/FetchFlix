@@ -36,7 +36,6 @@ struct TMDBMovie {
         trailerKey = dictionary[TMDBClient.JSONResponseKeys.TrailerKey] as? String
         actorName = dictionary[TMDBClient.JSONResponseKeys.ActorName] as? String
         watchlist = dictionary[TMDBClient.JSONResponseKeys.WatchList] as? Bool
-        print(dictionary["genres"])
         if let genres = dictionary["genres"] {
             genre = genres[0]["name"] as? String
         }

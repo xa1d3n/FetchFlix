@@ -125,19 +125,6 @@ struct HelperFunctions {
         
     }
     
-    static func modifyMovieDBWatchlist(id: String?, watchlist: Bool) {
-        if let id = id {
-            TMDBClient.sharedInstance().postToWatchlist(id, watchlist: watchlist, completionHandler: { (result, error) -> Void in
-                if error != nil {
-                    print(error)
-                }
-                else {
-                    print(result)
-                }
-            })
-        }
-    }
-    
     static func modifyMovieDBFavorite(id: String?, favorite: Bool) {
         if let id = id {
             TMDBClient.sharedInstance().postToFavorites(id, favorite: favorite, completionHandler: { (result, error) -> Void in
@@ -229,6 +216,66 @@ struct HelperFunctions {
                 }
             }
         }
+    }
+    
+    static func modifyMovieDBWatchlist(id: String?, watchlist: Bool, completion: (success: Bool) -> Void) {
+        if let id = id {
+            TMDBClient.sharedInstance().postToWatchlist(id, watchlist: watchlist, completionHandler: { (result, error) -> Void in
+                if error != nil {
+                    print(error)
+                    completion(success: false)
+                }
+                else {
+                    completion(success: true)
+                    print(result)
+                }
+            })
+        }
+    }
+    
+    static func addMovieToWatchlist(movie: LikedMovie?, user: User?, moc: NSManagedObjectContext?, completion: (success: Bool) -> Void) {
+        
+        if let movie = movie {
+            HelperFunctions.modifyMovieDBWatchlist(movie.id, watchlist: true) { (success) -> Void in
+                if success {
+                    user!.mutableSetValueForKey("likedMovie").addObject(movie)
+                    
+                    do {
+                        try moc!.save()
+                        completion(success: true)
+                    } catch {
+                        completion(success: false)
+                        fatalError("failure to save context: \(error)")
+                    }
+                }
+            }
+        }
+    }
+    
+    static func removeMovieFromWatchlist(id: String?, user: User?, moc: NSManagedObjectContext?, completion: (success: Bool) -> Void) {
+       // HelperFunctions.modifyMovieDBWatchlist(movieToDelete.id, watchlist: false)
+        
+        
+        if let id = id {
+            HelperFunctions.modifyMovieDBWatchlist(id, watchlist: false) { (success) -> Void in
+                if success {
+                    let likedMovies = user?.likedMovie?.allObjects as? [LikedMovie]
+                    for movie in likedMovies! {
+                        if movie.id! == id {
+                            user?.mutableSetValueForKey("likedMovie").removeObject(movie)
+                            do {
+                                try moc!.save()
+                                completion(success: true)
+                            } catch {
+                                completion(success: false)
+                                fatalError("failure to save context: \(error)")
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
     }
     
     

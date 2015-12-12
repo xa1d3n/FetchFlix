@@ -11,7 +11,6 @@ import CoreData
 
 class MovieDetailViewController: UIViewController {
     
-    var movieIds = [Int?](count: 3, repeatedValue: nil)
     var moviePosters = [Int]()
     var movies = [TMDBMovie]()
     
@@ -26,6 +25,9 @@ class MovieDetailViewController: UIViewController {
     @IBOutlet weak var ratings: CosmosView!
     @IBOutlet weak var movieTitle: UILabel!
     var currMovie : SimilarMovie?
+    
+    var watchList = Set<String>()
+    var passedList = Set<String>()
     
     var likedMovies = [LikedMovie]()
     
@@ -55,10 +57,7 @@ class MovieDetailViewController: UIViewController {
         }
         menuButton.target = self.revealViewController()
         menuButton.action = Selector("revealToggle:")
-        
-        getFromCoreData()
-        
-        movieIds = [17169, 54833, 43522]
+
         
         favoritesButton = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.Edit, target: self, action: "showFavorites")
         
@@ -71,11 +70,16 @@ class MovieDetailViewController: UIViewController {
         posterContainer.userInteractionEnabled = true
     }
     
-    func showRewards() {
-
-     /*   //SessionM.sharedInstance().presentActivity(SMActivityType., withURL: <#T##String!#>)
-        SessionM.sharedInstance().presentActivity(true)
-        SessionM. */
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        
+        print(similarMovies.count)
+        if similarMovies.count > 0 {
+            setMovieData()
+        }
+        else {
+            getFromCoreData()
+        }
     }
     
     func getFromCoreData() {
@@ -96,9 +100,33 @@ class MovieDetailViewController: UIViewController {
     
     func getMoviesFromCoreData() {
         let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
+        
         for movie in favMovies!{
             let movies = movie.similarMovie?.allObjects as! [SimilarMovie]
             similarMovies += movies
+        }
+        
+        let watchlistMovies = user!.likedMovie?.allObjects as! [LikedMovie]
+        let passedMovies = user!.passedMovie?.allObjects as! [PassedMovie]
+        
+        for movie in watchlistMovies {
+            if let id = movie.id {
+                watchList.insert(id)
+            }
+        }
+        
+        for movie in passedMovies {
+            if let id = movie.id {
+                passedList.insert(id)
+            }
+        }
+        
+        for (index, movie) in similarMovies.enumerate() {
+            if let id = movie.id {
+                if (watchList.contains(id) || passedList.contains(id)) {
+                    similarMovies.removeAtIndex(index)
+                }
+            }
         }
         
         if similarMovies.count > 0 {
@@ -161,7 +189,7 @@ class MovieDetailViewController: UIViewController {
     }
     
     func addLikedMovieToCoreData(movie: SimilarMovie) {
-        HelperFunctions.modifyMovieDBWatchlist(movie.id, watchlist: true)
+        //HelperFunctions.modifyMovieDBWatchlist(movie.id, watchlist: true)
         let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: moc) as! LikedMovie
         likedMovie.title = movie.title!
         likedMovie.id = movie.id!
@@ -169,14 +197,22 @@ class MovieDetailViewController: UIViewController {
         likedMovie.ratingCount = movie.ratingCount!
         likedMovie.posterPath = movie.posterPath!
         
-        user!.mutableSetValueForKey("likedMovie").addObject(likedMovie)
+        HelperFunctions.addMovieToWatchlist(likedMovie, user: user, moc: moc) { (success) -> Void in
+            if success {
+                print("aded to watchlist")
+            }
+            else {
+                print("could not add to watchilst")
+            }
+        }
+        
+        /*user!.mutableSetValueForKey("likedMovie").addObject(likedMovie)
         
         do {
             try moc.save()
         } catch {
             fatalError("failure to save context: \(error)")
-        }
-    
+        } */
     }
     
     func addPassedMovieToCoreData(movie: SimilarMovie?) {
@@ -271,9 +307,18 @@ class MovieDetailViewController: UIViewController {
                                 controller.releaseDate = movie.releaseDate
                                 controller.summary = movie.overview
                                 controller.filmTitle = movie.title
-                                controller.movieRunTime = "\(movie.runtime!)"
+                                if let runtime = movie.runtime {
+                                    controller.movieRunTime = "\(runtime)"
+                                }
                                 controller.posterImage = self.poster.imageView?.image
                                 controller.genre = movie.genre
+                                controller.moc = self.moc
+                                controller.user = self.user
+                                controller.rating = self.currMovie?.rating
+                                controller.voteCount = self.currMovie?.ratingCount
+                                controller.posterPath = self.currMovie?.posterPath
+                                controller.recMovies = self.similarMovies
+                                controller.movieDetailView = self
                                 
                                 HelperFunctions.stopSpinner(spinner)
                                 self.presentViewController(navController, animated: true, completion: nil)

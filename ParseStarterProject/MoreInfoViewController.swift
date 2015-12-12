@@ -21,10 +21,18 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
     var movieRunTime : String?
     var posterImage : UIImage?
     var genre: String?
+    var moc = DataController().managedObjectContext
+    var user : User?
+    var rating : String?
+    var voteCount : String?
+    
+    @IBOutlet weak var removeWatchlist: UIButton!
+    weak var movieDetailView : MovieDetailViewController?
     
     @IBOutlet weak var watchlistBtn: UIButton!
     @IBOutlet weak var trailerBtn: UIButton!
     var similarMovies = [TMDBMovie]()
+    var recMovies = [SimilarMovie]()
     var posters = [UIImage?]()
     var posterPaths = [String?]()
     
@@ -46,10 +54,63 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         
         HelperFunctions.styleButton(trailerBtn)
         HelperFunctions.styleButton(watchlistBtn)
+        HelperFunctions.styleButton(removeWatchlist)
+        watchlistBtn.hidden = true
         
         if let id = id {
+            getMovieInfo(id)
+            checkMovieState(id)
             getSimilarMovies(Int(id)!)
         }
+        
+    }
+    
+    func checkMovieState(id: String?) {
+        if let id = id {
+            TMDBClient.sharedInstance().getMovieStates(id) { (result, error) -> Void in
+                if (result != nil) {
+                    if let isWatched = result![0].watchlist {
+                        if isWatched == true {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                self.removeWatchlist.hidden = false
+                            })
+                        }
+                        else {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                self.watchlistBtn.hidden = false
+                            })
+                        }
+                    }
+                }
+            }
+        }
+    }
+    
+    func getMovieInfo(id: String?) {
+        TMDBClient.sharedInstance().getMovieDetails(id!) { (result, error) -> Void in
+            if error != nil {
+                print(error)
+            }
+            else {
+                if let movies = result{
+                    if (movies.count > 0) {
+                        if let movie = movies[0] as? TMDBMovie {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                if let time = movie.runtime {
+                                    self.runTime.text = "\(time)m"
+                                }
+                                if let genre = movie.genre {
+                                    self.getGenre(genre)
+                                }
+                                
+                            })
+                        }
+                    }
+                    
+                }
+            }
+        }
+
     }
     
     func getActors(id: String?) {
@@ -91,10 +152,6 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         super.viewWillAppear(true)
         
         getActors(id)
-       
-        
-        print(id)
-        print(movie?.id)
         
         // get movie trailer
         if let movieId = id {
@@ -130,41 +187,121 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
             //poster.imageView?.image = image
             self.poster.setImage(image, forState: .Normal)
         }
-        print(genre)
+
         if let genre = genre {
-            
-            switch genre {
-            case Genre.Action.rawValue:
-                genreIcon.image = UIImage(named: Genre.Action.rawValue)
-            case Genre.Adventure.rawValue:
-                genreIcon.image = UIImage(named: Genre.Adventure.rawValue)
-            case Genre.Animation.rawValue:
-                genreIcon.image = UIImage(named: Genre.Animation.rawValue)
-            case Genre.Comedy.rawValue:
-                genreIcon.image = UIImage(named: Genre.Comedy.rawValue)
-            case Genre.Crime.rawValue:
-                genreIcon.image = UIImage(named: Genre.Crime.rawValue)
-            case Genre.Documentary.rawValue:
-                genreIcon.image = UIImage(named: Genre.Documentary.rawValue)
-            case Genre.Drama.rawValue:
-                genreIcon.image = UIImage(named: Genre.Drama.rawValue)
-            case Genre.Family.rawValue:
-                genreIcon.image = UIImage(named: Genre.Family.rawValue)
-            default:
-                print("DFS")
-            }
+            getGenre(genre)
         }
+    }
+    
+    func getGenre(genre: String) {
+        switch genre {
+        case Genre.Action.rawValue:
+            genreIcon.image = UIImage(named: Genre.Action.rawValue)
+        case Genre.Adventure.rawValue:
+            genreIcon.image = UIImage(named: Genre.Adventure.rawValue)
+        case Genre.Animation.rawValue:
+            genreIcon.image = UIImage(named: Genre.Animation.rawValue)
+        case Genre.Comedy.rawValue:
+            genreIcon.image = UIImage(named: Genre.Comedy.rawValue)
+        case Genre.Crime.rawValue:
+            genreIcon.image = UIImage(named: Genre.Crime.rawValue)
+        case Genre.Documentary.rawValue:
+            genreIcon.image = UIImage(named: Genre.Documentary.rawValue)
+        case Genre.Drama.rawValue:
+            genreIcon.image = UIImage(named: Genre.Drama.rawValue)
+        case Genre.Family.rawValue:
+            genreIcon.image = UIImage(named: Genre.Family.rawValue)
+        case Genre.Fantasy.rawValue:
+            genreIcon.image = UIImage(named: Genre.Fantasy.rawValue)
+        case Genre.Foreign.rawValue:
+            genreIcon.image = UIImage(named: Genre.Foreign.rawValue)
+        case Genre.History.rawValue:
+            genreIcon.image = UIImage(named: Genre.History.rawValue)
+        case Genre.Horror.rawValue:
+            genreIcon.image = UIImage(named: Genre.Horror.rawValue)
+        case Genre.Music.rawValue:
+            genreIcon.image = UIImage(named: Genre.Music.rawValue)
+        case Genre.Mystery.rawValue:
+            genreIcon.image = UIImage(named: Genre.Mystery.rawValue)
+        case Genre.Romance.rawValue:
+            genreIcon.image = UIImage(named: Genre.Romance.rawValue)
+        case Genre.ScienceFiction.rawValue:
+            genreIcon.image = UIImage(named: Genre.ScienceFiction.rawValue)
+        case Genre.TVMovie.rawValue:
+            genreIcon.image = UIImage(named: Genre.TVMovie.rawValue)
+        case Genre.Thriller.rawValue:
+            genreIcon.image = UIImage(named: Genre.Thriller.rawValue)
+        case Genre.War.rawValue:
+            genreIcon.image = UIImage(named: Genre.War.rawValue)
+        case Genre.Western.rawValue:
+            genreIcon.image = UIImage(named: Genre.Western.rawValue)
         
-        
+        default:
+            print("DFS")
+        }
     }
     
 
     @IBAction func close(sender: AnyObject) {
+        movieDetailView?.similarMovies = recMovies
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
     @IBAction func addToWatchList(sender: AnyObject) {
+        ///watchlistBtn.titleLabel?.text = "df"
+       // HelperFunctions.modifyMovieDBWatchlist(id, watchlist: true)
+        let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: moc) as! LikedMovie
+        likedMovie.title = filmTitle
+        likedMovie.id = id
+        likedMovie.rating = rating
+        likedMovie.ratingCount = voteCount
+        likedMovie.posterPath = posterPath
+        HelperFunctions.addMovieToWatchlist(likedMovie, user: user, moc: moc) { (success) -> Void in
+            if success {
+                print("aded to watchlist")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.watchlistBtn.hidden = true
+                    self.removeWatchlist.hidden = false
+                })
+            }
+            else {
+                print("could not add to watchilst")
+            }
+        }
         
+        /*
+        
+        let spinner = HelperFunctions.startSpinner(self.view)
+        HelperFunctions.addMovieToWatchlist(likedMovie, user: user, moc: moc) { (success) -> Void in
+            if success == true {
+                for (index, movie) in self.recMovies.enumerate() {
+                    if movie.id == self.id {
+                        self.recMovies.removeAtIndex(index)
+                        break
+                    }
+                }
+            }
+            else {
+                
+            }
+            HelperFunctions.stopSpinner(spinner)
+        } */
+        
+    }
+    
+    @IBAction func removeFromWatchlist(sender: AnyObject) {
+        HelperFunctions.removeMovieFromWatchlist(id, user: user, moc: moc) { (success) -> Void in
+            if success {
+                print("deleted from watchlist")
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                    self.watchlistBtn.hidden = false
+                    self.removeWatchlist.hidden = true
+                })
+            }
+            else {
+                print("coudl not remove from watchilst")
+            }
+        }
     }
     
     @IBAction func trailer(sender: AnyObject) {
@@ -202,8 +339,11 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
             controller.id = "\(selectedMovie.id!)"
             controller.releaseDate = selectedMovie.releaseDate
             controller.summary = selectedMovie.overview
+            controller.genre = selectedMovie.genre
             controller.filmTitle = selectedMovie.title
             controller.posterImage = self.posters[indexPath.row]
+            controller.rating = "\(selectedMovie.rating)"
+            controller.voteCount = "\(selectedMovie.voteCount)"
             self.navigationController?.pushViewController(controller, animated: true)
         })
     }
@@ -221,8 +361,6 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
                         }
                         
                         if let poster = movie.posterPath {
-                            //self.posterPaths.append(poster)
-                            //self.similarMovies.append(movie)
                             self.downloadPoster(poster, movie: movie)
                         }
                         
@@ -230,9 +368,6 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
                     }
                     self.similarToMovies.reloadData()
                 })
-                    
-
-                
             }
         }
     }
@@ -246,8 +381,6 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
                         self.similarMovies.append(movie)
                         self.similarToMovies.reloadData()
                     })
-                    
-                    
                 }
             })
         }
