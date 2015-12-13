@@ -22,8 +22,13 @@ class LikedMoviesTableViewController: UITableViewController {
         super.viewDidLoad()
         
         self.title = "Watchlist"
-        getLikedMoviesFromCoreData()
         
+        
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        super.viewWillAppear(true)
+        getLikedMoviesFromCoreData()
     }
     
     func getWatchListMovies() {

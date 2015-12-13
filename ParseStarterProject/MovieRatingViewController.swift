@@ -91,6 +91,8 @@ class MovieRatingViewController: UIViewController {
                                 controller.movieRunTime = "\(movie.runtime!)"
                                 controller.posterImage = self.poster.image
                                 controller.genre = movie.genre
+                                controller.user = self.user
+                                controller.moc = self.moc!
                                 
                                 HelperFunctions.stopSpinner(spinner)
                                 self.presentViewController(navController, animated: true, completion: nil)
