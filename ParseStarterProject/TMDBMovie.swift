@@ -21,6 +21,7 @@ struct TMDBMovie {
     var trailerKey : String?
     var actorName :String?
     var watchlist : Bool?
+    var favorited : Bool?
     var genre : String?
     
     init(dictionary: [String: AnyObject]) {
@@ -36,6 +37,7 @@ struct TMDBMovie {
         trailerKey = dictionary[TMDBClient.JSONResponseKeys.TrailerKey] as? String
         actorName = dictionary[TMDBClient.JSONResponseKeys.ActorName] as? String
         watchlist = dictionary[TMDBClient.JSONResponseKeys.WatchList] as? Bool
+        favorited = dictionary[TMDBClient.JSONBodyKeys.Favorite] as? Bool
         if let genres = dictionary["genres"] {
             genre = genres[0]["name"] as? String
         }

@@ -65,7 +65,10 @@ class LoginViewController: UIViewController {
             fatalError("failure to save context: \(error)")
         }
         
-        HelperFunctions.getWatchListMovies(moc, user: user)
+        //HelperFunctions.getWatchListMovies(moc, user: user)
+        var page = 1
+        HelperFunctions.getWatchListMovies(moc, user: user, page: page) { (count) -> Void in
+        }
         
         TMDBClient.sharedInstance().getFavoriteMovies({ (success, movies, errorString) -> Void in
             if (success == true) {

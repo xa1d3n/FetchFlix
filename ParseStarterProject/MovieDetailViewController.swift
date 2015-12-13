@@ -122,9 +122,13 @@ class MovieDetailViewController: UIViewController {
         }
         
         for (index, movie) in similarMovies.enumerate() {
-            if let id = movie.id {
+            let movId = movie.id
+            if let id = movId {
                 if (watchList.contains(id) || passedList.contains(id)) {
-                    similarMovies.removeAtIndex(index)
+                    print(movie.title)
+                    if index < similarMovies.count {
+                        similarMovies.removeAtIndex(index)
+                    }
                 }
             }
         }

@@ -9,45 +9,37 @@
 import UIKit
 import CoreData
 
-class LikedMoviesTableViewController: UITableViewController {
+class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate {
     
     var movies = [LikedMovie]()
+    var filtered = [LikedMovie]()
     
+    @IBOutlet weak var search: UISearchBar!
     var watchListMovies = [TMDBMovie]()
     
+    @IBOutlet var table: UITableView!
     var moc : NSManagedObjectContext?
     var user : User?
+    
+    var searchActive = false
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         self.title = "Watchlist"
-        
-        
+        search.delegate = self
     }
     
     override func viewWillAppear(animated: Bool) {
+        searchActive = false
         super.viewWillAppear(true)
         getLikedMoviesFromCoreData()
-    }
-    
-    func getWatchListMovies() {
-        TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
-            if success {
-                self.watchListMovies = movies!
-            }
-        }
     }
     
     func getLikedMoviesFromCoreData() {
         movies = user?.likedMovie?.allObjects as! [LikedMovie]
         self.tableView.reloadData()
-    }
-    
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
     }
 
     // MARK: - Table view data source
@@ -59,26 +51,57 @@ class LikedMoviesTableViewController: UITableViewController {
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         // #warning Incomplete implementation, return the number of rows
+        if (searchActive || filtered.count > 0) {
+            setSearchBarText(filtered.count)
+            return filtered.count
+        }
+        setSearchBarText(movies.count)
         return movies.count
+    }
+    
+    func setSearchBarText(count: Int) {
+        search.placeholder = "Search \(count) Movies"
     }
 
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("cell", forIndexPath: indexPath)
-
-        cell.textLabel!.text = movies[indexPath.row].title
-        //cell.detailTextLabel?.text = movies[indexPath.row].released
-        cell.imageView?.image = nil
-        //print(movies[indexPath.row].)
         
-        if let poster = movies[indexPath.row].posterPath {
-            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[0], filePath: poster, completionHandler: { (imageData, error) -> Void in
-                if let image = UIImage(data: imageData!) {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        cell.imageView?.image = image
-                        cell.setNeedsLayout()
+        if searchActive {
+            if (indexPath.row < filtered.count) {
+                cell.textLabel!.text = filtered[indexPath.row].title
+                //cell.detailTextLabel?.text = movies[indexPath.row].released
+                cell.imageView?.image = nil
+                //print(movies[indexPath.row].)
+                
+                if let poster = filtered[indexPath.row].posterPath {
+                    TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[0], filePath: poster, completionHandler: { (imageData, error) -> Void in
+                        if let image = UIImage(data: imageData!) {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                cell.imageView?.image = image
+                                cell.setNeedsLayout()
+                            })
+                        }
                     })
                 }
-            })
+            }
+
+        }
+        else {
+            cell.textLabel!.text = movies[indexPath.row].title
+            //cell.detailTextLabel?.text = movies[indexPath.row].released
+            cell.imageView?.image = nil
+            //print(movies[indexPath.row].)
+            
+            if let poster = movies[indexPath.row].posterPath {
+                TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[0], filePath: poster, completionHandler: { (imageData, error) -> Void in
+                    if let image = UIImage(data: imageData!) {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            cell.imageView?.image = image
+                            cell.setNeedsLayout()
+                        })
+                    }
+                })
+            }
         }
 
         return cell
@@ -86,9 +109,17 @@ class LikedMoviesTableViewController: UITableViewController {
     
     override func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
         let controller = storyboard?.instantiateViewControllerWithIdentifier("MovieRatingViewController") as! MovieRatingViewController
-        controller.movie = movies[indexPath.row]
-        controller.moc = moc
-        controller.user = user
+        if (searchActive  && filtered.count > 0) {
+            controller.movie = filtered[indexPath.row]
+            controller.moc = moc
+            controller.user = user
+        }
+        else {
+            controller.movie = movies[indexPath.row]
+            controller.moc = moc
+            controller.user = user
+        }
+
         navigationController?.pushViewController(controller, animated: true)
     }
     
@@ -108,21 +139,39 @@ class LikedMoviesTableViewController: UITableViewController {
                 print("coudl not remove from watchilst")
             }
         }
-       /* HelperFunctions.modifyMovieDBWatchlist(movieToDelete.id, watchlist: false)
-        let likedMovies = user?.likedMovie?.allObjects as? [LikedMovie]
-        for movie in likedMovies! {
-            if movie.id! == movieToDelete.id {
-                user?.mutableSetValueForKey("likedMovie").removeObject(movie)
-                do {
-                    try moc!.save()
-                } catch {
-                    fatalError("failure to save context: \(error)")
-                }
-            }
-        } */
     }
     
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
+    }
+    
+    
+    func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
+        searchActive = true
+    }
+    
+    func searchBarTextDidEndEditing(searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBarCancelButtonClicked(searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBarSearchButtonClicked(searchBar: UISearchBar) {
+        searchActive = false
+    }
+    
+    func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        filtered = movies.filter({
+            ($0.title?.containsString(searchText))!
+        })
+        if filtered.count == 0 {
+            searchActive = false
+        }
+        else {
+            searchActive = true;
+        }
+        self.tableView.reloadData()
     }
 }

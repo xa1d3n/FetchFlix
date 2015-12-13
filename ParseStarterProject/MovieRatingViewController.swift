@@ -24,14 +24,15 @@ class MovieRatingViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-
+        if let movie = movie {
+            checkMovieState(movie.id)
+        }
         // Do any additional setup after loading the view.
         
         self.title = "Watchlist"
         
         favoriteButton = UIBarButtonItem(image: UIImage(named: "favorite"), style: UIBarButtonItemStyle.Plain, target: self, action: "addFavorite")
         infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: UIBarButtonItemStyle.Plain, target: self, action: "info")
-        
         
         self.navigationItem.rightBarButtonItems = [infoButton, favoriteButton]
         
@@ -110,6 +111,27 @@ class MovieRatingViewController: UIViewController {
     func addFavorite() {
         favoriteButton = UIBarButtonItem(image: UIImage(named: "favFilled"), style: UIBarButtonItemStyle.Plain, target: self, action: "addFavorite")
         self.navigationItem.rightBarButtonItems = [infoButton, favoriteButton]
+    }
+    
+    func checkMovieState(id: String?) {
+        if let id = id {
+            TMDBClient.sharedInstance().getMovieStates(id) { (result, error) -> Void in
+                if (result != nil) {
+                    if let isWatched = result![0].favorited {
+                        if isWatched == true {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                          //      self.removeWatchlist.hidden = false
+                            })
+                        }
+                        else {
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                           //     self.watchlistBtn.hidden = false
+                            })
+                        }
+                    }
+                }
+            }
+        }
     }
     
     func touchedTheStar(rating: Double) {

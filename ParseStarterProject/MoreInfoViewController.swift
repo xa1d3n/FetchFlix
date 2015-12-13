@@ -342,8 +342,15 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
             controller.genre = selectedMovie.genre
             controller.filmTitle = selectedMovie.title
             controller.posterImage = self.posters[indexPath.row]
-            controller.rating = "\(selectedMovie.rating)"
-            controller.voteCount = "\(selectedMovie.voteCount)"
+            if let rating = selectedMovie.rating {
+                controller.rating = "\(rating)"
+            }
+            if let voteCount = selectedMovie.voteCount {
+                controller.voteCount = "\(voteCount)"
+            }
+            controller.posterPath = selectedMovie.posterPath
+            controller.user = self.user
+            controller.moc = self.moc
             self.navigationController?.pushViewController(controller, animated: true)
         })
     }

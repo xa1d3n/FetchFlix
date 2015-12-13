@@ -13,7 +13,6 @@ import CoreData
 struct HelperFunctions {
     static var watchList = Set<String>()
     static var passedList = Set<String>()
-    static var user = User()
     
     static func startSpinner(view: UIView) -> UIActivityIndicatorView {
         let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
@@ -56,7 +55,7 @@ struct HelperFunctions {
                         
                         favMovie.setValue("\(page)", forKey: "page")
                         //self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
-                        self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie, completion: { (success) -> Void in
+                        self.addSimilarMoviesToCoreData(movies, user: user, moc: moc, favMovie: favMovie, completion: { (success) -> Void in
                             if success {
                                 
                                 completion(result: movies, error: nil)
@@ -75,7 +74,7 @@ struct HelperFunctions {
 
     }
     
-    static func addSimilarMoviesToCoreData(movies: [TMDBMovie], moc: NSManagedObjectContext, favMovie: FavoriteMovie, completion: (success: Bool) -> Void) {
+    static func addSimilarMoviesToCoreData(movies: [TMDBMovie], user: User, moc: NSManagedObjectContext, favMovie: FavoriteMovie, completion: (success: Bool) -> Void) {
         for movie in movies {
             print(movie.title)
             print(watchList.count)
@@ -177,8 +176,8 @@ struct HelperFunctions {
         button.layer.borderColor = UIColor(red:0.35, green:0.73, blue:0.71, alpha:1.0).CGColor
     }
     
-    static func getWatchListMovies(moc: NSManagedObjectContext, user: User) {
-        TMDBClient.sharedInstance().getMovieWatchlist { (success, movies, errorString) -> Void in
+    static func getWatchListMovies(moc: NSManagedObjectContext, user: User, page: Int, completion: (success: Bool) -> Void) {
+        TMDBClient.sharedInstance().getMovieWatchlist(page) { (success, movies, errorString) -> Void in
             if success {
                 if let movies = movies {
                     for movie in movies {
@@ -212,6 +211,16 @@ struct HelperFunctions {
                             fatalError("failure to save context: \(error)")
                         }
                         
+                    }
+                    if movies.count == 20 {
+                        var nextPage = page
+                        nextPage++
+                        self.getWatchListMovies(moc, user: user, page: nextPage, completion: { (count) -> Void in
+                            
+                        })
+                    }
+                    else {
+                        completion(success: true)
                     }
                 }
             }

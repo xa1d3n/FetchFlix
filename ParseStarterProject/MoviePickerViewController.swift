@@ -33,6 +33,7 @@ class MoviePickerViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        movieSearchBar.placeholder = "Search for a movie..."
     }
 
 }

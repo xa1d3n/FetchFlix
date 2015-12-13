@@ -73,7 +73,10 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         
         if likedMovies.count < 1 {
             if let user = user {
-                HelperFunctions.getWatchListMovies(moc, user: user)
+                //HelperFunctions.getWatchListMovies(moc, user: user)
+                HelperFunctions.getWatchListMovies(moc, user: user, page: 1) { (count) -> Void in
+                    print(count)
+                }
             }
         }
     }

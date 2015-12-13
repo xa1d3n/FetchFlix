@@ -305,14 +305,14 @@ extension TMDBClient {
         }
     }
     
-    func getMovieWatchlist(completionHandler: (success: Bool, movies: [TMDBMovie]?, errorString: String?) -> Void) {
+    func getMovieWatchlist(page: Int, completionHandler: (success: Bool, movies: [TMDBMovie]?, errorString: String?) -> Void) {
         
         var mutableMethod : String = Methods.MovieWatchlist
         mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: String(TMDBClient.sharedInstance().userID!))!
+
+        let parameters = [TMDBClient.ParameterKeys.SessionID: TMDBClient.sharedInstance().sessionID!, TMDBClient.ParameterKeys.Page: page]
         
-        let parameters = [TMDBClient.ParameterKeys.SessionID: TMDBClient.sharedInstance().sessionID!]
-        
-        taskForGETMethod(mutableMethod, parameters: parameters) { JSONResult, error in
+        taskForGETMethod(mutableMethod, parameters: parameters as! [String : AnyObject]) { JSONResult, error in
             
             if let error = error {
                 print(error)
