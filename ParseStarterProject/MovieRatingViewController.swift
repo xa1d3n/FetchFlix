@@ -21,6 +21,8 @@ class MovieRatingViewController: UIViewController {
     var favoriteButton : UIBarButtonItem!
     var infoButton : UIBarButtonItem!
     
+    var isFavorite = false
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -30,11 +32,6 @@ class MovieRatingViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         self.title = "Watchlist"
-        
-        favoriteButton = UIBarButtonItem(image: UIImage(named: "favorite"), style: UIBarButtonItemStyle.Plain, target: self, action: "addFavorite")
-        infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: UIBarButtonItemStyle.Plain, target: self, action: "info")
-        
-        self.navigationItem.rightBarButtonItems = [infoButton, favoriteButton]
         
         ratings.didTouchCosmos = touchedTheStar
         
@@ -65,10 +62,6 @@ class MovieRatingViewController: UIViewController {
                 self.title = title
             }
         }
-        
-    }
-    
-    func favorite() {
         
     }
     
@@ -108,9 +101,29 @@ class MovieRatingViewController: UIViewController {
 
     }
     
-    func addFavorite() {
-        favoriteButton = UIBarButtonItem(image: UIImage(named: "favFilled"), style: UIBarButtonItemStyle.Plain, target: self, action: "addFavorite")
-        self.navigationItem.rightBarButtonItems = [infoButton, favoriteButton]
+    func favorite() {
+        //HelperFunctions.modifyMovieDBFavorite(movie?.id, favorite: !isFavorite)
+        isFavorite = !isFavorite
+        HelperFunctions.modifyMovieDBFavorite(movie?.id, favorite: isFavorite) { (success) -> Void in
+            if success {
+                if self.isFavorite {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.favoriteButton = UIBarButtonItem(image: UIImage(named: "favFilled"), style: UIBarButtonItemStyle.Plain, target: self, action: "favorite")
+                        self.infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: UIBarButtonItemStyle.Plain, target: self, action: "info")
+                        
+                        self.navigationItem.rightBarButtonItems = [self.infoButton, self.favoriteButton]
+                    })
+                }
+                else {
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.favoriteButton = UIBarButtonItem(image: UIImage(named: "favorite"), style: UIBarButtonItemStyle.Plain, target: self, action: "favorite")
+                        self.infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: UIBarButtonItemStyle.Plain, target: self, action: "info")
+                        
+                        self.navigationItem.rightBarButtonItems = [self.infoButton, self.favoriteButton]
+                    })
+                }
+            }
+        }
     }
     
     func checkMovieState(id: String?) {
@@ -120,12 +133,20 @@ class MovieRatingViewController: UIViewController {
                     if let isWatched = result![0].favorited {
                         if isWatched == true {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                          //      self.removeWatchlist.hidden = false
+                                self.isFavorite = true
+                                self.favoriteButton = UIBarButtonItem(image: UIImage(named: "favFilled"), style: UIBarButtonItemStyle.Plain, target: self, action: "favorite")
+                                self.infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: UIBarButtonItemStyle.Plain, target: self, action: "info")
+                                
+                                self.navigationItem.rightBarButtonItems = [self.infoButton, self.favoriteButton]
                             })
                         }
                         else {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                           //     self.watchlistBtn.hidden = false
+                                self.isFavorite = false
+                                self.favoriteButton = UIBarButtonItem(image: UIImage(named: "favorite"), style: UIBarButtonItemStyle.Plain, target: self, action: "favorite")
+                                self.infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: UIBarButtonItemStyle.Plain, target: self, action: "info")
+                                
+                                self.navigationItem.rightBarButtonItems = [self.infoButton, self.favoriteButton]
                             })
                         }
                     }

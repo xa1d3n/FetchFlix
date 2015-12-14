@@ -76,10 +76,7 @@ struct HelperFunctions {
     
     static func addSimilarMoviesToCoreData(movies: [TMDBMovie], user: User, moc: NSManagedObjectContext, favMovie: FavoriteMovie, completion: (success: Bool) -> Void) {
         for movie in movies {
-            print(movie.title)
-            print(watchList.count)
             let movieId = "\(movie.id!)"
-            print(watchList.contains(movieId))
             if (!watchList.contains(movieId) && !passedList.contains(movieId)) {
                 let similarMovie = NSEntityDescription.insertNewObjectForEntityForName("SimilarMovie", inManagedObjectContext: moc) as! SimilarMovie
                 if let title = movie.title {
@@ -124,13 +121,15 @@ struct HelperFunctions {
         
     }
     
-    static func modifyMovieDBFavorite(id: String?, favorite: Bool) {
+    static func modifyMovieDBFavorite(id: String?, favorite: Bool, completion: (success: Bool)->Void) {
         if let id = id {
             TMDBClient.sharedInstance().postToFavorites(id, favorite: favorite, completionHandler: { (result, error) -> Void in
                 if error != nil {
+                    completion(success: false)
                     print(error)
                 }
                 else {
+                    completion(success: true)
                     print(result)
                 }
             })

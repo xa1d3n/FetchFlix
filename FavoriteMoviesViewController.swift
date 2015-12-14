@@ -42,8 +42,6 @@ class FavoriteMoviesViewController: UIViewController {
         
         if let posterImage = posterImage {
             TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
-                //print(imageData)
-                //print(error)
                 if let image = UIImage(data: imageData!) {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.posters[self.posterInd!] = image

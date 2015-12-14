@@ -87,7 +87,10 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
             for movie in favMovies! {
                 if movie.id! == "\(oldId!)" {
-                    HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: false)
+                    //HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: false)
+                    HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: false, completion: { (success) -> Void in
+                        
+                    })
                     user?.mutableSetValueForKey("favoriteMovie").removeObject(movie)
                     do {
                         try moc!.save()
@@ -98,7 +101,10 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             }
         }
         if (oldId != newId) {
-            HelperFunctions.modifyMovieDBFavorite("\(newId)", favorite: true)
+            //HelperFunctions.modifyMovieDBFavorite("\(newId)", favorite: true)
+            HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: true, completion: { (success) -> Void in
+                
+            })
             favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc!) as? FavoriteMovie
             
             favMovie!.setValue(title, forKey: "title")
