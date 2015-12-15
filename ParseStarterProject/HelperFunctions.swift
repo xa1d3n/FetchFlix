@@ -261,9 +261,6 @@ struct HelperFunctions {
     }
     
     static func removeMovieFromWatchlist(id: String?, user: User?, moc: NSManagedObjectContext?, completion: (success: Bool) -> Void) {
-       // HelperFunctions.modifyMovieDBWatchlist(movieToDelete.id, watchlist: false)
-        
-        
         if let id = id {
             HelperFunctions.modifyMovieDBWatchlist(id, watchlist: false) { (success) -> Void in
                 if success {

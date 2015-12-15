@@ -27,14 +27,6 @@ class MovieTrailerViewController: UIViewController {
         else {
             noTrailer.hidden = false
         }
-
-        // Do any additional setup after loading the view.
-        
-      //  var url = "https://www.youtube.com/embed/yUEFauIpR40"
-        
-       // var htmlUrl = "<html><head><body style=\"(margin:0)\"><embed id=\"yt\" src=\"\(url)\" type=\"application/x-shockwave-flash\"width=\"\(560)\" height=\"\(315)\"></embed> </body></html>"
-        
-        
     }
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
@@ -49,15 +41,5 @@ class MovieTrailerViewController: UIViewController {
     @IBAction func close(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepareForSegue(segue: UIStoryboardSegue, sender: AnyObject?) {
-        // Get the new view controller using segue.destinationViewController.
-        // Pass the selected object to the new view controller.
-    }
-    */
 
 }

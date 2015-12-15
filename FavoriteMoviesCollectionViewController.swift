@@ -73,7 +73,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         
         if likedMovies.count < 1 {
             if let user = user {
-                //HelperFunctions.getWatchListMovies(moc, user: user)
                 HelperFunctions.getWatchListMovies(moc, user: user, page: 1) { (count) -> Void in
                 }
             }
@@ -162,11 +161,6 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     }
 
     @IBAction func showPicker(sender: AnyObject) {
-        
-        //self.performSegueWithIdentifier("showMovieSwiper", sender: self)
-       /* dispatch_async(dispatch_get_main_queue()) { () -> Void in
-            let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MovieDetailViewController") as! MovieDetailViewController
-            self.navigationController?.pushViewController(controller, animated: true)
-        } */
+
     }
 }

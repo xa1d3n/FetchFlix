@@ -340,8 +340,7 @@ class MovieDetailViewController: UIViewController {
         movieIndex = similarMovies.count - 1
         
         if similarMovies.count < 1 {
-            
-            
+            getMoreSimilarMovies()
         }
     }
     

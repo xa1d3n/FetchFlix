@@ -41,7 +41,6 @@ struct TMDBMovie {
         if let genres = dictionary["genres"] {
             genre = genres[0]["name"] as? String
         }
-       // genre = dictionary["genres"]![0]["name"] as? String
     }
     
     // convert to array of TMDBMovie

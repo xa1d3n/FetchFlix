@@ -20,11 +20,6 @@ class LoginViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        // Do any additional setup after loading the view.
-        
-       // Open.target = self.revealViewController()
-       // Open.action = Selector("revealToggle:")
         
         spinner = HelperFunctions.startSpinner(view)
         getUserFromCoreData()
@@ -66,7 +61,7 @@ class LoginViewController: UIViewController {
         }
         
         //HelperFunctions.getWatchListMovies(moc, user: user)
-        var page = 1
+        let page = 1
         HelperFunctions.getWatchListMovies(moc, user: user, page: page) { (count) -> Void in
         }
         
@@ -226,11 +221,8 @@ class LoginViewController: UIViewController {
         let user = PFUser()
         if let username = TMDBClient.sharedInstance().userID {
             
-           // saveUserToCoreData(username)
-            
             user.username = "\(username)"
             user.password = ""
-            
             
             user.signUpInBackgroundWithBlock {
                 (succeeded: Bool, error: NSError?) -> Void in

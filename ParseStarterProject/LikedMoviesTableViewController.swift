@@ -88,9 +88,7 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
         }
         else {
             cell.textLabel!.text = movies[indexPath.row].title
-            //cell.detailTextLabel?.text = movies[indexPath.row].released
             cell.imageView?.image = nil
-            //print(movies[indexPath.row].)
             
             if let poster = movies[indexPath.row].posterPath {
                 TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[0], filePath: poster, completionHandler: { (imageData, error) -> Void in
@@ -161,7 +159,6 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
     override func tableView(tableView: UITableView, canEditRowAtIndexPath indexPath: NSIndexPath) -> Bool {
         return true
     }
-    
     
     func searchBarTextDidBeginEditing(searchBar: UISearchBar) {
         searchActive = true
