@@ -33,38 +33,6 @@
             endingLineNumber = "259"
             landmarkName = "addToWatchList(_:)"
             landmarkType = "5">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Filmr.MoreInfoViewController.addToWatchList (Filmr.MoreInfoViewController)(Swift.AnyObject) -&gt; ()"
-                  moduleName = "Filmr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/aldinfajic/Documents/Filmr/ParseStarterProject/MoreInfoViewController.swift"
-                  timestampString = "471749707.947037"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "259"
-                  endingLineNumber = "259"
-                  offsetFromSymbolStart = "1222">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "Filmr.MoreInfoViewController.(addToWatchList (Filmr.MoreInfoViewController) -&gt; (Swift.AnyObject) -&gt; ()).(closure #1)"
-                  moduleName = "Filmr"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/aldinfajic/Documents/Filmr/ParseStarterProject/MoreInfoViewController.swift"
-                  timestampString = "471749707.947251"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "260"
-                  endingLineNumber = "260"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

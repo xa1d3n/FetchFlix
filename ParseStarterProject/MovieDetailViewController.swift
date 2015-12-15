@@ -101,9 +101,11 @@ class MovieDetailViewController: UIViewController {
     func getMoviesFromCoreData() {
         let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
         
+        var simMovies = [SimilarMovie]()
+        
         for movie in favMovies!{
             let movies = movie.similarMovie?.allObjects as! [SimilarMovie]
-            similarMovies += movies
+            simMovies += movies
         }
         
         let watchlistMovies = user!.likedMovie?.allObjects as! [LikedMovie]
@@ -121,14 +123,12 @@ class MovieDetailViewController: UIViewController {
             }
         }
         
-        for (index, movie) in similarMovies.enumerate() {
+        for (index, movie) in simMovies.enumerate() {
             let movId = movie.id
             if let id = movId {
-                if (watchList.contains(id) || passedList.contains(id)) {
+                if (!(watchList.contains(id) || passedList.contains(id))) {
                     print(movie.title)
-                    if index < similarMovies.count {
-                        similarMovies.removeAtIndex(index)
-                    }
+                    similarMovies.append(simMovies[index])
                 }
             }
         }
@@ -143,30 +143,6 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-   /* func checkMovieState(id: String?) {
-        if let id = id {
-            TMDBClient.sharedInstance().getMovieStates(similarMovies[movieIndex].id!) { (result, error) -> Void in
-                if (result != nil) {
-                    if let isWatched = result![0].watchlist {
-                        if isWatched == true {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                self.movieIndex--
-                                self.checkMovieState(self.similarMovies[self.movieIndex].id)
-                            })
-                        }
-                        else {
-                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                                self.movieTitle.text = self.similarMovies[self.movieIndex].title
-                                self.setMoviePoster(self.movieIndex)
-                                self.movieIndex--
-                            })
-                        }
-                    }
-                }
-            }
-        }
-    } */
-    
     func wasDragged(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translationInView(view)
         let poster = gesture.view!
@@ -176,16 +152,11 @@ class MovieDetailViewController: UIViewController {
         
         if gesture.state == UIGestureRecognizerState.Ended {
             if poster.center.x < 50 {
-                removeMovie()
-                setMovieData()
+                passMovie()
             }
             else if poster.center.x > view.bounds.width - 50 {
-                removeMovie()
-                setMovieData()
-                addLikedMovieToCoreData(currMovie!)
+                likeMovie()
             }
-            
-            
             
             poster.center = CGPoint(x: view.bounds.width / 2 , y: view.bounds.height / 2 )
             
@@ -193,7 +164,6 @@ class MovieDetailViewController: UIViewController {
     }
     
     func addLikedMovieToCoreData(movie: SimilarMovie) {
-        //HelperFunctions.modifyMovieDBWatchlist(movie.id, watchlist: true)
         let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: moc) as! LikedMovie
         likedMovie.title = movie.title!
         likedMovie.id = movie.id!
@@ -209,14 +179,6 @@ class MovieDetailViewController: UIViewController {
                 print("could not add to watchilst")
             }
         }
-        
-        /*user!.mutableSetValueForKey("likedMovie").addObject(likedMovie)
-        
-        do {
-            try moc.save()
-        } catch {
-            fatalError("failure to save context: \(error)")
-        } */
     }
     
     func addPassedMovieToCoreData(movie: SimilarMovie?) {
@@ -244,12 +206,9 @@ class MovieDetailViewController: UIViewController {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.poster.setImage(image, forState: .Normal)
                         })
-                            //self.currMovie = self.movies[movInd]
                         if movInd < self.similarMovies.count {
                             self.currMovie = self.similarMovies[movInd]
                         }
-                        
-                        
                     }
                 }
             }
@@ -336,7 +295,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func dislike(sender: AnyObject) {
+    func passMovie() {
         SessionM.sharedInstance().logAction("swipe_left")
         removeMovie()
         if similarMovies.count > 0 {
@@ -348,7 +307,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
-    @IBAction func like(sender: AnyObject) {
+    func likeMovie() {
         SessionM.sharedInstance().logAction("swipe_right")
         removeMovie()
         if similarMovies.count > 0 {
@@ -359,6 +318,15 @@ class MovieDetailViewController: UIViewController {
             getMoreSimilarMovies()
         }
     }
+    
+    @IBAction func dislike(sender: AnyObject) {
+        passMovie()
+    }
+    
+    @IBAction func like(sender: AnyObject) {
+        likeMovie()
+    }
+    
     
     func setMovieData() {
         self.setMoviePoster(movieIndex)
