@@ -18,7 +18,7 @@ class MovieTrailerViewController: UIViewController {
         
         self.setNeedsStatusBarAppearanceUpdate()
         
-        
+        // get movie trailer from youtube. Show empty lable if not available.
         if let key = trailerKey {
             let url = "https://www.youtube.com/embed/\(key)"
             let htmlUrl = "<html><head><body style=\"(margin:0 auto)\"><embed id=\"yt\" src=\"\(url)\" type=\"application/x-shockwave-flash\"width=\"\(560)\" height=\"\(315)\"></embed> </body></html>"

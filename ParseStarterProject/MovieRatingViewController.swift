@@ -48,7 +48,7 @@ class MovieRatingViewController: UIViewController {
         if let movie = movie {
             if let yourRating = movie.yourRating {
                 ratings.rating = Double(yourRating)!
-                ratings.colorFilled = UIColor.yellowColor()
+                ratings.colorFilled = UIColor(red:1.00, green:0.65, blue:0.00, alpha:1.0)
             }
             else if let rating = Double((movie.rating)!) {
                 ratings.rating = rating
@@ -102,7 +102,6 @@ class MovieRatingViewController: UIViewController {
     }
     
     func favorite() {
-        //HelperFunctions.modifyMovieDBFavorite(movie?.id, favorite: !isFavorite)
         isFavorite = !isFavorite
         HelperFunctions.modifyMovieDBFavorite(movie?.id, favorite: isFavorite) { (success) -> Void in
             if success {
@@ -156,7 +155,7 @@ class MovieRatingViewController: UIViewController {
     }
     
     func touchedTheStar(rating: Double) {
-        ratings.colorFilled = UIColor.yellowColor()
+        ratings.colorFilled = UIColor(red:1.00, green:0.65, blue:0.00, alpha:1.0)
         SessionM.sharedInstance().logAction("rate_action")
         saveRating(rating)
         if let id = movie?.id {

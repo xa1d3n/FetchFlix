@@ -43,8 +43,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SessionMDelegate {
         // ParseCrashReporting.enable()
         //
         // Uncomment and fill in with your Parse credentials:
-        Parse.setApplicationId("3K2JfaWg7LaZlFAwJde2pm4dx2jEOP2lw871GrS5",
-            clientKey: "QrsTJeqmeH6p3sVqIWrriLG3eUecgWUjsmRmUFVq")
+        Parse.setApplicationId(TMDBClient.Constants.ParseApiKey,
+            clientKey: TMDBClient.Constants.ParseClientKey)
         //
         // If you are using Facebook, uncomment and add your FacebookAppID to your bundle's plist as
         // described here: https://developers.facebook.com/docs/getting-started/facebook-sdk-for-ios/
@@ -110,7 +110,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SessionMDelegate {
         pageController.backgroundColor = UIColor.whiteColor()
         
         SessionM.sharedInstance().delegate = self
-        SessionM.sharedInstance().startSessionWithAppID("13fb3e36ad2abde8fc8907aeb2cfe9f7b7f875d3")
+        SessionM.sharedInstance().startSessionWithAppID(TMDBClient.Constants.SessionMApiKey)
         
         
         
@@ -147,6 +147,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SessionMDelegate {
         PFPush.handlePush(userInfo)
         if application.applicationState == UIApplicationState.Inactive {
             PFAnalytics.trackAppOpenedWithRemoteNotificationPayload(userInfo)
+        }
+    }
+    
+    func application(application: UIApplication, performActionForShortcutItem shortcutItem: UIApplicationShortcutItem, completionHandler: (Bool) -> Void) {
+        if shortcutItem.type == "view.watchlist" {
+            
+            let sb = UIStoryboard(name: "Main", bundle: nil)
+            print(UIApplication.sharedApplication().keyWindow?.subviews.first)
+            let wishlistVC = sb.instantiateViewControllerWithIdentifier("LikedMoviesTableViewController") as! LikedMoviesTableViewController
+           // let root = UIApplication.sharedApplication().keyWindow?.rootViewController
+           // root?.performSegueWithIdentifier("showSlider", sender: nil)
+           // print(root?.childViewControllers.count)
+            
+           // root?.performSegueWithIdentifier("showSlider", sender: nil)
+            
+          //  root?.presentViewController(wishlistVC, animated: false, completion: { () -> Void in
+            //    completionHandler(true)
+          //  }) */
+            
         }
     }
 

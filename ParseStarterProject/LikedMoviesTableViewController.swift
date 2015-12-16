@@ -13,6 +13,7 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
     
     var movies = [LikedMovie]()
     var filtered = [LikedMovie]()
+    var selectedMovie : LikedMovie?
     
     @IBOutlet weak var search: UISearchBar!
     var watchListMovies = [TMDBMovie]()
@@ -29,6 +30,11 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
         
         self.title = "Watchlist"
         search.delegate = self
+        
+        // force peek
+        if traitCollection.forceTouchCapability == .Available {
+            registerForPreviewingWithDelegate(self, sourceView: self.tableView)
+        }
     }
     
     override func viewWillAppear(animated: Bool) {
@@ -37,12 +43,11 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
         getLikedMoviesFromCoreData()
     }
     
+    // get movies from watchlist
     func getLikedMoviesFromCoreData() {
         movies = user?.likedMovie?.allObjects as! [LikedMovie]
         self.tableView.reloadData()
     }
-
-    // MARK: - Table view data source
 
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
         // #warning Incomplete implementation, return the number of sections
@@ -50,7 +55,7 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
     }
 
     override func tableView(tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        // #warning Incomplete implementation, return the number of rows
+        // show filtered data if searching
         if (searchActive || filtered.count > 0) {
             setSearchBarText(filtered.count)
             return filtered.count
@@ -59,6 +64,7 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
         return movies.count
     }
     
+    // change searchbar placeholder text
     func setSearchBarText(count: Int) {
         search.placeholder = "Search \(count) Movies"
     }
@@ -71,8 +77,8 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
                 cell.textLabel!.text = filtered[indexPath.row].title
                 //cell.detailTextLabel?.text = movies[indexPath.row].released
                 cell.imageView?.image = nil
-                //print(movies[indexPath.row].)
                 
+                // retreive movie poster
                 if let poster = filtered[indexPath.row].posterPath {
                     TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[0], filePath: poster, completionHandler: { (imageData, error) -> Void in
                         if let image = UIImage(data: imageData!) {
@@ -122,6 +128,7 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
         navigationController?.pushViewController(controller, animated: true)
     }
     
+    // delete movie from watchlist and core data
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (searchActive  && filtered.count > 0) {
             let movieToDelete = filtered[indexPath.row]
@@ -145,6 +152,7 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
         tableView.reloadData()
     }
     
+    // remove deleted movie from core data
     func removeFromCoreData(movieToDelete: LikedMovie) {
         HelperFunctions.removeMovieFromWatchlist(movieToDelete.id, user: user, moc: moc) { (success) -> Void in
             if success {
@@ -176,6 +184,7 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
         searchActive = false
     }
     
+    // filter results by title
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
         filtered = movies.filter({
             ($0.title?.containsString(searchText))!

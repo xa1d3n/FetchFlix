@@ -52,6 +52,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        // style buttons
         HelperFunctions.styleButton(trailerBtn)
         HelperFunctions.styleButton(watchlistBtn)
         HelperFunctions.styleButton(removeWatchlist)
@@ -65,6 +66,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         
     }
     
+    // check wheter movies is already in watchlist and set icon accordingly
     func checkMovieState(id: String?) {
         if let id = id {
             TMDBClient.sharedInstance().getMovieStates(id) { (result, error) -> Void in
@@ -86,6 +88,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         }
     }
     
+    // get more information about movie
     func getMovieInfo(id: String?) {
         TMDBClient.sharedInstance().getMovieDetails(id!) { (result, error) -> Void in
             if error != nil {
@@ -113,6 +116,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
 
     }
     
+    // retrive list of actors
     func getActors(id: String?) {
         if let id = id {
             TMDBClient.sharedInstance().getMovieCredits(id) { (result, error) -> Void in
@@ -193,6 +197,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         }
     }
     
+    // get movie genre and set genre icon accordingly
     func getGenre(genre: String) {
         switch genre {
         case Genre.Action.rawValue:
@@ -235,21 +240,19 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
             genreIcon.image = UIImage(named: Genre.War.rawValue)
         case Genre.Western.rawValue:
             genreIcon.image = UIImage(named: Genre.Western.rawValue)
-        
         default:
-            print("DFS")
+            genreIcon.image = UIImage(named: "Question")
         }
     }
     
-
+    // close the view
     @IBAction func close(sender: AnyObject) {
         movieDetailView?.similarMovies = recMovies
         self.dismissViewControllerAnimated(true, completion: nil)
     }
     
+    // handle add to watchlist button press
     @IBAction func addToWatchList(sender: AnyObject) {
-        ///watchlistBtn.titleLabel?.text = "df"
-       // HelperFunctions.modifyMovieDBWatchlist(id, watchlist: true)
         let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: moc) as! LikedMovie
         likedMovie.title = filmTitle
         likedMovie.id = id
@@ -268,27 +271,9 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
                 print("could not add to watchilst")
             }
         }
-        
-        /*
-        
-        let spinner = HelperFunctions.startSpinner(self.view)
-        HelperFunctions.addMovieToWatchlist(likedMovie, user: user, moc: moc) { (success) -> Void in
-            if success == true {
-                for (index, movie) in self.recMovies.enumerate() {
-                    if movie.id == self.id {
-                        self.recMovies.removeAtIndex(index)
-                        break
-                    }
-                }
-            }
-            else {
-                
-            }
-            HelperFunctions.stopSpinner(spinner)
-        } */
-        
     }
     
+    // handle remove from watchlist button press
     @IBAction func removeFromWatchlist(sender: AnyObject) {
         HelperFunctions.removeMovieFromWatchlist(id, user: user, moc: moc) { (success) -> Void in
             if success {
@@ -304,9 +289,8 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         }
     }
     
+    // handle trailer button press
     @IBAction func trailer(sender: AnyObject) {
-        /*let stringURL = "https://www.youtube.com/watch?v=\(trailerKey)"
-        let url = NSURL(string: stringURL) */
         let controller = storyboard?.instantiateViewControllerWithIdentifier("MovieTrailerViewController") as! MovieTrailerViewController
         controller.trailerKey = trailerKey
         self.presentViewController(controller, animated: true, completion: nil)
@@ -317,10 +301,10 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         return posters.count
     }
     
+    // set movie posters
     func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cell", forIndexPath: indexPath) as! SimilarMoviePosterCollectionViewCell
         
-        print(self.posterPaths)
         if let poster = posters[indexPath.row] {
             cell.poster.image = poster
         }
@@ -328,11 +312,11 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         return cell
     }
     
+    // handle poster click
     func collectionView(collectionView: UICollectionView, didSelectItemAtIndexPath indexPath: NSIndexPath) {
         
         
         let controller = self.storyboard?.instantiateViewControllerWithIdentifier("MoreInfoViewController") as! MoreInfoViewController
-        
         
         dispatch_async(dispatch_get_main_queue(), { () -> Void in
             let selectedMovie = self.similarMovies[indexPath.row]
@@ -355,6 +339,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         })
     }
     
+    // get lis of similar movies
     func getSimilarMovies(movieId: Int) {
         TMDBClient.sharedInstance().getSimilarMovies(movieId, page: 1) { (result, error) -> Void in
             if let movies = result {
@@ -379,6 +364,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         }
     }
     
+    // get poster images
     func downloadPoster(posterImage: String?, movie: TMDBMovie) {
         if let posterImage = posterImage {
             TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[1], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
@@ -393,6 +379,7 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         }
     }
     
+    // handle share button click
     @IBAction func share(sender: AnyObject) {
         let text = "Check out \(filmTitle!) on TMDb https://www.themoviedb.org/movie/\(id!)"
         let movieImage = posterImage

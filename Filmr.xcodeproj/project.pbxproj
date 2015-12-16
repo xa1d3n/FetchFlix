@@ -62,6 +62,8 @@
 		B3BC04E41C092A6C007E88BB /* AdSupport.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04E31C092A6C007E88BB /* AdSupport.framework */; };
 		B3BC04E61C092A74007E88BB /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04E51C092A74007E88BB /* StoreKit.framework */; };
 		B3BC04E81C092A7C007E88BB /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = B3BC04E71C092A7C007E88BB /* ImageIO.framework */; };
+		B3D23A041C2100FA005108F3 /* LikedMoviesTableViewControllerPrevewing.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D23A031C2100FA005108F3 /* LikedMoviesTableViewControllerPrevewing.swift */; };
+		B3D23A061C210198005108F3 /* PreviewViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3D23A051C210198005108F3 /* PreviewViewController.swift */; };
 		B3F3A4161C0FE60400B00D90 /* SWRevealViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B3F3A4151C0FE60400B00D90 /* SWRevealViewController.m */; };
 		B3F3A43C1C112E9D00B00D90 /* MenuTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F3A43B1C112E9D00B00D90 /* MenuTableViewController.swift */; };
 		B3F4333A1BD9C6C500D846AB /* CosmosDistrib.swift in Sources */ = {isa = PBXBuildFile; fileRef = B3F433391BD9C6C500D846AB /* CosmosDistrib.swift */; };
@@ -144,6 +146,8 @@
 		B3BC04E51C092A74007E88BB /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		B3BC04E71C092A7C007E88BB /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
 		B3BC04ED1C0932AA007E88BB /* Filmr-Bridging-Header.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "Filmr-Bridging-Header.h"; sourceTree = "<group>"; };
+		B3D23A031C2100FA005108F3 /* LikedMoviesTableViewControllerPrevewing.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LikedMoviesTableViewControllerPrevewing.swift; sourceTree = "<group>"; };
+		B3D23A051C210198005108F3 /* PreviewViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreviewViewController.swift; sourceTree = "<group>"; };
 		B3F3A4141C0FE60400B00D90 /* SWRevealViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SWRevealViewController.h; sourceTree = "<group>"; };
 		B3F3A4151C0FE60400B00D90 /* SWRevealViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SWRevealViewController.m; sourceTree = "<group>"; };
 		B3F3A43B1C112E9D00B00D90 /* MenuTableViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuTableViewController.swift; sourceTree = "<group>"; };
@@ -319,6 +323,8 @@
 				B3930AC51BF932A00006C794 /* SimilarMoviePosterCollectionViewCell.swift */,
 				B3A28B6D1BD06EF000E65873 /* MovieRatingViewController.swift */,
 				B3F3A43B1C112E9D00B00D90 /* MenuTableViewController.swift */,
+				B3D23A031C2100FA005108F3 /* LikedMoviesTableViewControllerPrevewing.swift */,
+				B3D23A051C210198005108F3 /* PreviewViewController.swift */,
 			);
 			name = Controller;
 			sourceTree = "<group>";
@@ -494,6 +500,7 @@
 				B3BC04B01C051611007E88BB /* SimilarMovie+CoreDataProperties.swift in Sources */,
 				B3F4333A1BD9C6C500D846AB /* CosmosDistrib.swift in Sources */,
 				B3BC04B91C051611007E88BB /* LikedMovie.swift in Sources */,
+				B3D23A041C2100FA005108F3 /* LikedMoviesTableViewControllerPrevewing.swift in Sources */,
 				B37175A81BCB0D1B00E3FCD3 /* TMDBMovie.swift in Sources */,
 				B3A28B6C1BCDFEB900E65873 /* LikedMoviesTableViewController.swift in Sources */,
 				B3930AC61BF932A00006C794 /* SimilarMoviePosterCollectionViewCell.swift in Sources */,
@@ -504,6 +511,7 @@
 				B34749131BEB0B040036B8F1 /* MoreInfoViewController.swift in Sources */,
 				81BA814B1A49DA1800E65899 /* AppDelegate.swift in Sources */,
 				B37175B41BCC6B8000E3FCD3 /* LoginViewController.swift in Sources */,
+				B3D23A061C210198005108F3 /* PreviewViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
