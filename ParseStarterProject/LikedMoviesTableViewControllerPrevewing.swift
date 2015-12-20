@@ -24,14 +24,19 @@ extension LikedMoviesTableViewController: UIViewControllerPreviewingDelegate {
             previewVC.filmTitle = filtered[indexPath.row].title
             previewVC.posterImage = cell.imageView?.image
             previewVC.movieRating = Double((filtered[indexPath.row].rating)!)
+            previewVC.movie = movies[indexPath.row]
             selectedMovie = filtered[indexPath.row]
         }
         else {
             previewVC.filmTitle = movies[indexPath.row].title
             previewVC.posterImage = cell.imageView?.image
             previewVC.movieRating = Double((movies[indexPath.row].rating)!)
+            previewVC.movie = movies[indexPath.row]
             selectedMovie = movies[indexPath.row]
         }
+        previewVC.presentingVC = self
+        previewVC.moc = moc
+        previewVC.user = user
         previewVC.preferredContentSize = CGSize(width: 0, height: 400)
         previewingContext.sourceRect = cell.frame
         
@@ -47,6 +52,5 @@ extension LikedMoviesTableViewController: UIViewControllerPreviewingDelegate {
             controller.moc = moc
             controller.user = user
         navigationController?.pushViewController(controller, animated: true)
-
     }
 }

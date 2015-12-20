@@ -387,5 +387,11 @@ class MoreInfoViewController: UIViewController, UICollectionViewDataSource, UICo
         // present the controller
         
         self.presentViewController(controller, animated: true, completion: nil)
+        controller.completionWithItemsHandler = { activity, success, items, error in
+            if success {
+                SessionM.sharedInstance().logAction("share_movie")
+            }
+        }
     }
+
 }

@@ -155,8 +155,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SessionMDelegate {
             
             let sb = UIStoryboard(name: "Main", bundle: nil)
             print(UIApplication.sharedApplication().keyWindow?.subviews.first)
-            let wishlistVC = sb.instantiateViewControllerWithIdentifier("LikedMoviesTableViewController") as! LikedMoviesTableViewController
-           // let root = UIApplication.sharedApplication().keyWindow?.rootViewController
+            //let wishlistVC = sb.instantiateViewControllerWithIdentifier("LikedMoviesTableViewController") as! LikedMoviesTableViewController
+            let rvc = sb.instantiateViewControllerWithIdentifier("RevealVC") as! SWRevealViewController
+           // self.window?.rootViewController?.presentViewController(rvc, animated: true, completion: nil)
+            
+            let root = UIApplication.sharedApplication().keyWindow?.rootViewController as? LoginViewController
+            
+            root?.presentViewController(rvc, animated: true, completion: nil)
            // root?.performSegueWithIdentifier("showSlider", sender: nil)
            // print(root?.childViewControllers.count)
             

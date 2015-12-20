@@ -23,7 +23,6 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
     var user : User?
     
     var searchActive = false
-    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,7 +131,6 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
     override func tableView(tableView: UITableView, commitEditingStyle editingStyle: UITableViewCellEditingStyle, forRowAtIndexPath indexPath: NSIndexPath) {
         if (searchActive  && filtered.count > 0) {
             let movieToDelete = filtered[indexPath.row]
-            filtered.removeAtIndex(indexPath.row)
             
             var i = 0
             for movie in movies {
@@ -143,13 +141,15 @@ class LikedMoviesTableViewController: UITableViewController, UISearchBarDelegate
                 i++
             }
             removeFromCoreData(movieToDelete)
+            filtered.removeAtIndex(indexPath.row)
         }
         else {
             let movieToDelete = movies[indexPath.row]
-            movies.removeAtIndex(indexPath.row)
             removeFromCoreData(movieToDelete)
+            movies.removeAtIndex(indexPath.row)
         }
-        tableView.reloadData()
+        tableView.deleteRowsAtIndexPaths([indexPath], withRowAnimation: UITableViewRowAnimation.Automatic)
+       // tableView.reloadData()
     }
     
     // remove deleted movie from core data

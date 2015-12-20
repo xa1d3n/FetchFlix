@@ -130,7 +130,6 @@ struct HelperFunctions {
                 }
                 else {
                     completion(success: true)
-                    print(result)
                 }
             })
         }
@@ -235,7 +234,6 @@ struct HelperFunctions {
                 }
                 else {
                     completion(success: true)
-                    print(result)
                 }
             })
         }

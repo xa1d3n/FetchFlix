@@ -73,7 +73,6 @@ class MovieDetailViewController: UIViewController {
     override func viewWillAppear(animated: Bool) {
         super.viewWillAppear(true)
         
-        print(similarMovies.count)
         if similarMovies.count > 0 {
             setMovieData()
         }
@@ -82,6 +81,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // get user from core data
     func getFromCoreData() {
         let userFetch = NSFetchRequest(entityName: "User")
         
@@ -98,6 +98,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // get list of similar movies from core data
     func getMoviesFromCoreData() {
         let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
         
@@ -127,7 +128,6 @@ class MovieDetailViewController: UIViewController {
             let movId = movie.id
             if let id = movId {
                 if (!(watchList.contains(id) || passedList.contains(id))) {
-                    print(movie.title)
                     similarMovies.append(simMovies[index])
                 }
             }
@@ -143,6 +143,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // detect dragging of poster left/right
     func wasDragged(gesture: UIPanGestureRecognizer) {
         let translation = gesture.translationInView(view)
         let poster = gesture.view!
@@ -163,6 +164,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // add liked movie to core data
     func addLikedMovieToCoreData(movie: SimilarMovie) {
         let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: moc) as! LikedMovie
         likedMovie.title = movie.title!
@@ -181,6 +183,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // add passed movie to passed list in core data
     func addPassedMovieToCoreData(movie: SimilarMovie?) {
         if let movie = movie {
             let passedMovie = NSEntityDescription.insertNewObjectForEntityForName("PassedMovie", inManagedObjectContext: moc) as! PassedMovie
@@ -196,10 +199,9 @@ class MovieDetailViewController: UIViewController {
         }
     }
 
+    // set movie poster
     func setMoviePoster(movInd: Int) {
         if movInd < self.similarMovies.count {
-            print(movInd)
-            print("movi count \(self.similarMovies.count)")
             if let poster = similarMovies[movInd].posterPath {
                 TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[4], filePath: poster) { (imageData, error) -> Void in
                     if let image = UIImage(data: imageData!) {
@@ -221,6 +223,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
 
+    // show watchlist
     @IBAction func showLiked(sender: AnyObject) {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let controller = self.storyboard?.instantiateViewControllerWithIdentifier("LikedMoviesTableViewController") as! LikedMoviesTableViewController
@@ -232,6 +235,7 @@ class MovieDetailViewController: UIViewController {
         
     }
     
+    // display list of favorites
     func showFavorites() {
         dispatch_async(dispatch_get_main_queue()) { () -> Void in
             let controller = self.storyboard?.instantiateViewControllerWithIdentifier("FavoriteMoviesCollectionViewController") as! FavoriteMoviesCollectionViewController
@@ -239,6 +243,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
 
+    // display more movie info
     @IBAction func showMore(sender: AnyObject) {
         if let id = currMovie?.id {
             getMovieDetails(id)
@@ -246,6 +251,7 @@ class MovieDetailViewController: UIViewController {
         
     }
     
+    // open more info view
     func getMovieDetails(movieId: String) {
         let spinner : UIActivityIndicatorView = HelperFunctions.startSpinner(view)
         TMDBClient.sharedInstance().getMovieDetails(movieId) { (result, error) -> Void in
@@ -295,6 +301,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // handle pass movie
     func passMovie() {
         SessionM.sharedInstance().logAction("swipe_left")
         removeMovie()
@@ -307,6 +314,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // handle like movie
     func likeMovie() {
         SessionM.sharedInstance().logAction("swipe_right")
         removeMovie()
@@ -319,15 +327,18 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // dislike movie button handler
     @IBAction func dislike(sender: AnyObject) {
         passMovie()
     }
     
+    // like movie button handler
     @IBAction func like(sender: AnyObject) {
         likeMovie()
     }
     
     
+    // set movie data
     func setMovieData() {
         self.setMoviePoster(movieIndex)
         self.movieTitle.text = self.similarMovies[self.movieIndex].title
@@ -335,6 +346,7 @@ class MovieDetailViewController: UIViewController {
         self.ratings.rating = Double(rating)!
     }
     
+    // remove movie from similar movies
     func removeMovie() {
         similarMovies.popLast()
         movieIndex = similarMovies.count - 1
@@ -344,6 +356,7 @@ class MovieDetailViewController: UIViewController {
         }
     }
     
+    // get more similar movies or dispaly prompt
     func getMoreSimilarMovies() {
         movieIndex = 0
         let spinner = HelperFunctions.startSpinner(self.view)

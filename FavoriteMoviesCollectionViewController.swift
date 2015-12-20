@@ -33,9 +33,11 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        self.navigationItem.setHidesBackButton(true, animated:true);
         getUSerFromCoreData()
     }
     
+    // get user from core data
     func getUSerFromCoreData() {
         let userFetch = NSFetchRequest(entityName: "User")
         
@@ -51,6 +53,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         }
     }
     
+    // get list of favorite movies from core data
     func getFavoriteMovieFromCoreData() {
         var ind = 0
         
@@ -68,6 +71,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         self.collectionView?.reloadData()
     }
     
+    // get list of liked movies from core data
     func getLikedMovies() {
         likedMovies = (user?.likedMovie?.allObjects as? [LikedMovie])!
         
@@ -79,6 +83,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         }
     }
     
+    // retrive movie poster from documents libraray
     func getImageData(posterPath: String, ind: Int) {
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         let getImagePath = (paths as NSString).stringByAppendingPathComponent(posterPath)
@@ -94,6 +99,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         }
     }
     
+    // add favorite moves to core data
     func addFavoritesToCoreData(ind: Int) {
         let favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc) as! FavoriteMovie
         
@@ -112,6 +118,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
 
     }
     
+    // save poster to documents library
     func saveImageData(posterImg: UIImage, posterPath: String) {
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         
@@ -131,7 +138,7 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         // #warning Incomplete implementation, return the number of items
         return 4
     }
-
+    
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier(reuseIdentifier, forIndexPath: indexPath) as! MoviePosterCollectionViewCell
         

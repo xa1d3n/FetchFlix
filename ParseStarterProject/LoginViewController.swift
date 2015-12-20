@@ -21,15 +21,16 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        spinner = HelperFunctions.startSpinner(view)
-        getUserFromCoreData()
+        
     }
     
     override func viewDidAppear(animated: Bool) {
         super.viewDidAppear(true)
-        
+        spinner = HelperFunctions.startSpinner(view)
+        getUserFromCoreData()
     }
 
+    // authenticate user
     @IBAction func authenticate(sender: UIButton) {
         TMDBClient.sharedInstance().authenticateWithViewController(self) { (success, errorString) -> Void in
             if success {
@@ -47,6 +48,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // save user to core data
     func saveUserToCoreData(username: Int) {
         let user = NSEntityDescription.insertNewObjectForEntityForName("User", inManagedObjectContext: moc) as! User
         
@@ -93,6 +95,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // get user information from core data
     func getUserFromCoreData() {
         
         let userFetch = NSFetchRequest(entityName: "User")
@@ -139,6 +142,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // add favorite movies to core data
     func addToCoreData(movie: TMDBMovie, user: User?, count: Int, iterator: Int) {
         let favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc) as? FavoriteMovie
         
@@ -179,12 +183,9 @@ class LoginViewController: UIViewController {
                 fatalError("failure to save context: \(error)")
             }
         }
-        
-
-        
-
     }
     
+    // login to parse
     func parseLogin() {
         let user = PFUser()
         if let username = TMDBClient.sharedInstance().userID {
@@ -217,6 +218,7 @@ class LoginViewController: UIViewController {
         }
     }
     
+    // sign up to parse
     func parseSignUp() {
         let user = PFUser()
         if let username = TMDBClient.sharedInstance().userID {

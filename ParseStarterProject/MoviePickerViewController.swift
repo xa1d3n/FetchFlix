@@ -52,7 +52,11 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
-        saveToCoreData(movieIds[posterInd!], newId: movies[indexPath.row].id!, title: movies[indexPath.row].title!, posterPath: movies[indexPath.row].posterPath!)
+        guard let movId  = movies[indexPath.row].id else { return }
+        guard let movTitle = movies[indexPath.row].title else { return }
+        guard let movPoster = movies[indexPath.row].posterPath else { return }
+        
+        saveToCoreData(movieIds[posterInd!], newId: movId, title: movTitle, posterPath: movPoster)
         
         controller = self.storyboard!.instantiateViewControllerWithIdentifier("FavoriteMoviesCollectionViewController") as! FavoriteMoviesCollectionViewController
         controller.posters = posters
@@ -67,6 +71,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         
     }
     
+    // download movie poster
     func downloadPoster(posterImage: String?) {
         if let posterImage = posterImage {
             TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
@@ -81,13 +86,13 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         }
     }
     
+    // save to core data
     func saveToCoreData(oldId: Int?=nil, newId: Int, title: String, posterPath: String) {
         
         if (oldId != newId && oldId != nil) {
-            let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
-            for movie in favMovies! {
+            guard let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie] else { return }
+            for movie in favMovies {
                 if movie.id! == "\(oldId!)" {
-                    //HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: false)
                     HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: false, completion: { (success) -> Void in
                         
                     })
@@ -101,8 +106,8 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
             }
         }
         if (oldId != newId) {
-            //HelperFunctions.modifyMovieDBFavorite("\(newId)", favorite: true)
-            HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: true, completion: { (success) -> Void in
+            guard let oldId = oldId else { return }
+            HelperFunctions.modifyMovieDBFavorite("\(oldId)", favorite: true, completion: { (success) -> Void in
                 
             })
             favMovie = NSEntityDescription.insertNewObjectForEntityForName("FavoriteMovie", inManagedObjectContext: moc!) as? FavoriteMovie
@@ -128,6 +133,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
         
     }
     
+    // remove image from documents library
     func removeImageData(posterPath: String) {
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         let filePath = "\(paths)/\(posterPath)"

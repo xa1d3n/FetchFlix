@@ -65,6 +65,7 @@ class MovieRatingViewController: UIViewController {
         
     }
     
+    // show more infor about movie
     func info() {
         let spinner : UIActivityIndicatorView = HelperFunctions.startSpinner(view)
         TMDBClient.sharedInstance().getMovieDetails((movie?.id)!) { (result, error) -> Void in
@@ -98,9 +99,9 @@ class MovieRatingViewController: UIViewController {
                 }
             }
         }
-
     }
     
+    // add/remove from favorites list
     func favorite() {
         isFavorite = !isFavorite
         HelperFunctions.modifyMovieDBFavorite(movie?.id, favorite: isFavorite) { (success) -> Void in
@@ -115,6 +116,7 @@ class MovieRatingViewController: UIViewController {
                 }
                 else {
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        SessionM.sharedInstance().logAction("favorite_movie")
                         self.favoriteButton = UIBarButtonItem(image: UIImage(named: "favorite"), style: UIBarButtonItemStyle.Plain, target: self, action: "favorite")
                         self.infoButton = UIBarButtonItem(image: UIImage(named: "info"), style: UIBarButtonItemStyle.Plain, target: self, action: "info")
                         
@@ -125,6 +127,7 @@ class MovieRatingViewController: UIViewController {
         }
     }
     
+    // check if movie is favorited or not
     func checkMovieState(id: String?) {
         if let id = id {
             TMDBClient.sharedInstance().getMovieStates(id) { (result, error) -> Void in
@@ -154,6 +157,7 @@ class MovieRatingViewController: UIViewController {
         }
     }
     
+    // rate movie handler
     func touchedTheStar(rating: Double) {
         ratings.colorFilled = UIColor(red:1.00, green:0.65, blue:0.00, alpha:1.0)
         SessionM.sharedInstance().logAction("rate_action")
@@ -171,6 +175,7 @@ class MovieRatingViewController: UIViewController {
         
     }
     
+    // save rating to core data
     func saveRating(rating: Double) {
         let likedMovies = user?.likedMovie?.allObjects as! [LikedMovie]
         

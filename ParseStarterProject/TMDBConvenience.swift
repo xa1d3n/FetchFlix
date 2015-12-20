@@ -11,6 +11,7 @@ import UIKit
 
 extension TMDBClient {
     
+    // search movie on themoviedb
     func getMovieForSearchString(searchString: String, completionHandler: (result: [TMDBMovie]?, error: NSError?)->Void) -> NSURLSessionDataTask {
         let parameters = [TMDBClient.ParameterKeys.Query: searchString]
         
@@ -32,6 +33,7 @@ extension TMDBClient {
         return task
     }
     
+    // get list of similar movies
     func getSimilarMovies(movieId: Int, page: Int, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         let parameters = [TMDBClient.ParameterKeys.Page: page]
         let method = "movie/\(movieId)/similar"
@@ -53,6 +55,7 @@ extension TMDBClient {
         return task
     }
     
+    // get movie images
     func getMovieImages(movieId: String, completionHandler: (result: [TMDBImages]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         var mutableMethod : String = Methods.MovieImages
         mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
@@ -77,6 +80,7 @@ extension TMDBClient {
         return task
     }
     
+    // get movie trailers
     func getMovieVideos(movieId: String, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         var mutableMethod : String = Methods.MovieVideo
         mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
@@ -101,6 +105,7 @@ extension TMDBClient {
         return task
     }
     
+    // get more info about movie
     func getMovieDetails(movieId: String, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         var mutableMethod : String = Methods.MovieDetails
         mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
@@ -125,6 +130,7 @@ extension TMDBClient {
         return task
     }
     
+    // check watchlist/favorite status
     func getMovieStates(movieId: String, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         var mutableMethod : String = Methods.MovieStates
         mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
@@ -149,6 +155,7 @@ extension TMDBClient {
         return task
     }
     
+    // get movie credits
     func getMovieCredits(movieId: String, completionHandler: (result: [TMDBMovie]?, error: NSError?) -> Void) -> NSURLSessionDataTask {
         var mutableMethod : String = Methods.MovieCredits
         mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
@@ -162,7 +169,6 @@ extension TMDBClient {
             else {
                 if let results = result[TMDBClient.JSONResponseKeys.MovieCast] as? [[String : AnyObject]] {
                     let movie = TMDBMovie.moviesFromResults(results)
-                    print(movie)
                     completionHandler(result: movie, error: nil)
                 }
                 else {
@@ -173,6 +179,7 @@ extension TMDBClient {
         return task
     }
     
+    // authenticate user
     func authenticateWithViewController(hostViewController: UIViewController, completionHandler: (success: Bool, errorString: String?) -> Void) {
         
         /* Chain completion handlers for each request so that they run one after the other */
@@ -217,6 +224,7 @@ extension TMDBClient {
         }
     }
     
+    // get user request token
     func getRequestToken(completionHandler: (success: Bool, requestToken: String?, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
@@ -259,6 +267,7 @@ extension TMDBClient {
         })
     }
     
+    // get session id
     func getSessionID(requestToken: String?, completionHandler: (success: Bool, sessionID: String?, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
@@ -282,6 +291,7 @@ extension TMDBClient {
         }
     }
     
+    // get user id
     func getUserID(completionHandler: (success: Bool, userID: Int?, errorString: String?) -> Void) {
         
         /* 1. Specify parameters, method (if has {key}), and HTTP body (if POST) */
@@ -305,6 +315,7 @@ extension TMDBClient {
         }
     }
     
+    // get user movie watchlist
     func getMovieWatchlist(page: Int, completionHandler: (success: Bool, movies: [TMDBMovie]?, errorString: String?) -> Void) {
         
         var mutableMethod : String = Methods.MovieWatchlist
@@ -319,7 +330,6 @@ extension TMDBClient {
                 completionHandler(success: false, movies: nil, errorString: "error retriving watchlist")
             }
             else {
-               // print(JSONResult)
                 if let results = JSONResult[TMDBClient.JSONResponseKeys.MovieResults] as? [[String : AnyObject]] {
                     let movie = TMDBMovie.moviesFromResults(results)
                     completionHandler(success: true, movies: movie, errorString: nil)
@@ -328,6 +338,7 @@ extension TMDBClient {
         }
     }
     
+    // get user's list of favorite movies
     func getFavoriteMovies(completionHandler: (success: Bool, movies: [TMDBMovie]?, errorString: String?) -> Void) {
         
         var mutableMethod : String = Methods.MovieFavorites
@@ -342,7 +353,6 @@ extension TMDBClient {
                 completionHandler(success: false, movies: nil, errorString: "error retriving favorite movies")
             }
             else {
-                // print(JSONResult)
                 if let results = JSONResult[TMDBClient.JSONResponseKeys.MovieResults] as? [[String : AnyObject]] {
                     let movie = TMDBMovie.moviesFromResults(results)
                     completionHandler(success: true, movies: movie, errorString: nil)
@@ -376,6 +386,7 @@ extension TMDBClient {
         }
     }
     
+    // add/remove movie from watchlist
     func postToWatchlist(movieId: String, watchlist: Bool, completionHandler: (result: Int?, error: NSError?) -> Void) {
         let parameters = [TMDBClient.ParameterKeys.SessionID: TMDBClient.sharedInstance().sessionID!]
         var mutableMethod : String = Methods.AccountIDWatchlist
@@ -401,6 +412,7 @@ extension TMDBClient {
         }
     }
     
+    // add/remove movie to favorites
     func postToFavorites(movieId: String, favorite: Bool, completionHandler: (result: Int?, error: NSError?) -> Void) {
         let parameters = [TMDBClient.ParameterKeys.SessionID: TMDBClient.sharedInstance().sessionID!]
         var mutableMethod : String = Methods.AccountIDFavorites
