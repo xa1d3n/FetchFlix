@@ -14,23 +14,48 @@ struct HelperFunctions {
     static var watchList = Set<String>()
     static var passedList = Set<String>()
     
+    // start spinner
     static func startSpinner(view: UIView) -> UIActivityIndicatorView {
         let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 50, height: 50))
         activityIndicator.center = view.center
         activityIndicator.hidesWhenStopped = true
         activityIndicator.activityIndicatorViewStyle = UIActivityIndicatorViewStyle.WhiteLarge
+        activityIndicator.color = UIColor.blackColor()
         view.addSubview(activityIndicator)
         activityIndicator.startAnimating()
         UIApplication.sharedApplication().beginIgnoringInteractionEvents()
         return activityIndicator
     }
+    
+    // show alert view
+    static func showAlert(error: NSError) -> UIAlertController {
+        let alertView : UIAlertController
+        var title = "Error"
+        
+        if (error.code == -1009) {
+            title = "No Internet Connection"
+        }
+        
+        let attTitle = NSAttributedString(string: title, attributes: [
+            NSFontAttributeName : UIFont.systemFontOfSize(15),
+            NSForegroundColorAttributeName : UIColor(red:0.35, green:0.73, blue:0.71, alpha:1.0)
+            ])
+        alertView = UIAlertController(title: "", message: error.localizedDescription, preferredStyle: UIAlertControllerStyle.Alert)
+        alertView.setValue(attTitle, forKey: "attributedTitle")
+        alertView.addAction(UIAlertAction(title: "OK", style: UIAlertActionStyle.Default, handler: nil))
+        alertView.view.tintColor = UIColor.redColor()
+        
+        return alertView
+    }
 
+    // stop spinner
     static func stopSpinner(spinner: UIActivityIndicatorView) {
         spinner.stopAnimating()
         UIApplication.sharedApplication().endIgnoringInteractionEvents()
     }
     
-    static func getSimilarMovies(favMovie: FavoriteMovie, user: User, moc: NSManagedObjectContext, completion: (result: [TMDBMovie]?, error: String?) -> Void) {
+    // get list of similar movies
+    static func getSimilarMovies(favMovie: FavoriteMovie, user: User, moc: NSManagedObjectContext, completion: (result: [TMDBMovie]?, error: NSError?) -> Void) {
         let watchlistMovies = user.likedMovie?.allObjects as! [LikedMovie]
         let passedMovies = user.passedMovie?.allObjects as! [PassedMovie]
         
@@ -48,25 +73,37 @@ struct HelperFunctions {
         
         if var page = Int(favMovie.page!) {
             TMDBClient.sharedInstance().getSimilarMovies(Int(favMovie.id!)!, page: page) { (result, error) -> Void in
-                if let movies = result {
-                    
-                    page++
-                    if movies.count > 0 {
+                if (error != nil) {
+                    completion(result: nil, error: error)
+                }
+                else {
+                    if let movies = result {
                         
-                        favMovie.setValue("\(page)", forKey: "page")
-                        //self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
-                        self.addSimilarMoviesToCoreData(movies, user: user, moc: moc, favMovie: favMovie, completion: { (success) -> Void in
-                            if success {
-                                
-                                completion(result: movies, error: nil)
-                            }
-                        })
+                        page++
+                        if movies.count > 0 {
+                            
+                            favMovie.setValue("\(page)", forKey: "page")
+                            //self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
+                            self.addSimilarMoviesToCoreData(movies, user: user, moc: moc, favMovie: favMovie, completion: { (success) -> Void in
+                                if success {
+                                    
+                                    completion(result: movies, error: nil)
+                                }
+                            })
+                            
+                        }
+                        else {
+                            let userInfo: [NSObject : AnyObject] =
+                            [
+                                NSLocalizedDescriptionKey :  NSLocalizedString("Error", value: "Out of Similar Movies", comment: ""),
+                                NSLocalizedFailureReasonErrorKey : NSLocalizedString("Error", value: "Out of Similar Movies", comment: "")
+                            ]
+                            let err = NSError(domain: "NoSimilarMovies", code: 401, userInfo: userInfo)
+                            
+                            completion(result: nil, error: err)
+                        }
                         
                     }
-                    else {
-                        completion(result: nil, error: "Out of similar movies")
-                    }
-                    
                 }
                 
             }
@@ -74,6 +111,7 @@ struct HelperFunctions {
 
     }
     
+    // add similar moview to core data
     static func addSimilarMoviesToCoreData(movies: [TMDBMovie], user: User, moc: NSManagedObjectContext, favMovie: FavoriteMovie, completion: (success: Bool) -> Void) {
         for movie in movies {
             let movieId = "\(movie.id!)"
@@ -125,6 +163,7 @@ struct HelperFunctions {
         
     }
     
+    // make post request to movie db and favorite/unfavorite a movie
     static func modifyMovieDBFavorite(id: String?, favorite: Bool, completion: (success: Bool)->Void) {
         if let id = id {
             TMDBClient.sharedInstance().postToFavorites(id, favorite: favorite, completionHandler: { (result, error) -> Void in
@@ -139,6 +178,7 @@ struct HelperFunctions {
         }
     }
     
+    // download movie poster from themoviedb
     static func downloadPoster(posterImage: String?) {
         if let posterImage = posterImage {
             TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
@@ -151,6 +191,7 @@ struct HelperFunctions {
         }
     }
     
+    // remove image from documents library
     static func removeImageData(posterPath: String) {
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         let filePath = "\(paths)/\(posterPath)"
@@ -164,6 +205,7 @@ struct HelperFunctions {
         }
     }
     
+    // save image to documents library
     static func saveImageData(posterImg: UIImage, posterPath: String) {
         let paths = NSSearchPathForDirectoriesInDomains(.DocumentDirectory, .UserDomainMask, true)[0] as String
         let filePathToWrite = "\(paths)/\(posterPath)"
@@ -172,12 +214,15 @@ struct HelperFunctions {
         jpgImageData?.writeToFile(filePathToWrite, atomically: true)
     }
     
+    // style buttons
     static func styleButton(button: UIButton) {
         button.layer.cornerRadius = 5
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor(red:0.35, green:0.73, blue:0.71, alpha:1.0).CGColor
     }
     
+    
+    // get user's watchlist from moviedb
     static func getWatchListMovies(moc: NSManagedObjectContext, user: User, page: Int, completion: (success: Bool) -> Void) {
         TMDBClient.sharedInstance().getMovieWatchlist(page) { (success, movies, errorString) -> Void in
             if success {
@@ -238,6 +283,7 @@ struct HelperFunctions {
         }
     }
     
+    // add/remove movie from user's watchlist
     static func modifyMovieDBWatchlist(id: String?, watchlist: Bool, completion: (success: Bool) -> Void) {
         if let id = id {
             TMDBClient.sharedInstance().postToWatchlist(id, watchlist: watchlist, completionHandler: { (result, error) -> Void in
@@ -252,6 +298,7 @@ struct HelperFunctions {
         }
     }
     
+    // add movie to core data
     static func addMovieToWatchlist(movie: LikedMovie?, user: User?, moc: NSManagedObjectContext?, completion: (success: Bool) -> Void) {
         
         if let movie = movie {
@@ -271,6 +318,7 @@ struct HelperFunctions {
         }
     }
     
+    // remove movie from watchilst 
     static func removeMovieFromWatchlist(id: String?, user: User?, moc: NSManagedObjectContext?, completion: (success: Bool) -> Void) {
         if let id = id {
             HelperFunctions.modifyMovieDBWatchlist(id, watchlist: false) { (success) -> Void in

@@ -34,6 +34,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, SessionMDelegate {
         navigationBar.barTintColor = UIColor(red:0.35, green:0.73, blue:0.71, alpha:1.0)
         navigationBar.barStyle = .Black
         
+        UIApplication.sharedApplication().setStatusBarStyle(UIStatusBarStyle.LightContent, animated: true)
+        //UIApplication.sharedApplication().prefer
+        
+        self.window?.tintColor = UIColor(red:0.35, green:0.73, blue:0.71, alpha:1.0)
         // Enable storing and querying data from Local Datastore.
         // Remove this line if you don't want to use Local Datastore features or want to use cachePolicy.
         Parse.enableLocalDatastore()

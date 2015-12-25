@@ -43,7 +43,7 @@ class LoginViewController: UIViewController {
                 
             }
             else {
-                print("auth error bitch")
+                print("auth error")
             }
         }
     }

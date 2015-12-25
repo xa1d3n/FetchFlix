@@ -35,9 +35,8 @@ class TMDBClient: NSObject {
         let request = NSURLRequest(URL: url!)
         
         let task = session.dataTaskWithRequest(request) { (data, response, error) in
-            guard error == nil else {
-                print("there was an error with request \(error)")
-                return
+            if error != nil {
+                completionHandler(result: nil, error: error)
             }
             
             guard let statusCode = (response as? NSHTTPURLResponse)?.statusCode where statusCode >= 200 && statusCode <= 299 else {

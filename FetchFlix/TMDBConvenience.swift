@@ -130,6 +130,7 @@ extension TMDBClient {
         var mutableMethod : String = Methods.MovieDetails
         mutableMethod = TMDBClient.subtituteKeyInMethod(mutableMethod, key: TMDBClient.URLKeys.MovieId, value: movieId)!
         
+        
         let parameters = ["language": "en"]
         
         let task = taskForGETMethod(mutableMethod, parameters: parameters) { (result, error) -> Void in

@@ -8,16 +8,20 @@
 
 import UIKit
 
-class MovieTrailerViewController: UIViewController {
+class MovieTrailerViewController: UIViewController, UIWebViewDelegate {
     @IBOutlet weak var player: UIWebView!
     var trailerKey : String?
+    
+    var spinner : UIActivityIndicatorView?
 
     @IBOutlet weak var noTrailer: UIView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        player.delegate = self
         
         self.setNeedsStatusBarAppearanceUpdate()
         
+        spinner = HelperFunctions.startSpinner(self.view)
         // get movie trailer from youtube. Show empty lable if not available.
         if let key = trailerKey {
             let url = "https://www.youtube.com/embed/\(key)"
@@ -26,8 +30,22 @@ class MovieTrailerViewController: UIViewController {
         }
         else {
             noTrailer.hidden = false
+            HelperFunctions.stopSpinner(spinner!)
         }
     }
+    
+    func webViewDidFinishLoad(webView: UIWebView) {
+        HelperFunctions.stopSpinner(spinner!)
+    }
+    
+    
+    func webView(webView: UIWebView, didFailLoadWithError error: NSError?) {
+        if let error = error {
+            self.presentViewController(HelperFunctions.showAlert(error), animated: true, completion: nil)
+        }
+        HelperFunctions.stopSpinner(spinner!)
+    }
+    
     
     override func preferredStatusBarStyle() -> UIStatusBarStyle {
         return UIStatusBarStyle.LightContent

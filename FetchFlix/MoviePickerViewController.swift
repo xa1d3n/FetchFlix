@@ -25,6 +25,7 @@ class MoviePickerViewController: UIViewController {
     var user : User?
     
     var favMovie : FavoriteMovie?
+    var spinner : UIActivityIndicatorView?
     
     // movie data
     
@@ -52,9 +53,16 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
     }
     
     func tableView(tableView: UITableView, didSelectRowAtIndexPath indexPath: NSIndexPath) {
+       // spinner = HelperFunctions.startSpinner(self.view)
         guard let movId  = movies[indexPath.row].id else { return }
         guard let movTitle = movies[indexPath.row].title else { return }
-        guard let movPoster = movies[indexPath.row].posterPath else { return }
+        print(movies[indexPath.row])
+        // TODO: Uknown posterpath
+       // guard let movPoster = movies[indexPath.row].posterPath else { return }
+        var movPoster = ""
+        if let path = movies[indexPath.row].posterPath {
+            movPoster = path
+        }
         
         saveToCoreData(movieIds[posterInd!], newId: movId, title: movTitle, posterPath: movPoster)
         
@@ -74,15 +82,44 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
     // download movie poster
     func downloadPoster(posterImage: String?) {
         if let posterImage = posterImage {
-            TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
-                if let image = UIImage(data: imageData!) {
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.posters[self.posterInd!] = image
-                        self.saveImageData(image, posterPath: posterImage)
+            if posterImage == "" {
+                dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                let image = UIImage(named: "Question")
+                self.posters[self.posterInd!] = image
+                self.saveImageData(image!, posterPath: posterImage)
+                
+                if let top = self.navigationController?.topViewController {
+                    if (top.isKindOfClass(FavoriteMoviesCollectionViewController)) {
+                        return
+                    }
+                    else {
                         self.navigationController!.pushViewController(self.controller, animated: true)
-                    })
+                    }
                 }
-            })
+                })
+            }
+            else {
+                TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[3], filePath: posterImage, completionHandler: { (imageData, error) -> Void in
+                    if let image = UIImage(data: imageData!) {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.posters[self.posterInd!] = image
+                            self.saveImageData(image, posterPath: posterImage)
+                            
+                            if let top = self.navigationController?.topViewController {
+                                if (top.isKindOfClass(FavoriteMoviesCollectionViewController)) {
+                                    return
+                                }
+                                else {
+                                    self.navigationController!.pushViewController(self.controller, animated: true)
+                                }
+                            }
+                            
+                           // self.navigationController!.pushViewController(self.controller, animated: true)
+                            
+                        })
+                    }
+                })
+            }
         }
     }
     
@@ -96,9 +133,11 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
                     HelperFunctions.modifyMovieDBFavorite("\(oldId!)", favorite: false, completion: { (success) -> Void in
                         
                     })
-                    user?.mutableSetValueForKey("favoriteMovie").removeObject(movie)
+                    guard let user = user else { return }
+                    user.mutableSetValueForKey("favoriteMovie").removeObject(movie)
+                    guard let moc = moc else { return }
                     do {
-                        try moc!.save()
+                        try moc.save()
                     } catch {
                         fatalError("failure to save context: \(error)")
                     }
@@ -161,6 +200,7 @@ extension MoviePickerViewController : UITableViewDelegate, UITableViewDataSource
 // search bar
 extension MoviePickerViewController : UISearchBarDelegate {
     func searchBar(searchBar: UISearchBar, textDidChange searchText: String) {
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         // cancel downloads
         if let task = searchTask {
             task.cancel()
@@ -168,17 +208,27 @@ extension MoviePickerViewController : UISearchBarDelegate {
         
         // if empty
         if searchText == "" {
+            UIApplication.sharedApplication().networkActivityIndicatorVisible = false
             movies = [TMDBMovie]()
             movieTableView.reloadData()
             return
         }
         
         searchTask = TMDBClient.sharedInstance().getMovieForSearchString(searchText, completionHandler: { (result, error) -> Void in
-            if let movies = result {
-                self.movies = movies
+            if error != nil {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.movieTableView!.reloadData()
+                    self.presentViewController(HelperFunctions.showAlert(error!), animated: true, completion: nil)
+                    UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 })
+            }
+            else {
+                if let movies = result {
+                    self.movies = movies
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
+                        self.movieTableView!.reloadData()
+                    })
+                }
             }
         })
     }

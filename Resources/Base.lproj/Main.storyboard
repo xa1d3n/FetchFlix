@@ -792,7 +792,7 @@
                                     <constraint firstAttribute="height" constant="26" id="MKM-bX-YX2"/>
                                 </constraints>
                                 <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
-                                <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                         </subviews>
@@ -828,7 +828,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <searchBar key="tableHeaderView" contentMode="redraw" searchBarStyle="minimal" id="liD-l3-15x">
-                            <rect key="frame" x="0.0" y="0.0" width="786" height="44"/>
+                            <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <textInputTraits key="textInputTraits"/>
                         </searchBar>
@@ -885,7 +885,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RO5-ZQ-LUh" customClass="CosmosView" customModule="FetchFlix" customModuleProvider="target">
-                                <rect key="frame" x="177.5" y="554" width="245" height="20"/>
+                                <rect key="frame" x="178" y="554" width="245" height="20"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <userDefinedRuntimeAttributes>
                                     <userDefinedRuntimeAttribute type="number" keyPath="totalStars">
@@ -905,6 +905,16 @@
                             <imageView userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="nV9-LP-BSG">
                                 <rect key="frame" x="20" y="28" width="560" height="503"/>
                             </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vMB-gp-sMQ">
+                                <rect key="frame" x="20" y="28" width="560" height="503"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="503" id="rtG-eV-pWs"/>
+                                </constraints>
+                                <state key="normal" image="play"/>
+                                <connections>
+                                    <action selector="play:" destination="AJv-D0-BZP" eventType="touchUpInside" id="Rod-ig-WYz"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -912,7 +922,10 @@
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="centerX" secondItem="eSl-b6-W06" secondAttribute="centerX" id="23J-nB-H4e"/>
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="leading" secondItem="eSl-b6-W06" secondAttribute="leadingMargin" id="2ER-sP-O8l"/>
                             <constraint firstItem="RO5-ZQ-LUh" firstAttribute="centerX" secondItem="eSl-b6-W06" secondAttribute="centerX" id="AcP-zZ-ve9"/>
+                            <constraint firstItem="vMB-gp-sMQ" firstAttribute="leading" secondItem="nV9-LP-BSG" secondAttribute="leading" id="Czi-zH-0HL"/>
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="top" secondItem="luT-tu-lc9" secondAttribute="bottom" constant="8" id="Ltr-ai-uI5"/>
+                            <constraint firstItem="vMB-gp-sMQ" firstAttribute="trailing" secondItem="nV9-LP-BSG" secondAttribute="trailing" id="Pvs-Vs-aqe"/>
+                            <constraint firstItem="vMB-gp-sMQ" firstAttribute="top" secondItem="nV9-LP-BSG" secondAttribute="top" id="g85-wX-EJJ"/>
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="top" secondItem="luT-tu-lc9" secondAttribute="bottom" constant="8" id="ggM-bb-sYR"/>
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="trailing" secondItem="eSl-b6-W06" secondAttribute="trailingMargin" id="uoN-qJ-Xd8"/>
                             <constraint firstItem="RO5-ZQ-LUh" firstAttribute="top" secondItem="nV9-LP-BSG" secondAttribute="bottom" constant="23" id="vdn-CO-i6V"/>
@@ -930,7 +943,55 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="6PY-eJ-w50" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="4469" y="1236"/>
+            <point key="canvasLocation" x="4606" y="1233"/>
+        </scene>
+        <!--FanTV View Controller-->
+        <scene sceneID="v7d-9M-wiJ">
+            <objects>
+                <viewController storyboardIdentifier="FanTVViewController" id="kVJ-9m-2Wp" customClass="FanTVViewController" customModule="FetchFlix" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="Rag-xh-nQQ"/>
+                        <viewControllerLayoutGuide type="bottom" id="GAv-6M-1ze"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="pn2-bl-TlU">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <webView contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="8vh-EP-fIJ">
+                                <rect key="frame" x="0.0" y="44" width="600" height="556"/>
+                                <color key="backgroundColor" red="0.36078431370000003" green="0.38823529410000002" blue="0.4039215686" alpha="1" colorSpace="deviceRGB"/>
+                            </webView>
+                            <navigationBar contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="7sJ-Yw-kYP">
+                                <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
+                                <items>
+                                    <navigationItem id="vgN-Nc-c3w">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="0DG-TS-Rtq">
+                                            <connections>
+                                                <action selector="exit:" destination="kVJ-9m-2Wp" id="uIR-g8-WYu"/>
+                                            </connections>
+                                        </barButtonItem>
+                                    </navigationItem>
+                                </items>
+                            </navigationBar>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="8vh-EP-fIJ" firstAttribute="leading" secondItem="7sJ-Yw-kYP" secondAttribute="leading" id="JY7-rf-obf"/>
+                            <constraint firstItem="8vh-EP-fIJ" firstAttribute="leading" secondItem="pn2-bl-TlU" secondAttribute="leading" id="OKb-te-l05"/>
+                            <constraint firstItem="8vh-EP-fIJ" firstAttribute="bottom" secondItem="GAv-6M-1ze" secondAttribute="top" id="QI9-XE-vDn"/>
+                            <constraint firstItem="7sJ-Yw-kYP" firstAttribute="trailing" secondItem="8vh-EP-fIJ" secondAttribute="trailing" id="TgT-wd-GxR"/>
+                            <constraint firstAttribute="trailing" secondItem="8vh-EP-fIJ" secondAttribute="trailing" id="XxG-xz-sf9"/>
+                            <constraint firstItem="8vh-EP-fIJ" firstAttribute="top" secondItem="7sJ-Yw-kYP" secondAttribute="bottom" id="uNd-n8-cHM"/>
+                            <constraint firstItem="7sJ-Yw-kYP" firstAttribute="top" secondItem="pn2-bl-TlU" secondAttribute="top" id="ymj-el-EIo"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="webView" destination="8vh-EP-fIJ" id="ge8-dV-JLO"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FEG-VP-b5W" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="5312" y="1246"/>
         </scene>
         <!--Movie Picker View Controller-->
         <scene sceneID="kAi-eH-3z9">
@@ -1245,6 +1306,7 @@
         <image name="greenPrize" width="100" height="100"/>
         <image name="logout" width="25" height="25"/>
         <image name="menu" width="25" height="25"/>
+        <image name="play" width="25" height="25"/>
         <image name="removeTicket" width="25" height="25"/>
         <image name="share" width="25" height="25"/>
     </resources>

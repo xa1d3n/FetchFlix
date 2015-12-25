@@ -206,6 +206,9 @@ class MovieDetailViewController: UIViewController {
         if movInd < self.similarMovies.count {
             if let poster = similarMovies[movInd].posterPath {
                 TMDBClient.sharedInstance().taskForGetImage(TMDBClient.ParameterKeys.posterSizes[4], filePath: poster) { (imageData, error) -> Void in
+                    if error != nil {
+                        self.presentViewController(HelperFunctions.showAlert(error!), animated: true, completion: nil)
+                    }
                     if let image = UIImage(data: imageData!) {
                         dispatch_async(dispatch_get_main_queue(), { () -> Void in
                             self.poster.setImage(image, forState: .Normal)
@@ -250,6 +253,9 @@ class MovieDetailViewController: UIViewController {
         if let id = currMovie?.id {
             getMovieDetails(id)
         }
+        else {
+            return
+        }
         
     }
     
@@ -258,7 +264,8 @@ class MovieDetailViewController: UIViewController {
         let spinner : UIActivityIndicatorView = HelperFunctions.startSpinner(view)
         TMDBClient.sharedInstance().getMovieDetails(movieId) { (result, error) -> Void in
             if error != nil {
-                print(error)
+                self.presentViewController(HelperFunctions.showAlert(error!), animated: true, completion: nil)
+                HelperFunctions.stopSpinner(spinner)
             }
             else {
                 if let movies = result{
@@ -362,6 +369,7 @@ class MovieDetailViewController: UIViewController {
     // get more similar movies or dispaly prompt
     func getMoreSimilarMovies() {
         movieIndex = 0
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = true
         let spinner = HelperFunctions.startSpinner(self.view)
         let favMovies = user?.favoriteMovie?.allObjects as! [FavoriteMovie]
         
@@ -385,6 +393,7 @@ class MovieDetailViewController: UIViewController {
         for movie in favMovies {
             HelperFunctions.getSimilarMovies(movie, user: user!, moc: moc) { (result, error) -> Void in
                 if error != nil {
+                    self.presentViewController(HelperFunctions.showAlert(error!), animated: true, completion: nil)
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         self.noMovies.hidden = false
                     })
@@ -395,7 +404,7 @@ class MovieDetailViewController: UIViewController {
                 }
             }
         }
-        
+        UIApplication.sharedApplication().networkActivityIndicatorVisible = false
         HelperFunctions.stopSpinner(spinner)
     }
 }

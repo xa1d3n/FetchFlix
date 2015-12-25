@@ -176,6 +176,14 @@ class MovieRatingViewController: UIViewController {
         
     }
     
+    @IBAction func play(sender: AnyObject) {
+        let controller = storyboard?.instantiateViewControllerWithIdentifier("FanTVViewController") as! FanTVViewController
+        if let movie = movie {
+             controller.id = movie.id
+        }
+        self.presentViewController(controller, animated: true, completion: nil)
+    }
+    
     // save rating to core data
     func saveRating(rating: Double) {
         let likedMovies = user?.likedMovie?.allObjects as! [LikedMovie]
