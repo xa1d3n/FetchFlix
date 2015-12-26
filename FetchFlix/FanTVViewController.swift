@@ -17,13 +17,14 @@ class FanTVViewController: UIViewController {
         super.viewDidLoad()
         
         //navigationBar.tintColor = UIColor.redColor()
-
+        var urlString = TMDBClient.Constants.FanTVURL
+        
         if let id = id {
-            let urlString = TMDBClient.Constants.FanTVURL + id
-            let url = NSURL (string: urlString);
-            let requestObj = NSURLRequest(URL: url!);
-            webView.loadRequest(requestObj);
+            urlString = TMDBClient.Constants.FanTVURL + "/movies/\(id)"
         }
+        let url = NSURL (string: urlString);
+        let requestObj = NSURLRequest(URL: url!);
+        webView.loadRequest(requestObj)
     }
     @IBAction func exit(sender: AnyObject) {
         self.dismissViewControllerAnimated(true, completion: nil)

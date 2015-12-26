@@ -217,7 +217,10 @@ extension MoviePickerViewController : UISearchBarDelegate {
         searchTask = TMDBClient.sharedInstance().getMovieForSearchString(searchText, completionHandler: { (result, error) -> Void in
             if error != nil {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    self.presentViewController(HelperFunctions.showAlert(error!), animated: true, completion: nil)
+                    print(error)
+                    if (error?.code != -999) {
+                        self.presentViewController(HelperFunctions.showAlert(error!), animated: true, completion: nil)
+                    }
                     UIApplication.sharedApplication().networkActivityIndicatorVisible = false
                 })
             }

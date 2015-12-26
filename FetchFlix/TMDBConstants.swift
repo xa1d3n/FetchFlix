@@ -23,7 +23,7 @@ extension TMDBClient {
         static let AuthorizationURL : String = "https://www.themoviedb.org/authenticate/"
         static let secureBaseImageURLString : String =  "https://image.tmdb.org/t/p/"
         static let NetflixRouletteURL : String = "http://netflixroulette.net/api/api.php?title="
-        static let FanTVURL : String = "https://www.fan.tv/movies/"
+        static let FanTVURL : String = "https://www.fan.tv"
     }
     
     

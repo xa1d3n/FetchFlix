@@ -78,7 +78,9 @@ class LoginViewController: UIViewController {
                 }
                 
                 for movie in movies! {
-                    self.addToCoreData(movie, user: user, count: count!, iterator: i)
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        self.addToCoreData(movie, user: user, count: count!, iterator: i)
+                    })
                     i++
                     if (i >= 4) {
                         break

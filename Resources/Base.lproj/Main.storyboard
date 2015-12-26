@@ -280,7 +280,7 @@
                                 </connections>
                             </button>
                             <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Zhi-B3-gv7">
-                                <rect key="frame" x="197" y="520" width="161.5" height="54"/>
+                                <rect key="frame" x="197" y="520" width="162" height="54"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="54" id="bBX-rV-imv"/>
@@ -716,7 +716,8 @@
                                 <rect key="frame" x="0.0" y="0.0" width="600" height="44"/>
                                 <items>
                                     <navigationItem id="Jp3-lO-F8q">
-                                        <barButtonItem key="rightBarButtonItem" systemItem="done" id="Zs9-R6-67r">
+                                        <barButtonItem key="rightBarButtonItem" systemItem="stop" id="Zs9-R6-67r">
+                                            <inset key="imageInsets" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
                                             <connections>
                                                 <action selector="close:" destination="tkG-dB-0wz" id="B1w-VT-B4S"/>
                                             </connections>
@@ -966,6 +967,7 @@
                                 <items>
                                     <navigationItem id="vgN-Nc-c3w">
                                         <barButtonItem key="rightBarButtonItem" systemItem="stop" id="0DG-TS-Rtq">
+                                            <inset key="imageInsets" minX="0.0" minY="15" maxX="0.0" maxY="0.0"/>
                                             <connections>
                                                 <action selector="exit:" destination="kVJ-9m-2Wp" id="uIR-g8-WYu"/>
                                             </connections>

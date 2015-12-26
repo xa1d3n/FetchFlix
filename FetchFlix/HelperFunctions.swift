@@ -81,14 +81,15 @@ struct HelperFunctions {
                         
                         page++
                         if movies.count > 0 {
-                            
-                            favMovie.setValue("\(page)", forKey: "page")
-                            //self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
-                            self.addSimilarMoviesToCoreData(movies, user: user, moc: moc, favMovie: favMovie, completion: { (success) -> Void in
-                                if success {
-                                    
-                                    completion(result: movies, error: nil)
-                                }
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                favMovie.setValue("\(page)", forKey: "page")
+                                //self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
+                                self.addSimilarMoviesToCoreData(movies, user: user, moc: moc, favMovie: favMovie, completion: { (success) -> Void in
+                                    if success {
+                                        
+                                        completion(result: movies, error: nil)
+                                    }
+                                })
                             })
                             
                         }
@@ -228,6 +229,7 @@ struct HelperFunctions {
             if success {
                 if let movies = movies {
                     for movie in movies {
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
                         let likedMovie = NSEntityDescription.insertNewObjectForEntityForName("LikedMovie", inManagedObjectContext: moc) as! LikedMovie
                         
                         if let title = movie.title {
@@ -266,13 +268,17 @@ struct HelperFunctions {
                         } catch {
                             fatalError("failure to save context: \(error)")
                         }
+                        })
                         
                     }
                     if movies.count == 20 {
                         var nextPage = page
                         nextPage++
-                        self.getWatchListMovies(moc, user: user, page: nextPage, completion: { (count) -> Void in
+                        
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.getWatchListMovies(moc, user: user, page: nextPage, completion: { (count) -> Void in
                             
+                            })
                         })
                     }
                     else {
@@ -304,15 +310,17 @@ struct HelperFunctions {
         if let movie = movie {
             HelperFunctions.modifyMovieDBWatchlist(movie.id, watchlist: true) { (success) -> Void in
                 if success {
-                    user!.mutableSetValueForKey("likedMovie").addObject(movie)
-                    
-                    do {
-                        try moc!.save()
-                        completion(success: true)
-                    } catch {
-                        completion(success: false)
-                        fatalError("failure to save context: \(error)")
-                    }
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        user!.mutableSetValueForKey("likedMovie").addObject(movie)
+                        
+                        do {
+                            try moc!.save()
+                            completion(success: true)
+                        } catch {
+                            completion(success: false)
+                            fatalError("failure to save context: \(error)")
+                        }
+                    })
                 }
             }
         }
@@ -323,19 +331,21 @@ struct HelperFunctions {
         if let id = id {
             HelperFunctions.modifyMovieDBWatchlist(id, watchlist: false) { (success) -> Void in
                 if success {
-                    let likedMovies = user?.likedMovie?.allObjects as? [LikedMovie]
-                    for movie in likedMovies! {
-                        if movie.id! == id {
-                            user?.mutableSetValueForKey("likedMovie").removeObject(movie)
-                            do {
-                                try moc!.save()
-                                completion(success: true)
-                            } catch {
-                                completion(success: false)
-                                fatalError("failure to save context: \(error)")
+                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                        let likedMovies = user?.likedMovie?.allObjects as? [LikedMovie]
+                        for movie in likedMovies! {
+                            if movie.id! == id {
+                                user?.mutableSetValueForKey("likedMovie").removeObject(movie)
+                                do {
+                                    try moc!.save()
+                                    completion(success: true)
+                                } catch {
+                                    completion(success: false)
+                                    fatalError("failure to save context: \(error)")
+                                }
                             }
                         }
-                    }
+                    })
                 }
             }
         }
