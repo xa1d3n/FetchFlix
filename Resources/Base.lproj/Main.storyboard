@@ -907,9 +907,10 @@
                                 <rect key="frame" x="20" y="28" width="560" height="503"/>
                             </imageView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vMB-gp-sMQ">
-                                <rect key="frame" x="20" y="28" width="560" height="503"/>
+                                <rect key="frame" x="245" y="224" width="110" height="111"/>
                                 <constraints>
-                                    <constraint firstAttribute="height" constant="503" id="rtG-eV-pWs"/>
+                                    <constraint firstAttribute="width" constant="110" id="4ab-NS-h5s"/>
+                                    <constraint firstAttribute="height" constant="111" id="yfr-bf-wVg"/>
                                 </constraints>
                                 <state key="normal" image="play"/>
                                 <connections>
@@ -923,10 +924,9 @@
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="centerX" secondItem="eSl-b6-W06" secondAttribute="centerX" id="23J-nB-H4e"/>
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="leading" secondItem="eSl-b6-W06" secondAttribute="leadingMargin" id="2ER-sP-O8l"/>
                             <constraint firstItem="RO5-ZQ-LUh" firstAttribute="centerX" secondItem="eSl-b6-W06" secondAttribute="centerX" id="AcP-zZ-ve9"/>
-                            <constraint firstItem="vMB-gp-sMQ" firstAttribute="leading" secondItem="nV9-LP-BSG" secondAttribute="leading" id="Czi-zH-0HL"/>
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="top" secondItem="luT-tu-lc9" secondAttribute="bottom" constant="8" id="Ltr-ai-uI5"/>
-                            <constraint firstItem="vMB-gp-sMQ" firstAttribute="trailing" secondItem="nV9-LP-BSG" secondAttribute="trailing" id="Pvs-Vs-aqe"/>
-                            <constraint firstItem="vMB-gp-sMQ" firstAttribute="top" secondItem="nV9-LP-BSG" secondAttribute="top" id="g85-wX-EJJ"/>
+                            <constraint firstItem="vMB-gp-sMQ" firstAttribute="centerX" secondItem="RO5-ZQ-LUh" secondAttribute="centerX" id="b9l-lK-r7P"/>
+                            <constraint firstItem="vMB-gp-sMQ" firstAttribute="centerY" secondItem="nV9-LP-BSG" secondAttribute="centerY" id="e8v-5L-Azi"/>
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="top" secondItem="luT-tu-lc9" secondAttribute="bottom" constant="8" id="ggM-bb-sYR"/>
                             <constraint firstItem="nV9-LP-BSG" firstAttribute="trailing" secondItem="eSl-b6-W06" secondAttribute="trailingMargin" id="uoN-qJ-Xd8"/>
                             <constraint firstItem="RO5-ZQ-LUh" firstAttribute="top" secondItem="nV9-LP-BSG" secondAttribute="bottom" constant="23" id="vdn-CO-i6V"/>
@@ -1308,7 +1308,7 @@
         <image name="greenPrize" width="100" height="100"/>
         <image name="logout" width="25" height="25"/>
         <image name="menu" width="25" height="25"/>
-        <image name="play" width="25" height="25"/>
+        <image name="play" width="200" height="200"/>
         <image name="removeTicket" width="25" height="25"/>
         <image name="share" width="25" height="25"/>
     </resources>

@@ -2,17 +2,17 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "Play Filled-25.png",
+      "filename" : "play100x.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Play Filled-50.png",
+      "filename" : "play400px.png",
       "scale" : "2x"
     },
     {
       "idiom" : "universal",
-      "filename" : "Play Filled-100.png",
+      "filename" : "play800px.png",
       "scale" : "3x"
     }
   ],

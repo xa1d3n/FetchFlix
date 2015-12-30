@@ -62,9 +62,13 @@ class FavoriteMoviesCollectionViewController: UICollectionViewController {
         let favMovies = user?.favoriteMovie?.allObjects as? [FavoriteMovie]
         for movie in favMovies!{
             movieTitles[ind] = movie.title
-            movieIds[ind] = Int(movie.id!)
+            if let movId = movie.id {
+                movieIds[ind] = Int(movId)
+            }
             posterPaths[ind] = movie.posterPath
-            getImageData(movie.posterPath!, ind: ind)
+            if let poster = movie.posterPath {
+                getImageData(poster, ind: ind)
+            }
             ind++
         }
         

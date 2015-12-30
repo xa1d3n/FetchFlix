@@ -21,7 +21,6 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
     }
     
     override func viewDidAppear(animated: Bool) {
@@ -35,7 +34,6 @@ class LoginViewController: UIViewController {
         TMDBClient.sharedInstance().authenticateWithViewController(self) { (success, errorString) -> Void in
             if success {
                 dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                    
                     if let username = TMDBClient.sharedInstance().userID {
                         self.saveUserToCoreData(username)
                     }
@@ -161,28 +159,38 @@ class LoginViewController: UIViewController {
         HelperFunctions.downloadPoster(movie.posterPath)
         if let currUser = user {
             currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie!)
-            HelperFunctions.getSimilarMovies(favMovie!, user: currUser, moc: moc, completion: { (result) -> Void in
-                if (count >= 4 && iterator >= 3) {
-                    self.parseLogin()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.performSegueWithIdentifier("showSlider", sender: self)
-                        HelperFunctions.stopSpinner(self.spinner!)
-                    })
-                }
-                else if (count < 4 && iterator+1 == count) {
-                    self.parseLogin()
-                    dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.performSegueWithIdentifier("showSlider", sender: self)
-                        HelperFunctions.stopSpinner(self.spinner!)
-                    })
+            
+            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+            HelperFunctions.getSimilarMovies(favMovie!, user: currUser, moc: self.moc, completion: { (result, error) -> Void in
+                if error == nil {
+                    do {
+                        try self.moc.save()
+                    } catch {
+                        fatalError("failure to save context: \(error)")
+                    }
+                    if (count >= 4 && iterator >= 3) {
+                        self.parseLogin()
+                        
+                            self.performSegueWithIdentifier("showSlider", sender: self)
+                            HelperFunctions.stopSpinner(self.spinner!)
+                        
+                    }
+                    else if (count < 4 && iterator+1 == count) {
+                        self.parseLogin()
+                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                            self.performSegueWithIdentifier("showSlider", sender: self)
+                            HelperFunctions.stopSpinner(self.spinner!)
+                        })
+                    }
                 }
                 
             })
-            do {
+            })
+           /* do {
                 try moc.save()
             } catch {
                 fatalError("failure to save context: \(error)")
-            }
+            } */
         }
     }
     

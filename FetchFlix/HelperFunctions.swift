@@ -83,7 +83,7 @@ struct HelperFunctions {
                         if movies.count > 0 {
                             dispatch_async(dispatch_get_main_queue(), { () -> Void in
                                 favMovie.setValue("\(page)", forKey: "page")
-                                //self.addSimilarMoviesToCoreData(movies, moc: moc, favMovie: favMovie)
+
                                 self.addSimilarMoviesToCoreData(movies, user: user, moc: moc, favMovie: favMovie, completion: { (success) -> Void in
                                     if success {
                                         
@@ -117,51 +117,34 @@ struct HelperFunctions {
         for movie in movies {
             let movieId = "\(movie.id!)"
             if (!watchList.contains(movieId) && !passedList.contains(movieId)) {
-                let similarMovie = NSEntityDescription.insertNewObjectForEntityForName("SimilarMovie", inManagedObjectContext: moc) as! SimilarMovie
-                if let title = movie.title {
-                    similarMovie.setValue(title, forKey: "title")
-                }
-                
-                if let id = movie.id {
-                    similarMovie.setValue("\(id)", forKey: "id")
-                }
-                
-                if let posterPath = movie.posterPath {
-                    similarMovie.setValue(posterPath, forKey: "posterPath")
-                }
-                if let rating = movie.rating {
-                    similarMovie.setValue("\(rating)", forKey: "rating")
-                }
-                
-                if let voteCount = movie.voteCount {
-                    similarMovie.setValue("\(voteCount)", forKey: "ratingCount")
-                }
-                
-                if let released = movie.releaseDate {
-                    similarMovie.setValue("\(released)", forKey: "released")
-                }
-                
-                favMovie.mutableSetValueForKey("similarMovie").addObject(similarMovie)
+                    let similarMovie = NSEntityDescription.insertNewObjectForEntityForName("SimilarMovie", inManagedObjectContext: moc) as! SimilarMovie
+                    if let title = movie.title {
+                        similarMovie.setValue(title, forKey: "title")
+                    }
+                    
+                    if let id = movie.id {
+                        similarMovie.setValue("\(id)", forKey: "id")
+                    }
+                    
+                    if let posterPath = movie.posterPath {
+                        similarMovie.setValue(posterPath, forKey: "posterPath")
+                    }
+                    if let rating = movie.rating {
+                        similarMovie.setValue("\(rating)", forKey: "rating")
+                    }
+                    
+                    if let voteCount = movie.voteCount {
+                        similarMovie.setValue("\(voteCount)", forKey: "ratingCount")
+                    }
+                    
+                    if let released = movie.releaseDate {
+                        similarMovie.setValue("\(released)", forKey: "released")
+                    }
+                    
+                    favMovie.mutableSetValueForKey("similarMovie").addObject(similarMovie)
             }
         }
-        do {
-            try moc.save()
-            
-            if favMovie.similarMovie?.allObjects.count < 1 {
-                self.getSimilarMovies(favMovie, user: user, moc: moc, completion: { (result) -> Void in
-                    completion(success: false)
-                })
-            }
-            else {
-                completion(success: true)
-            }
-        } catch {
-            completion(success: false)
-            fatalError("failure to save context: \(error)")
-        }
-        
-        
-        
+        completion(success: true)
     }
     
     // make post request to movie db and favorite/unfavorite a movie

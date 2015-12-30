@@ -393,10 +393,11 @@ class MovieDetailViewController: UIViewController {
         for movie in favMovies {
             HelperFunctions.getSimilarMovies(movie, user: user!, moc: moc) { (result, error) -> Void in
                 if error != nil {
-                    self.presentViewController(HelperFunctions.showAlert(error!), animated: true, completion: nil)
                     dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                        self.noMovies.hidden = false
-                    })
+                        self.presentViewController(HelperFunctions.showAlert(error!), animated: true, completion: nil)
+                        
+                            self.noMovies.hidden = false
+                        })
                 }
                 else {
                     self.getMoviesFromCoreData()
