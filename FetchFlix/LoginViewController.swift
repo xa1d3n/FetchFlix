@@ -161,36 +161,31 @@ class LoginViewController: UIViewController {
             currUser.mutableSetValueForKey("favoriteMovie").addObject(favMovie!)
             
             dispatch_async(dispatch_get_main_queue(), { () -> Void in
-            HelperFunctions.getSimilarMovies(favMovie!, user: currUser, moc: self.moc, completion: { (result, error) -> Void in
-                if error == nil {
-                    do {
-                        try self.moc.save()
-                    } catch {
-                        fatalError("failure to save context: \(error)")
+                HelperFunctions.getSimilarMovies(favMovie!, user: currUser, moc: self.moc, completion: { (result, error) -> Void in
+                    if error == nil {
+                        do {
+                            try self.moc.save()
+                        } catch {
+                            fatalError("failure to save context: \(error)")
+                        }
+                        if (count >= 4 && iterator >= 3) {
+                            self.parseLogin()
+                            
+                                self.performSegueWithIdentifier("showSlider", sender: self)
+                                HelperFunctions.stopSpinner(self.spinner!)
+                            
+                        }
+                        else if (count < 4 && iterator+1 == count) {
+                            self.parseLogin()
+                            dispatch_async(dispatch_get_main_queue(), { () -> Void in
+                                self.performSegueWithIdentifier("showSlider", sender: self)
+                                HelperFunctions.stopSpinner(self.spinner!)
+                            })
+                        }
                     }
-                    if (count >= 4 && iterator >= 3) {
-                        self.parseLogin()
-                        
-                            self.performSegueWithIdentifier("showSlider", sender: self)
-                            HelperFunctions.stopSpinner(self.spinner!)
-                        
-                    }
-                    else if (count < 4 && iterator+1 == count) {
-                        self.parseLogin()
-                        dispatch_async(dispatch_get_main_queue(), { () -> Void in
-                            self.performSegueWithIdentifier("showSlider", sender: self)
-                            HelperFunctions.stopSpinner(self.spinner!)
-                        })
-                    }
-                }
-                
+                    
+                })
             })
-            })
-           /* do {
-                try moc.save()
-            } catch {
-                fatalError("failure to save context: \(error)")
-            } */
         }
     }
     
