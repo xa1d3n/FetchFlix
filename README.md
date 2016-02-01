@@ -1,6 +1,8 @@
 # FetchFlix
 FetchFlix is an iPhone app built with Swift 2 programming language. It auto fetches the user's top four favorite movies from TMDb as well as the user's watchlist. The user is able to edit or add new favorite movies from the "Favorite 4 Movies" page by touching any of the four posters, which opens a search page and allows the user to search for a movie. Based on these four favorite movies the app displays similar movies and the user is able to either swipe left or press the left button to pass on the movie or swipe right or press the right button to add the movie to their watch list. If the user clicks on a movie poster from the swiping page a view which display more detailed information about the movie is displayed. This more info page contains a trailer button, a share button, add to watch list button as well as a list of 6 similar movies. Pressing on the right button in the swiper page brings the users watchlist table. The user is able to search for a movie via a search input, delete movies, bring a shortcut menu by force pressing on supported devices or clicking on any of the movies which displays a rating page. On the rating page the user is able to rate the movie by clicking on the stars below the movie poster. The page also has favorite icons to favorite a movie and a more information icon to display more information about the movie. Clicking on the movie poster takes the user to the movie's fan.tv page. The user is also able to obtain mPlus points by performing certain actions such as rating a movie and claim them from the "Rewards" menu accessed from the swiper page top left icon menu.
 
+https://itunes.apple.com/us/app/fetchflix/id1071508760?ls=1&mt=8
+
 #Test Account
 Username: test@test.com
 Password: test
